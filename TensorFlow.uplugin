@@ -10,7 +10,7 @@
 	"DocsURL": "https://github.com/getnamo/tensorflow-ue4",
 	"MarketplaceURL": "",
 	"SupportURL": "https://github.com/getnamo/tensorflow-ue4/issues",
-	"CanContainContent": false,
+	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"Installed": false,
 	"Modules": [
