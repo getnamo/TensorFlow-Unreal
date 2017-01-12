@@ -68,6 +68,9 @@ public class TensorFlow : ModuleRules
 			new string[]
 			{
 				"Core",
+                "RHI",
+                "RenderCore",
+                "Engine"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
