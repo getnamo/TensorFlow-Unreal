@@ -20,4 +20,7 @@ public:
 
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToTexture2D", BlueprintAutocast), Category = "Utilities|TensorFlow")
 	static UTexture2D* Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray);
+
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToTexture2D (Render Target 2D)", BlueprintAutocast), Category = "Utilities|TensorFlow")
+	static UTexture2D* Conv_RenderTargetTextureToTexture2D(UTextureRenderTarget2D* InTexture);
 };

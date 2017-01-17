@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "RHI.h"
 #include "TensorFlowPrivatePCH.h"
+#include "RHI.h"
 #include "TensorFlowBlueprintLibrary.h"
 
 
@@ -53,5 +53,35 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 	//Unlock and Return data
 	Pointer->PlatformData->Mips[0].BulkData.Unlock();
 	Pointer->UpdateResource();
+	return Pointer;
+}
+
+UTexture2D* UTensorFlowBlueprintLibrary::Conv_RenderTargetTextureToTexture2D(UTextureRenderTarget2D* PassedTexture)
+{
+	int TextureLength = PassedTexture->SizeX * PassedTexture->SizeY;
+	UTexture2D* Pointer = UTexture2D::CreateTransient(PassedTexture->SizeX, PassedTexture->SizeY, PF_R8G8B8A8);
+	
+	TArray<FColor> SurfData;
+	FRenderTarget *RenderTarget = PassedTexture->GameThread_GetRenderTargetResource();
+	RenderTarget->ReadPixels(SurfData);
+
+	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
+
+	//Copy Data
+	for (int i = 0; i < TextureLength; i++)
+	{
+		int MipPointer = i * 4;
+		const FColor& Color = SurfData[i];
+		uint8 AdjustedColor = (Color.R + Color.G + Color.B) / 3;
+		MipData[MipPointer] = AdjustedColor;
+		MipData[MipPointer + 1] = AdjustedColor;
+		MipData[MipPointer + 2] = AdjustedColor;
+		MipData[MipPointer + 3] = 255;	//Alpha
+	}
+
+	//Unlock and Return data
+	Pointer->PlatformData->Mips[0].BulkData.Unlock();
+	Pointer->UpdateResource();
+	PassedTexture->Source.UnlockMip(0);
 	return Pointer;
 }
