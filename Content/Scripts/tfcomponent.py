@@ -57,6 +57,9 @@ class TensorFlowComponent:
 		ue.log('init data for ' + args)
 
 		imp.reload(mnistSimple)
+
+		ue.log('mnistSimple reloaded')
+		
 		self.trained = mnistSimple.train()
 
 		ue.log('trained x: ' + str(self.trained['x']))
