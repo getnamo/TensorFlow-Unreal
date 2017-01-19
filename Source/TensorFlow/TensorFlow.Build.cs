@@ -83,6 +83,8 @@ public class TensorFlow : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "Projects",
+                "UnrealEnginePython"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
