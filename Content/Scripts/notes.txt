@@ -1,0 +1,31 @@
+Pip can be used via:
+
+import pip
+pip.main(['install', 'tensorflow'])
+
+We can redirect logs with e.g.
+
+class Logger(object):
+    def __init__(self, filename="Default.log"):
+        self.terminal = sys.stdout
+        #self.log = open(filename, "a")
+
+    def write(self, message):
+        ue.log(message)
+        #self.terminal.write(message)
+        #self.log.write(message)
+
+    def flush(self):
+    	ue.log("")
+
+
+We need to test dependencies
+
+e.g.
+
+import pip
+
+try:
+    import pytest
+except ImportError:
+    pip.main(['install', 'pytest'])
