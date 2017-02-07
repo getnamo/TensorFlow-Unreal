@@ -11,11 +11,8 @@ void FTensorFlowModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
-	//Get the python module and try to add a path
-	FString PluginRoot = IPluginManager::Get().FindPlugin("TensorFlow")->GetBaseDir();
-	FString ScriptsPath = FPaths::Combine(PluginRoot, "Content/Scripts");
-	FUnrealEnginePythonModule::Get().AddPathToSysPath(ScriptsPath);
-	UE_LOG(LogTemp, Log, TEXT("Added Tensorflow Plugin Content/Scripts (%s) to sys.path"), *ScriptsPath);
+	//Get the python module and add self as a dependent
+	FUnrealEnginePythonModule::Get().AddPythonDependentPlugin("TensorFlow");
 
 	//Todo: handle and resolve pip dependencies from our json file
 }
