@@ -1,6 +1,0 @@
-{
-  "name" : "tensorflow-ue4",
-  "dependencies": {
-    "tensorflow": "0.12"
-  }
-}
