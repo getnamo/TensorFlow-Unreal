@@ -1,16 +1,25 @@
 import unreal_engine as ue
 import tensorflow as tf
+import upythread as ut
 import json
 import imp
 import operator
 import mnistSimple
+import sys
 
 class TensorFlowComponent:
 
 	# constructor adding a component
 	def __init__(self):
-		ue.log('Init from plugin dir!')
-		self.train('')
+		ue.log('Starting Component (default: train on init)')
+
+		#mt version
+		try:
+			ut.run_on_bt(self.train)
+		except:
+			e = sys.exc_info()[0]
+			ue.log('TensorFlowComponent error: ' + str(e))
+		#self.train('')
 
 	# this is called on game start
 	def begin_play(self):
@@ -27,6 +36,9 @@ class TensorFlowComponent:
 	#tensor input
 	def tensorinput(self, args):
 		ue.log('TF inputs passed: ' + args)
+
+		#todo: pass json as struct to our scripts
+		#todo: remove all problem specialization parts
 
 		imgstruct = json.loads(args)
 		pixelarray = imgstruct['pixels']
@@ -53,13 +65,15 @@ class TensorFlowComponent:
 		#pass prediction back
 		self.uobject.OnResultsFunction(json.dumps(imgstruct))
 
-	def train(self, args):
-		ue.log('init data for ' + args)
+	def train(self, args=None):
+		#ue.log('Running on BT: init data for <' + args + '>')
 
 		imp.reload(mnistSimple)
 
 		ue.log('mnistSimple reloaded')
 		
+		#todo: run this multi-threaded
+
 		self.trained = mnistSimple.train()
 
 		ue.log('trained x: ' + str(self.trained['x']))
