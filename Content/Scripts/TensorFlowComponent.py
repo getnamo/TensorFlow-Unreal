@@ -4,6 +4,7 @@ import upythread as ut
 import json
 import sys
 import importlib
+import time
 import imp
 
 class TensorFlowComponent:
@@ -14,9 +15,9 @@ class TensorFlowComponent:
 
 	# this is called on game start
 	def begin_play(self):
-		ue.log('Beginplay')
+		if(self.uobject.VerbosePythonLog):
+			ue.log('BeginPlay, importing TF module: ' + self.uobject.TensorFlowModule)
 
-		ue.log('importing TF module: ' + self.uobject.TensorFlowModule)
 		self.tf = importlib.import_module(self.uobject.TensorFlowModule)
 		imp.reload(self.tf)
 
@@ -26,7 +27,8 @@ class TensorFlowComponent:
 
 	#tensor input
 	def tensorinput(self, args):
-		ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
+		if(self.uobject.VerbosePythonLog):
+			ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
 		#pass the raw json to the script to handle
 		resultJson = self.tf.runJsonInput(self.trained, json.loads(args))
@@ -34,14 +36,35 @@ class TensorFlowComponent:
 		#pass prediction json back
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
+	def trainingComplete(self, summary):
+		if(self.uobject.VerbosePythonLog):
+			ue.log(self.uobject.TensorFlowModule + ' trained in ' + str(round(summary['elapsed'],2)) + ' seconds.')
+
+		self.uobject.OnTrainingCompleteFunction(json.dumps(summary))		
+
 	#single threaded call
 	def trainBlocking(self):
-		ue.log(self.uobject.TensorFlowModule + ' training started on bt thread.')
+		if(self.uobject.VerbosePythonLog):
+			ue.log(self.uobject.TensorFlowModule + ' training started on bt thread.')
+
+		#calculate the time it takes to train your network
+		start = time.time()
 		self.trained = self.tf.train()
+		stop = time.time()
+
+		if 'summary' in self.trained:
+			summary = self.trained['summary']
+		else:
+			summary = {}
+
+		summary['elapsed'] = stop-start
+
+		ue.run_on_gt(self.trainingComplete, summary)
 
 	#multi-threaded call
 	def train(self, args=None):
-		ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
+		if(self.uobject.VerbosePythonLog):
+			ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
 
 		if(self.uobject.ShouldUseMultithreading):
 			try:
