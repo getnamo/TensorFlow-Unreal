@@ -3,31 +3,27 @@ import tensorflow as tf
 import upythread as ut
 import json
 import imp
-import operator
-import mnistSimple
+#import mnistSimple
 import sys
+import importlib
 
 class TensorFlowComponent:
 
 	# constructor adding a component
 	def __init__(self):
-		ue.log('Starting Component (default: train on init)')
-
-		#mt version
-		try:
-			ut.run_on_bt(self.train)
-		except:
-			e = sys.exc_info()[0]
-			ue.log('TensorFlowComponent error: ' + str(e))
-		#self.train('')
+		ue.log('Component Init')
 
 	# this is called on game start
 	def begin_play(self):
 		ue.log('Beginplay')
 
-		#call a blueprint function
-		self.uobject.bpfunction('hi from python')
+		ue.log('importing TF module: ' + self.uobject.TensorFlowModule)
+		self.tf = importlib.import_module(self.uobject.TensorFlowModule)
+		imp.reload(self.tf)
 
+		#train
+		if(self.uobject.ShouldTrainOnBeginPlay):
+			self.train()
 
 	#bp to python test
 	def pythonfunction(self, args):
@@ -35,48 +31,31 @@ class TensorFlowComponent:
 
 	#tensor input
 	def tensorinput(self, args):
+		#call a blueprint function
+		#self.uobject.bpfunction('hi from python')
+
 		ue.log('TF inputs passed: ' + args)
 
-		#todo: pass json as struct to our scripts
-		#todo: remove all problem specialization parts
+		#pass the raw json to the script to handle
+		resultJson = self.tf.runJsonInput(self.trained, json.loads(args))
 
-		imgstruct = json.loads(args)
-		pixelarray = imgstruct['pixels']
-		ue.log('image len: ' + str(len(pixelarray)))
+		#pass prediction json back
+		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
-		#do tf stuff here with passed image
-		sess = self.trained['sess']
-		feed_dict = {self.trained['x']: [pixelarray]}
+	#single threaded call
+	def trainBlocking(self):
+		ue.log(self.uobject.TensorFlowModule + ' training started on bt thread.')
+		self.trained = self.tf.train()
 
-		ue.log(feed_dict)
-
-		#get predicted result
-		result = sess.run(self.trained['y'], feed_dict)
-
-		ue.log(result)
-
-		index, value = max(enumerate(result[0]), key=operator.itemgetter(1))
-
-		ue.log('max: ' + str(value) + 'at: ' + str(index))
-
-		#set the prediction result
-		imgstruct['prediction'] = index
-
-		#pass prediction back
-		self.uobject.OnResultsFunction(json.dumps(imgstruct))
-
+	#multi-threaded call
 	def train(self, args=None):
-		#ue.log('Running on BT: init data for <' + args + '>')
+		ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
 
-		imp.reload(mnistSimple)
-
-		ue.log('mnistSimple reloaded')
-		
-		#todo: run this multi-threaded
-
-		self.trained = mnistSimple.train()
-
-		ue.log('trained x: ' + str(self.trained['x']))
-		ue.log('trained y: ' + str(self.trained['y']))
-		ue.log('trained W: ' + str(self.trained['W']))
-		ue.log('trained b: ' + str(self.trained['b']))
+		if(self.uobject.ShouldUseMultithreading):
+			try:
+				ut.run_on_bt(self.trainBlocking)
+			except:
+				e = sys.exc_info()[0]
+				ue.log('TensorFlowComponent error: ' + str(e))
+		else:
+			self.trainBlocking()
