@@ -2,16 +2,15 @@ import unreal_engine as ue
 import tensorflow as tf
 import upythread as ut
 import json
-import imp
-#import mnistSimple
 import sys
 import importlib
+import imp
 
 class TensorFlowComponent:
 
-	# constructor adding a component
-	def __init__(self):
-		ue.log('Component Init')
+	# constructor adding a component - Unused atm
+	#def __init__(self):
+	#	ue.log('Component Init')
 
 	# this is called on game start
 	def begin_play(self):
@@ -25,16 +24,9 @@ class TensorFlowComponent:
 		if(self.uobject.ShouldTrainOnBeginPlay):
 			self.train()
 
-	#bp to python test
-	def pythonfunction(self, args):
-		ue.log('python function call with: ' + args)
-
 	#tensor input
 	def tensorinput(self, args):
-		#call a blueprint function
-		#self.uobject.bpfunction('hi from python')
-
-		ue.log('TF inputs passed: ' + args)
+		ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
 		#pass the raw json to the script to handle
 		resultJson = self.tf.runJsonInput(self.trained, json.loads(args))
