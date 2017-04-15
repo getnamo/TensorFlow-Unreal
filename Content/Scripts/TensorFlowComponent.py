@@ -36,6 +36,7 @@ class TensorFlowComponent:
 		#pass prediction json back
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
+	#training callback function
 	def trainingComplete(self, summary):
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' trained in ' + str(round(summary['elapsed'],2)) + ' seconds.')
