@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.1.1",
+	"VersionName": "0.1.2",
 	"FriendlyName": "TensorFlow",
 	"Description": "",
 	"Category": "Computing",
@@ -10,7 +10,8 @@
 	"DocsURL": "https://github.com/getnamo/tensorflow-ue4",
 	"MarketplaceURL": "",
 	"SupportURL": "https://github.com/getnamo/tensorflow-ue4/issues",
-	"CanContainContent": true,
+  "CanContainContent": true,
+ 	"EnabledByDefault": true,
 	"IsBetaVersion": false,
 	"Installed": false,
 	"Modules": [
