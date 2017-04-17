@@ -11,7 +11,7 @@ Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) p
 
 The UnrealEnginePython plugin fork contains changes to allow automatic dependency resolution via pip. Simply specifying tensorflow as _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The fork also contains multi-threading support and callback on game-thread to allow TensorFlow to work without noticeably impacting the game thread.
 
-SocketIO Client is used for easy conversion between C++ and blueprint types (structs and variables) and JSON. Can also be used to easily connect to a web service.
+SocketIO Client is used for easy conversion between C++ and blueprint types (structs and variables) and JSON. Can also be used optionally to easily connect to a web service via [socket.io](https://socket.io/).
 
 ## Examples
 Project examples found under [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). 
