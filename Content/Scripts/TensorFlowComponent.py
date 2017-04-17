@@ -25,6 +25,12 @@ class TensorFlowComponent:
 		if(self.uobject.ShouldTrainOnBeginPlay):
 			self.train()
 
+		#Valid game world toggle for threading guards
+		self.ValidGameWorld = True
+
+	def end_play(self):
+		self.ValidGameWorld = False
+
 	#tensor input
 	def tensorinput(self, args):
 		if(self.uobject.VerbosePythonLog):
@@ -60,7 +66,9 @@ class TensorFlowComponent:
 
 		summary['elapsed'] = stop-start
 
-		ue.run_on_gt(self.trainingComplete, summary)
+		#run callbacks only if we're still in a valid game world
+		if(self.ValidGameWorld):
+			ue.run_on_gt(self.trainingComplete, summary)
 
 	#multi-threaded call
 	def train(self, args=None):
