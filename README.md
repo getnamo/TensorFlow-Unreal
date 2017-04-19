@@ -17,3 +17,8 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 Project examples found under [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). 
 
 It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
+
+
+## License
+Plugin - [MIT](https://opensource.org/licenses/MIT)
+TensorFlow and TensorFlow Icon - [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
