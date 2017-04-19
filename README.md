@@ -19,7 +19,7 @@ Project examples found under [tensorflow-ue4-examples](https://github.com/getnam
 It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
 
 
-## License
+## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
 
 TensorFlow and TensorFlow Icon - [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
