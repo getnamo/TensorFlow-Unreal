@@ -1,3 +1,5 @@
+=Plugin=
+
 MIT License
 
 Copyright (c) 2016 Jan Kaniewski (Getnamo)
@@ -21,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-TensorFlow Library and Icon
+=TensorFlow Library and Icon=
 
 Copyright 2017 The TensorFlow Authors.  All rights reserved.
 
