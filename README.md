@@ -21,4 +21,5 @@ It is also the main repository where all development is tracked for all plugin d
 
 ## License
 Plugin - [MIT](https://opensource.org/licenses/MIT)
+
 TensorFlow and TensorFlow Icon - [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
