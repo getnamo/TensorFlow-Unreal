@@ -31,13 +31,6 @@ public class TensorFlow : ModuleRules
 
             string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32";
             string TensorLibPath = Path.Combine(TensorflowThirdParty, "Lib");
-
-            //disable all this for now
-            //PublicDelayLoadDLLs.Add("pywrap_tensorflow.dll");
-            //RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(BinariesPath, "Win64", "pywrap_tensorflow.dll")));
-
-            //doesn't load right for some reason =/
-            //PublicAdditionalLibraries.Add(Path.Combine(TensorLibPath, PlatformString, "pywrap_tensorflow.lib"));
         }
 
         return isLibrarySupported;
@@ -70,7 +63,8 @@ public class TensorFlow : ModuleRules
 				"Core",
                 "RHI",
                 "RenderCore",
-                "Engine"
+                "Engine",
+                "UnrealEnginePython"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -83,8 +77,7 @@ public class TensorFlow : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "Projects",
-                "UnrealEnginePython"
+                "Projects"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

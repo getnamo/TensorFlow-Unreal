@@ -33,7 +33,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 	int32 Size = FMath::Pow(InFloatArray.Num(), 0.5);
 	if (Size * Size != InFloatArray.Num())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Invalid float array, needs to be square."));
+		UE_LOG(TensorFlowLog, Warning, TEXT("Invalid float array, needs to be square."));
 		return nullptr;
 	}
 	UTexture2D* Pointer = UTexture2D::CreateTransient(Size, Size, PF_R8G8B8A8);

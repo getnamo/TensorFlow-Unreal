@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ModuleManager.h"
+DECLARE_LOG_CATEGORY_EXTERN(TensorFlowLog, Log, All);
 
 class FTensorFlowModule : public IModuleInterface
 {
