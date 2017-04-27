@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreUtilityPrivatePCH.h"
+#include "ICoreUtility.h"
 
 class FCoreUtility : public ICoreUtility
 {
