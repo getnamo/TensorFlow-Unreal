@@ -1,3 +1,7 @@
+#pragma once
+
+#include "ModuleManager.h"
+
 class AUDIOCAPTURE_API IAudioCapture : public IModuleInterface
 {
 public:

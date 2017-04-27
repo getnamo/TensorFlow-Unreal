@@ -7,7 +7,7 @@
 * The public interface to this module.  In most cases, this interface is only public to sibling modules
 * within this plugin.
 */
-class ILambdaRunnable : public IModuleInterface
+class ICoreUtility : public IModuleInterface
 {
 
 public:
@@ -18,9 +18,9 @@ public:
 	*
 	* @return Returns singleton instance, loading the module on demand if needed
 	*/
-	static inline ILambdaRunnable& Get()
+	static inline ICoreUtility& Get()
 	{
-		return FModuleManager::LoadModuleChecked< ILambdaRunnable >("LambdaRunnable");
+		return FModuleManager::LoadModuleChecked< ICoreUtility >("CoreUtility");
 	}
 
 	/**
@@ -30,6 +30,10 @@ public:
 	*/
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded("LambdaRunnable");
+		return FModuleManager::Get().IsModuleLoaded("CoreUtility");
 	}
+
+	/** IModuleInterface implementation */
+	virtual void StartupModule() {};
+	virtual void ShutdownModule() {};
 };

@@ -5,7 +5,7 @@
 
 uint64 FLambdaRunnable::ThreadNumber = 0;
 
-LambdaRunnable::LambdaRunnable(TFunction< void()> InFunction)
+FLambdaRunnable::FLambdaRunnable(TFunction< void()> InFunction)
 {
 	FunctionPointer = InFunction;
 	Finished = false;
@@ -19,7 +19,7 @@ LambdaRunnable::LambdaRunnable(TFunction< void()> InFunction)
 	//Runnables.Add(this);
 }
 
-LambdaRunnable::~LambdaRunnable()
+FLambdaRunnable::~FLambdaRunnable()
 {
 	if (Thread == NULL)
 	{
@@ -31,14 +31,14 @@ LambdaRunnable::~LambdaRunnable()
 }
 
 //Init
-bool LambdaRunnable::Init()
+bool FLambdaRunnable::Init()
 {
 	//UE_LOG(LogClass, Log, TEXT("FLambdaRunnable %d Init"), Number);
 	return true;
 }
 
 //Run
-uint32 LambdaRunnable::Run()
+uint32 FLambdaRunnable::Run()
 {
 	if (FunctionPointer != nullptr)
 	{
@@ -49,19 +49,19 @@ uint32 LambdaRunnable::Run()
 }
 
 //stop
-void LambdaRunnable::Stop()
+void FLambdaRunnable::Stop()
 {
 	Finished = true;
 }
 
-void LambdaRunnable::Kill()
+void FLambdaRunnable::Kill()
 {
 	UE_LOG(LogClass, Log, TEXT("Yolo!"));
 	Thread->Kill(false);
 	Finished = true;
 }
 
-void LambdaRunnable::Exit()
+void FLambdaRunnable::Exit()
 {
 	Finished = true;
 	//UE_LOG(LogClass, Log, TEXT("FLambdaRunnable %d Exit"), Number);
@@ -70,18 +70,18 @@ void LambdaRunnable::Exit()
 	delete this;
 }
 
-void LambdaRunnable::EnsureCompletion()
+void FLambdaRunnable::EnsureCompletion()
 {
 	Stop();
 	Thread->WaitForCompletion();
 }
 
-LambdaRunnable* LambdaRunnable::RunLambdaOnBackGroundThread(TFunction< void()> InFunction)
+FLambdaRunnable* FLambdaRunnable::RunLambdaOnBackGroundThread(TFunction< void()> InFunction)
 {
-	LambdaRunnable* Runnable;
+	FLambdaRunnable* Runnable;
 	if (FPlatformProcess::SupportsMultithreading())
 	{
-		Runnable = new FSIOLambdaRunnable(InFunction);
+		Runnable = new FLambdaRunnable(InFunction);
 		//UE_LOG(LogClass, Log, TEXT("FLambdaRunnable RunLambdaBackGroundThread"));
 		return Runnable;
 	}
@@ -91,19 +91,19 @@ LambdaRunnable* LambdaRunnable::RunLambdaOnBackGroundThread(TFunction< void()> I
 	}
 }
 
-FGraphEventRef LambdaRunnable::RunShortLambdaOnGameThread(TFunction< void()> InFunction)
+FGraphEventRef FLambdaRunnable::RunShortLambdaOnGameThread(TFunction< void()> InFunction)
 {
 	return FFunctionGraphTask::CreateAndDispatchWhenReady(InFunction, TStatId(), nullptr, ENamedThreads::GameThread);
 }
 
-void LambdaRunnable::ShutdownThreads()
+void FLambdaRunnable::ShutdownThreads()
 {
 	/*for (auto Runnable : Runnables)
 	{
 	if (Runnable != nullptr)
 	{
-	delete Runnable;
+		Runnable.Stop();
+		delete Runnable;
 	}
-	Runnable = nullptr;
-	}*/
+	Runnable = nullptr;*/
 }

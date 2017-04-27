@@ -1,7 +1,8 @@
 #pragma once
 
-#include "LambdaRunnable.h"
 #include "AudioCapturePrivatePCH.h"
+#include "IAudioCapture.h"
+#include "LambdaRunnable.h"
 
 class FAudioCapture : public IAudioCapture
 {
@@ -12,7 +13,7 @@ public:
 
 private:
 	FThreadSafeBool bRunLoopActive;
-}
+};
 
 void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioBufferReceived)
 {
@@ -35,3 +36,6 @@ void FAudioCapture::StopCapture()
 {
 	bRunLoopActive = false;
 }
+
+
+IMPLEMENT_MODULE(FAudioCapture, AudioCapture)
