@@ -1,20 +1,20 @@
 using UnrealBuildTool;
 
-public class LambdaRunnable : ModuleRules
+public class CoreUtility : ModuleRules
 {
-    public LambdaRunnable(TargetInfo Target)
+    public CoreUtility(TargetInfo Target)
     {
 
         PublicIncludePaths.AddRange(
             new string[] {
-                "LambdaRunnable/Public"
+                "CoreUtility/Public"
             }
             );
 
 
         PrivateIncludePaths.AddRange(
             new string[] {
-                "LambdaRunnable/Private",
+                "CoreUtility/Private",
             }
             );
 
