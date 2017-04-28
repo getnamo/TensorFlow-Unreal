@@ -33,7 +33,7 @@ public:
 	void StopCapture();
 
 	/** Set Capturing options */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Leap Palm Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utilities|Audio Capture")
 	FAudioCaptureOptions Options;
 
 	virtual void InitializeComponent() override;
