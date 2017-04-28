@@ -1,6 +1,8 @@
 #include "CoreUtilityPrivatePCH.h"
 #include "ICoreUtility.h"
 
+DEFINE_LOG_CATEGORY(CoreUtilityLog);
+
 class FCoreUtility : public ICoreUtility
 {
 public:
