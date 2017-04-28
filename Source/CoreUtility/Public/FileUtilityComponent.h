@@ -20,4 +20,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = FileUtility)
 	bool SaveBytesToFile(const TArray<uint8>& Bytes, const FString& Directory, const FString& FileName);
+
+	UFUNCTION(BlueprintCallable, Category = FileUtility)
+	bool ReadBytesFromFile(const FString& Directory, const FString& FileName, TArray<uint8>& OutBytes);
 };

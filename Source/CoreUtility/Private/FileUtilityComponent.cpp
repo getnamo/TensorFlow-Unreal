@@ -18,17 +18,23 @@ bool UFileUtilityComponent::SaveBytesToFile(const TArray<uint8>& Bytes, const FS
 
 	IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 
-	// CreateDirectoryTree returns true if the destination
-	// directory existed prior to call or has been created
-	// during the call.
 	if (PlatformFile.CreateDirectoryTree(*Directory))
 	{
 		// Get absolute file path
 		FString AbsoluteFilePath = Directory + "/" + FileName;
 
 		// Allow overwriting or file doesn't already exist
-		FFileHelper::SaveArrayToFile(Bytes, *AbsoluteFilePath);
+		return FFileHelper::SaveArrayToFile(Bytes, *AbsoluteFilePath);
 	}
 
 	return false;
+}
+
+bool UFileUtilityComponent::ReadBytesFromFile(const FString& Directory, const FString& FileName, TArray<uint8>& OutBytes)
+{
+	// Get absolute file path
+	FString AbsoluteFilePath = Directory + "/" + FileName;
+
+	// Allow overwriting or file doesn't already exist
+	return FFileHelper::LoadFileToArray(OutBytes, *AbsoluteFilePath);
 }
