@@ -7,7 +7,7 @@ UFileUtilityComponent::UFileUtilityComponent(const FObjectInitializer &init) : U
 	bAutoActivate = true;
 }
 
-FString UFileUtilityComponent::ProjectDirectory()
+FString UFileUtilityComponent::ProjectContentsDirectory()
 {
 	return FPaths::GameContentDir();
 }
