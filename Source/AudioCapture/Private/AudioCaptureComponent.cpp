@@ -4,17 +4,21 @@
 
 UAudioCaptureComponent::UAudioCaptureComponent(const FObjectInitializer &init) : UActorComponent(init)
 {
+	bWantsInitializeComponent = true;
+	bAutoActivate = true;
+	bDidStartCapture = false;
 }
 
-void UAudioCaptureComponent::StartRecording()
+void UAudioCaptureComponent::StartCapture()
 {
 	if (IAudioCapture::IsAvailable())
 	{
 		IAudioCapture::Get().StartCapture(nullptr);
+		bDidStartCapture = true;
 	}
 }
 
-void UAudioCaptureComponent::StopRecording()
+void UAudioCaptureComponent::StopCapture()
 {
 	if (IAudioCapture::IsAvailable())
 	{
@@ -24,6 +28,7 @@ void UAudioCaptureComponent::StopRecording()
 
 void UAudioCaptureComponent::InitializeComponent()
 {
+	Super::InitializeComponent();
 	if (IAudioCapture::IsAvailable())
 	{
 		IAudioCapture::Get().AddAudioComponent(this);
@@ -35,5 +40,13 @@ void UAudioCaptureComponent::UninitializeComponent()
 	if (IAudioCapture::IsAvailable())
 	{
 		IAudioCapture::Get().RemoveAudioComponent(this);
+
+		//auto-stop recordings we started.
+		if (bDidStartCapture)
+		{
+			StopCapture();
+		}
 	}
+
+	Super::UninitializeComponent();
 }

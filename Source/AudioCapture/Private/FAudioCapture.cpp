@@ -8,7 +8,7 @@ class FAudioCapture : public IAudioCapture
 {
 public:
 
-	virtual void StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData) override;
+	virtual void StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData = nullptr, TFunction<void(const TArray<uint8>&)> OnCaptureFinished = nullptr) override;
 	virtual void StopCapture() override;
 	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) override;
 	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) override;
@@ -18,17 +18,17 @@ private:
 	TArray<UAudioCaptureComponent*> Components;
 };
 
-void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioBufferReceived)
+void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
 {
 	if (!WindowsCapture.IsValid())
 	{
 		WindowsCapture = MakeShareable(new FWindowsAudioCapture);
 	}
 
-	TFunction<void(const TArray<uint8>&)> OnDataDelegate = [this, OnAudioBufferReceived] (const TArray<uint8>& AudioData)
+	TFunction<void(const TArray<uint8>&)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData)
 	{
-		//Call each added component function inside gamethread
-		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioBufferReceived]
+		//Call each added component function inside game thread
+		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioData]
 		{
 			for (auto Component : Components)
 			{
@@ -36,19 +36,22 @@ void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioBu
 			}
 
 			//Also if valid pass it to the new delegate
-			if (OnAudioBufferReceived != nullptr)
+			if (OnAudioData != nullptr)
 			{
-				OnAudioBufferReceived(AudioData);
+				OnAudioData(AudioData);
 			}
 		});
 	};
 
-	WindowsCapture->StartCapture(OnDataDelegate);
+	WindowsCapture->StartCapture(OnDataDelegate, OnCaptureFinished);
 }
 
 void FAudioCapture::StopCapture()
 {
-	WindowsCapture->StopCapture();
+	if (WindowsCapture.IsValid())
+	{
+		WindowsCapture->StopCapture();
+	}
 }
 
 void FAudioCapture::AddAudioComponent(const UAudioCaptureComponent* Component)

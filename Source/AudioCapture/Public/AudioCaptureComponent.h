@@ -19,15 +19,22 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "SocketIO Events")
 	FAudioDataSignature OnAudioData;
 
-	/** Convert a UTexture2D to float array, assuming a square texture*/
+	/** Event received when the audio capture has finished (via stop) */
+	UPROPERTY(BlueprintAssignable, Category = "SocketIO Events")
+	FAudioDataSignature OnCaptureFinished;
+
+	/** Start capturing audio and emitting data events */
 	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
-	void StartRecording();
+	void StartCapture();
 
+	/** Stop capturing audio and emitting data events */
 	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
-	void StopRecording();
+	void StopCapture();
 
 
-protected:
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
+
+private:
+	bool bDidStartCapture;
 };
