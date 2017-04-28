@@ -17,7 +17,7 @@ FWindowsAudioCapture::FWindowsAudioCapture()
 	//SampleRate = 44100;
 }
 
-void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData)
+void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData /*= nullptr*/, TFunction<void(const TArray<uint8>&)> OnCaptureFinished /*= nullptr*/)
 {
 	//Only attempt to start capture once. If it's active return.
 	if (bRunLoopActive)
@@ -28,7 +28,7 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 	bRunLoopActive = true;
 	FThreadSafeBool* bShouldRunPtr = &bRunLoopActive;
 
-	FLambdaRunnable::RunLambdaOnBackGroundThread([this, OnAudioData, bShouldRunPtr]()
+	FLambdaRunnable::RunLambdaOnBackGroundThread([this, OnAudioData, OnCaptureFinished, bShouldRunPtr]()
 	{
 		HWAVEIN hWaveIn;
 		MMRESULT result;
@@ -70,8 +70,12 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 				TArray<uint8> OutData;
 				OutData.SetNum(AudioBuffer.Num());
 				FMemory::Memcpy(OutData.GetData(), AudioBuffer.GetData(), AudioBuffer.Num());
-				OnAudioData(OutData);
-				
+
+				if (OnAudioData != nullptr)
+				{
+					OnAudioData(OutData);
+				}
+
 				//Clear flags
 				hWaveInHdr.dwFlags = 0;
 				hWaveInHdr.dwBytesRecorded = 0;
@@ -85,6 +89,12 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 		waveInStop(hWaveIn);
 		waveInUnprepareHeader(hWaveIn, &hWaveInHdr, sizeof(WAVEHDR));
 		waveInClose(hWaveIn);
+
+		if (OnCaptureFinished != nullptr)
+		{
+			//flush whatever is left of the buffer
+			OnCaptureFinished(AudioBuffer);
+		}
 	});
 }
 
