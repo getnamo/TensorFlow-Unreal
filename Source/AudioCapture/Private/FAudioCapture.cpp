@@ -15,18 +15,30 @@ public:
 	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) override;
 	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) override;
 
+	/** IModuleInterface implementation */
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
+
 private:
 	TSharedPtr<FWindowsAudioCapture> WindowsCapture;
 	TArray<UAudioCaptureComponent*> Components;
 };
 
-void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
+void FAudioCapture::StartupModule()
 {
 	if (!WindowsCapture.IsValid())
 	{
 		WindowsCapture = MakeShareable(new FWindowsAudioCapture);
 	}
+}
 
+void FAudioCapture::ShutdownModule()
+{
+
+}
+
+void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
+{
 	TFunction<void(const TArray<uint8>&)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData)
 	{
 		//Call each added component function inside game thread
@@ -77,10 +89,7 @@ void FAudioCapture::StopCapture()
 
 void FAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
 {
-	if (WindowsCapture.IsValid())
-	{
-		WindowsCapture->SetOptions(Options);
-	}
+	WindowsCapture->SetOptions(Options);
 }
 
 void FAudioCapture::AddAudioComponent(const UAudioCaptureComponent* Component)
@@ -94,3 +103,5 @@ void FAudioCapture::RemoveAudioComponent(const UAudioCaptureComponent* Component
 }
 
 IMPLEMENT_MODULE(FAudioCapture, AudioCapture)
+
+
