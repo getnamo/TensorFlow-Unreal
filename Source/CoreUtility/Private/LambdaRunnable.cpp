@@ -31,7 +31,7 @@ FLambdaRunnable::~FLambdaRunnable()
 //Init
 bool FLambdaRunnable::Init()
 {
-	//UE_LOG(LogClass, Log, TEXT("FLambdaRunnable %d Init"), Number);
+	//UE_LOG(CoreUtilityLog, Log, TEXT("FLambdaRunnable %d Init"), Number);
 	return true;
 }
 
