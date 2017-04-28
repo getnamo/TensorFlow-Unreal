@@ -3,6 +3,8 @@
 #include "IAudioCaptureInterface.h"
 #include "ModuleManager.h"
 
+class UAudioCaptureComponent;
+
 class AUDIOCAPTURE_API IAudioCapture : public IModuleInterface, public IAudioCaptureInterface
 {
 public:
@@ -27,4 +29,8 @@ public:
 	{
 		return FModuleManager::Get().IsModuleLoaded("AudioCapture");
 	}
+
+	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) {};
+
+	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) {};
 };
