@@ -10,6 +10,8 @@ public:
 
 	virtual void StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData = nullptr, TFunction<void(const TArray<uint8>&)> OnCaptureFinished = nullptr) override;
 	virtual void StopCapture() override;
+	virtual void SetOptions(const FAudioCaptureOptions& Options) override;
+
 	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) override;
 	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) override;
 
@@ -70,6 +72,14 @@ void FAudioCapture::StopCapture()
 	if (WindowsCapture.IsValid())
 	{
 		WindowsCapture->StopCapture();
+	}
+}
+
+void FAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
+{
+	if (WindowsCapture.IsValid())
+	{
+		WindowsCapture->SetOptions(Options);
 	}
 }
 

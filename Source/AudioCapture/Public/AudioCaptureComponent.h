@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
+#include "AudioCaptureData.h"
 #include "AudioCaptureComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAudioDataSignature, const TArray<uint8>&, Bytes);
 
 /**
-*
+* Component used to capture microphone audio and emit bytes as the data streams in
 */
 UCLASS(ClassGroup = "Sound", meta = (BlueprintSpawnableComponent))
 class AUDIOCAPTURE_API UAudioCaptureComponent : public UActorComponent
@@ -31,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
 	void StopCapture();
 
+	/** Set Capturing options */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Leap Palm Data")
+	FAudioCaptureOptions Options;
 
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;

@@ -103,4 +103,9 @@ void FWindowsAudioCapture::StopCapture()
 	bRunLoopActive = false;
 }
 
+void FWindowsAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
+{
+	SampleRate = Options.SampleRate;
+}
+
 #include "HideWindowsPlatformTypes.h"

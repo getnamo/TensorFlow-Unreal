@@ -13,6 +13,7 @@ void UAudioCaptureComponent::StartCapture()
 {
 	if (IAudioCapture::IsAvailable())
 	{
+		IAudioCapture::Get().SetOptions(Options);
 		IAudioCapture::Get().StartCapture();
 		bDidStartCapture = true;
 	}
