@@ -33,7 +33,7 @@ public:
 	void StopCapture();
 
 	/** Set Capturing options */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utilities|Audio Capture")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio Capture Options")
 	FAudioCaptureOptions Options;
 
 	virtual void InitializeComponent() override;

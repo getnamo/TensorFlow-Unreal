@@ -8,6 +8,6 @@ struct AUDIOCAPTURE_API FAudioCaptureOptions
 	GENERATED_USTRUCT_BODY()
 	FAudioCaptureOptions();
 
-	UPROPERTY(BlueprintReadOnly, Category = "Audio Capture Options")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio Capture Options")
 	int32 SampleRate;
 };
