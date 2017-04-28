@@ -85,3 +85,17 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_RenderTargetTextureToTexture2D(UTe
 	PassedTexture->Source.UnlockMip(0);
 	return Pointer;
 }
+
+TArray<float> UTensorFlowBlueprintLibrary::Conv_ByteToFloatArray(const TArray<uint8>& InByteArray, float Scale)
+{
+	TArray<float> FloatArray;
+	FloatArray.SetNum(InByteArray.Num());
+
+	int32 Size = InByteArray.Num();
+	for (int i = 0; i< Size; i++)
+	{
+		FloatArray[i] = float(InByteArray[i]) * Scale;
+	}
+
+	return FloatArray;
+}

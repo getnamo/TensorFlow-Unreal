@@ -68,7 +68,7 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 			if (hWaveInHdr.dwFlags & WHDR_DONE)
 			{
 				TArray<uint8> OutData;
-				OutData.AddUninitialized(AudioBuffer.Num());
+				OutData.SetNum(AudioBuffer.Num());
 				FMemory::Memcpy(OutData.GetData(), AudioBuffer.GetData(), AudioBuffer.Num());
 				OnAudioData(OutData);
 				
