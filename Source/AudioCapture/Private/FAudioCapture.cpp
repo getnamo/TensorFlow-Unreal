@@ -43,7 +43,26 @@ void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioDa
 		});
 	};
 
-	WindowsCapture->StartCapture(OnDataDelegate, OnCaptureFinished);
+	TFunction<void(const TArray<uint8>&)> OnFinishedDelegate = [this, OnCaptureFinished](const TArray<uint8>& AudioData)
+	{
+		//Call each added component function inside game thread
+		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnCaptureFinished]
+		{
+			for (auto Component : Components)
+			{
+				Component->OnCaptureFinished.Broadcast(AudioData);
+			}
+
+			//Also if valid pass it to the new delegate
+			if (OnCaptureFinished != nullptr)
+			{
+				OnCaptureFinished(AudioData);
+			}
+
+		});
+	};
+
+	WindowsCapture->StartCapture(OnDataDelegate, OnFinishedDelegate);
 }
 
 void FAudioCapture::StopCapture()
