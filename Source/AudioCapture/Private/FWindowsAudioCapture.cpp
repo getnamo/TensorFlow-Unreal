@@ -13,8 +13,6 @@ using namespace std;
 FWindowsAudioCapture::FWindowsAudioCapture()
 {
 	bRunLoopActive = false;
-	SampleRate = 22050;
-	//SampleRate = 44100;
 }
 
 void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData /*= nullptr*/, TFunction<void(const TArray<uint8>&)> OnCaptureFinished /*= nullptr*/)
@@ -35,18 +33,19 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 		WAVEFORMATEX pFormat;
 
 		pFormat.wFormatTag = WAVE_FORMAT_PCM;
-		pFormat.nChannels = 1;							//mono
-		pFormat.nSamplesPerSec = SampleRate;
-		pFormat.nAvgBytesPerSec = SampleRate * 2;		// = nSamplesPerSec * n.Channels * wBitsPerSample/8
-		pFormat.nBlockAlign = 2;						// = n.Channels * wBitsPerSample/8
-		pFormat.wBitsPerSample = 16;					// 16 for high quality, 8 for telephone-grade
+		pFormat.nChannels = Options.Channels;									//typically 1 or 2
+		pFormat.nSamplesPerSec = Options.SampleRate;
+		pFormat.wBitsPerSample = Options.BitsPerSample;							// 16 for high quality, 8 for telephone-grade
+		pFormat.nBlockAlign = pFormat.nChannels * pFormat.wBitsPerSample / 8;	// = n.Channels * wBitsPerSample/8
+		pFormat.nAvgBytesPerSec = Options.SampleRate * pFormat.nBlockAlign;		// = nSamplesPerSec * n.Channels * wBitsPerSample/8
+
 		pFormat.cbSize = 0;
 
 		result = waveInOpen(&hWaveIn, WAVE_MAPPER, &pFormat, 0L, 0L, WAVE_FORMAT_DIRECT);
 
 		WAVEHDR hWaveInHdr;
 		TArray<uint8> AudioBuffer;
-		AudioBuffer.SetNum(SampleRate / 2);				//half a second of mono
+		AudioBuffer.SetNum(pFormat.nAvgBytesPerSec / 2);		//half a second
 
 		hWaveInHdr.lpData = (LPSTR)AudioBuffer.GetData();
 		hWaveInHdr.dwBufferLength = AudioBuffer.Num();
@@ -103,9 +102,9 @@ void FWindowsAudioCapture::StopCapture()
 	bRunLoopActive = false;
 }
 
-void FWindowsAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
+void FWindowsAudioCapture::SetOptions(const FAudioCaptureOptions& InOptions)
 {
-	SampleRate = Options.SampleRate;
+	Options = InOptions;
 }
 
 #include "HideWindowsPlatformTypes.h"

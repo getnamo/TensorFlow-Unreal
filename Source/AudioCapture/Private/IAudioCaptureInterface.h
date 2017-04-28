@@ -12,5 +12,5 @@ public:
 	/** Stop the audio capture and cleanup */
 	virtual void StopCapture() {};
 
-	virtual void SetOptions(const FAudioCaptureOptions& Options) {};
+	virtual void SetOptions(const FAudioCaptureOptions& InOptions) {};
 };
