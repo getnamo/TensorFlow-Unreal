@@ -1,8 +1,9 @@
 #pragma once
 
+#include "IAudioCaptureInterface.h"
 #include "ModuleManager.h"
 
-class AUDIOCAPTURE_API IAudioCapture : public IModuleInterface
+class AUDIOCAPTURE_API IAudioCapture : public IModuleInterface, public IAudioCaptureInterface
 {
 public:
 
@@ -26,10 +27,4 @@ public:
 	{
 		return FModuleManager::Get().IsModuleLoaded("AudioCapture");
 	}
-
-	/** Main methods */
-
-	virtual void StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData) {};
-	virtual void StopCapture() {};
-
 };

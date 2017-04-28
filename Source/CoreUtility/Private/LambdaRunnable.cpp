@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CoreUtilityPrivatePCH.h"
 #include "LambdaRunnable.h"
 

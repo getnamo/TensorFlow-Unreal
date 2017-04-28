@@ -1,4 +1,3 @@
-#pragma once
 #include "CoreUtilityPrivatePCH.h"
 #include "ICoreUtility.h"
 

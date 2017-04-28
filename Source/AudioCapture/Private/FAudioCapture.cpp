@@ -1,8 +1,6 @@
-#pragma once
-
 #include "AudioCapturePrivatePCH.h"
 #include "IAudioCapture.h"
-#include "LambdaRunnable.h"
+#include "FWindowsAudioCapture.h"
 
 class FAudioCapture : public IAudioCapture
 {
@@ -12,29 +10,22 @@ public:
 	virtual void StopCapture() override;
 
 private:
-	FThreadSafeBool bRunLoopActive;
+	TSharedPtr<FWindowsAudioCapture> WindowsCapture;
 };
 
 void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioBufferReceived)
 {
-	//Only attempt to start capture once. If it's active return.
-	//TODO: add multi-cast delegation?
-	if (bRunLoopActive)
+	if (!WindowsCapture.IsValid())
 	{
-		return;
+		WindowsCapture = MakeShareable(new FWindowsAudioCapture);
 	}
 
-	bRunLoopActive = true;
-	FThreadSafeBool* bShouldRunPtr = &bRunLoopActive;
-	FLambdaRunnable::RunLambdaOnBackGroundThread([this, bShouldRunPtr]()
-	{
-		//Todo: fill this out with windows code
-	});
+	WindowsCapture->StartCapture(OnAudioBufferReceived);
 }
 
 void FAudioCapture::StopCapture()
 {
-	bRunLoopActive = false;
+	WindowsCapture->StopCapture();
 }
 
 
