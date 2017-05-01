@@ -1,6 +1,6 @@
 # tensorflow-ue4
 
-[![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
+[![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 
 Unreal Engine plugin for [TensorFlow](https://www.tensorflow.org/).
