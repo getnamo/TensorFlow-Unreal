@@ -1,5 +1,8 @@
 # tensorflow-ue4
 
+[![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
+
 Unreal Engine plugin for [TensorFlow](https://www.tensorflow.org/).
 
 This plugin contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The component allows you to either include normal tensorflow python scripts with little change and have the I/O forwarded from UE4 or to (in the future) construct tensorflow operations directly from blueprint.
