@@ -27,6 +27,16 @@ void UAudioCaptureComponent::StopCapture()
 	}
 }
 
+void UAudioCaptureComponent::ConvertRawToWav(const TArray<uint8>& InBytes, TArray<uint8>& OutBytes)
+{	
+	OutBytes = FWavHeader::RawPCMToWav(InBytes, Options);
+}
+
+void UAudioCaptureComponent::ConvertWavToRaw(const TArray<uint8>& InBytes, TArray<uint8>& OutBytes, FAudioCaptureOptions& OutOptions)
+{
+	FWavHeader::WavToRawPCM(InBytes, OutBytes, OutOptions);
+}
+
 void UAudioCaptureComponent::InitializeComponent()
 {
 	Super::InitializeComponent();

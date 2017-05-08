@@ -36,6 +36,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio Capture Options")
 	FAudioCaptureOptions Options;
 
+	/** Convenience function to convert raw audio into wav */
+	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
+	void ConvertRawToWav(const TArray<uint8>& InBytes, TArray<uint8>& OutBytes);
+
+	/** Convenience function to convert wav into a raw PCM buffer with options containing wav format data */
+	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
+	void ConvertWavToRaw(const TArray<uint8>& InBytes, TArray<uint8>& OutBytes, FAudioCaptureOptions& OutOptions);
+
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
 
