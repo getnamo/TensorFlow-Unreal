@@ -59,6 +59,10 @@ class TensorFlowComponent:
 		self.trained = self.tf.train()
 		stop = time.time()
 
+		if self.trained is None:
+			ue.log('Warning! No model object returned from training, running tensorInput will not work. See your train(): method')
+			return
+
 		if 'summary' in self.trained:
 			summary = self.trained['summary']
 		else:
