@@ -18,8 +18,15 @@ class TensorFlowComponent:
 		if(self.uobject.VerbosePythonLog):
 			ue.log('BeginPlay, importing TF module: ' + self.uobject.TensorFlowModule)
 
-		self.tf = importlib.import_module(self.uobject.TensorFlowModule)
-		imp.reload(self.tf)
+		#import the module
+		self.tfModule = importlib.import_module(self.uobject.TensorFlowModule)
+		imp.reload(self.tfModule)
+		
+		#tfc or the class instance holding the pluginAPI
+		self.tfapi = self.tfModule.getApi()
+
+		#init
+		self.tfapi.setup()
 
 		#train
 		if(self.uobject.ShouldTrainOnBeginPlay):
@@ -30,7 +37,7 @@ class TensorFlowComponent:
 
 	def end_play(self):
 		self.ValidGameWorld = False
-		self.tf.stop()
+		self.tfapi.stop()
 
 	#tensor input
 	def tensorinput(self, args):
@@ -38,7 +45,7 @@ class TensorFlowComponent:
 			ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
 		#pass the raw json to the script to handle
-		resultJson = self.tf.runJsonInput(self.trained, json.loads(args))
+		resultJson = self.tfapi.runJsonInput(json.loads(args))
 
 		#pass prediction json back
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
@@ -57,7 +64,7 @@ class TensorFlowComponent:
 
 		#calculate the time it takes to train your network
 		start = time.time()
-		self.trained = self.tf.train()
+		self.trained = self.tfapi.train()
 		stop = time.time()
 
 		if self.trained is None:
