@@ -30,6 +30,7 @@ class TensorFlowComponent:
 
 	def end_play(self):
 		self.ValidGameWorld = False
+		self.tf.stop()
 
 	#tensor input
 	def tensorinput(self, args):
