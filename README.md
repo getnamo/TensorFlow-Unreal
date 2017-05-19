@@ -3,14 +3,26 @@
 [![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 
-Unreal Engine plugin for [TensorFlow](https://www.tensorflow.org/).
+Unreal Engine plugin for [TensorFlow](https://www.tensorflow.org/). Enabling training and implementation state of the art machine learning algorithms with your projects. 
 
-This plugin contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The component allows you to either include normal tensorflow python scripts with little change and have the I/O forwarded from UE4 or to (in the future) construct tensorflow operations directly from blueprint.
+This plugin source contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The plugin depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
 
-Currently incomplete, requires a new basic API for blueprint support. See https://github.com/getnamo/tensorflow-ue4/issues for details. 
+Releases for this plugin contain compiled versions of all dependency plugins and you should be able to drag and drop it into your project.
 
-## Dependencies
-Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
+Currently early API, if you got the ability consider contributing, see https://github.com/getnamo/tensorflow-ue4/issues for details. 
+
+## Installation & Setup
+
+ 1.	[Install TensorFlow pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using GPUs (NVIDIA cuDNN)
+ 2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases)
+ 3.	Create new or choose project.
+ 4.	Browse to your project folder (typically found at Documents/Unreal Project/{Your Project Root})
+ 5.	Copy *Plugins* folder into your Project root.
+ 6.	Enable the plugin via Edit->Plugins. Scroll down to Project->Networking. Click Enabled.
+ 7.	Restart the Editor and open your project again. Plugin is now ready to use.
+
+## Note on Dependencies
+Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
 
 The UnrealEnginePython plugin fork contains changes to allow automatic dependency resolution via pip. Simply specifying tensorflow as _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The fork also contains multi-threading support and callback on game-thread to allow TensorFlow to work without noticeably impacting the game thread.
 
@@ -48,6 +60,7 @@ class ExampleAPI(TFPluginAPI):
 	#expected api: setup your model for training and any member storage info
 	def setup(self):
 		pass
+		
 	#expected api: using the stored session and class data, evaluate the json inputs
 	def runJsonInput(self, jsonInput):
 		result = {}
