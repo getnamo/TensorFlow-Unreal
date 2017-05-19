@@ -77,18 +77,18 @@ def getApi():
 	return ExampleAPI.getInstance()
 ```
 
-Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At this stage all input/output from UE4 is JSON encoded.
+Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At the moment the plugin supports input/output from UE4 via JSON encoding.
 
-If you have a trained model, simply setup your model/load it from memory and omit the training function.
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input vis ```runJsonInput(jsonArgs)```
 
-If you wish to train ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user.
+If you wish to train in UE4, ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_.
 
 A slightly more expanded example api:
 
 ```python
 class ExampleAPI(TFPluginAPI):
 
-	#expected api: setup your model for training
+	#expected optional api: setup your model for training
 	def setup(self):
 		#setup or load your model and pass it into stored
 		
@@ -96,24 +96,24 @@ class ExampleAPI(TFPluginAPI):
 		self.sess = tf.InteractiveSession()
 		self.graph = tf.get_default_graph()
 
-	#expected api: storedModel and session, json inputs
+	#expected optional api: storedModel and session, json inputs
 	def runJsonInput(self, jsonInput):
 		#e.g. our json input could be a pixel array
 		#pixelarray = jsonInput['pixels']
 
-		#run input on your graph
+		#run input on your graph, you may need to use numpy to reshape the input to fit your model format
 		#e.g. sess.run(model['y'], feed_dict)
 		# where y is your result graph and feed_dict is {x:[input]}
 
 		#...
 
-		#return a json you will parse e.g. a prediction
+		#return a json you will parse in blueprint e.g. a prediction
 		result = {}
 		result['prediction'] = -1
 
 		return result
 
-	#expected api: no params forwarded for training? TBC
+	#expected optional api: no params forwarded for training? TBC
 	def train(self):
 		#train here
 
@@ -133,15 +133,16 @@ def getApi():
 
 a full example can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
 
-### Load your module from your TensorflowComponent
-Select your TensorflowComponent
+### Load your python module from your TensorflowComponent
+Once you've [written your python module](https://github.com/getnamo/tensorflow-ue4#mysubclasstfpluginapi), Select your TensorflowComponent inside your actor blueprint
 
 ![select component](http://i.imgur.com/f9Syql1.png)
 
-and change the TensorFlowModule to reflect your _filename_ without .py.
+and change the TensorFlowModule name to reflect your _filename_ without .py. e.g. if my python file is _ExampleAPI.py_ it would look like this
 
 ![change module name](http://i.imgur.com/mpzymgd.png)
 
+Optionally disable the verbose python log and change other toggles such as training on _BeginPlay_ or disabling multithreading (not recommended).
 
 ## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
