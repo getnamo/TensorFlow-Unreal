@@ -169,7 +169,7 @@ The most common way of sending input is to interweave a struct in a json object.
 
 #### Special convenience case: UTexture2D
 
-A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1Darray of pixels>]``` which you can reshape using numpy.
+A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1D array of pixels>]}``` which you can reshape using numpy.
 
 ![send texture](http://i.imgur.com/WNLG3Z1.png)
 
