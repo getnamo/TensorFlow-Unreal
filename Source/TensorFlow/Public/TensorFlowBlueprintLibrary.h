@@ -17,7 +17,11 @@ public:
 	
 	/** Convert a UTexture2D to float array, assuming a square texture*/
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToFloatArray", BlueprintAutocast), Category = "Utilities|TensorFlow")
-	static TArray<float> Conv_Texture2DToFloatArray(UTexture2D* InTexture);
+	static TArray<float> Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture);
+
+	/** Invert values in a given float array (1->0, 0->1) on a 0-1 scale. */
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "InvertFloatArray"), Category = "Utilities|TensorFlow")
+	static TArray<float> InvertFloatArray(const TArray<float>& InFloatArray);
 
 	/** Convert a float array to a UTexture2D, assuming square array */
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToTexture2D", BlueprintAutocast), Category = "Utilities|TensorFlow")

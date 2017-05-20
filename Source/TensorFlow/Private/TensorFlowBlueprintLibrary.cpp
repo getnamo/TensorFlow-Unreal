@@ -5,7 +5,7 @@
 #include "TensorFlowBlueprintLibrary.h"
 
 
-TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D* InTexture)
+TArray<float> UTensorFlowBlueprintLibrary::Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture)
 {
 	TArray<float> FloatArray;
 	FloatArray.SetNum(InTexture->GetSizeX()* InTexture->GetSizeY());
@@ -17,7 +17,7 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D
 	{
 		int MipPointer = i * 4;
 		float GreyscaleValue = (MipData[MipPointer] + MipData[MipPointer + 1] + MipData[MipPointer + 2]) / 3.f;
-		FloatArray[i] = 1 - (GreyscaleValue / 255.f);	//inverse and normalize it
+		FloatArray[i] = GreyscaleValue / 255.f;	 //normalize it
 	}
 
 	// Unlock the texture
@@ -25,6 +25,19 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D
 	//InTexture->UpdateResource();
 
 	return FloatArray;
+}
+
+TArray<float> UTensorFlowBlueprintLibrary::InvertFloatArray(const TArray<float>& InFloatArray)
+{
+	TArray<float> InvertedArray;
+	InvertedArray.SetNum(InFloatArray.Num());
+
+	for (int i=0;i<InFloatArray.Num();i++)
+	{
+		InvertedArray[i] = 1 - InFloatArray[i];
+	}
+
+	return InvertedArray;
 }
 
 UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray)
@@ -43,10 +56,10 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 	for (int i = 0; i < InFloatArray.Num(); i++)
 	{
 		int MipPointer = i * 4;
-		int InverseValue = (1 - InFloatArray[i]) * 255.f;
-		MipData[MipPointer] = InverseValue;
-		MipData[MipPointer + 1] = InverseValue;
-		MipData[MipPointer + 2] = InverseValue;
+		int GreyValue = InFloatArray[i] * 255.f;
+		MipData[MipPointer] = GreyValue;
+		MipData[MipPointer + 1] = GreyValue;
+		MipData[MipPointer + 2] = GreyValue;
 		MipData[MipPointer + 3] = 255;	//Alpha
 	}
 
