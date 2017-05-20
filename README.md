@@ -144,6 +144,29 @@ and change the TensorFlowModule name to reflect your _filename_ without .py. e.g
 
 Optionally disable the verbose python log and change other toggles such as training on _BeginPlay_ or disabling multithreading (not recommended).
 
+## Handling Tensorflow Events
+
+Select your _Tensorflow Component_ from your actor blueprint and then click + to subscribe to the chosen event in the event graph. 
+
+![events](http://i.imgur.com/FsSUJTj.png)
+
+v0.1 api supports the following events
+
+### On Results
+
+Called when _runJsonInput()_ completes on your python module. The returned data is a json string of the return data you pass at the end of the function
+
+![onresults](http://i.imgur.com/VYGjTUw.png)
+
+Typically you'd want to convert this string into _SIOJsonObject_ so you can use your results data in blueprint.
+
+### On Training Complete
+
+When you _Train()_ call is complete you receive this event with ```{'elapsed':<time taken>}``` json, optionally with additional data passed as return data from your function.
+
+![ontraining](http://i.imgur.com/XiZhH04.png)
+
+
 ## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
 
