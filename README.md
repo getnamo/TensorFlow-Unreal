@@ -133,6 +133,8 @@ def getApi():
 
 a full example can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
 
+## Blueprint API
+
 ### Load your python module from your TensorflowComponent
 Once you've [written your python module](https://github.com/getnamo/tensorflow-ue4#mysubclasstfpluginapi), Select your TensorflowComponent inside your actor blueprint
 
@@ -144,7 +146,34 @@ and change the TensorFlowModule name to reflect your _filename_ without .py. e.g
 
 Optionally disable the verbose python log and change other toggles such as training on _BeginPlay_ or disabling multithreading (not recommended).
 
-## Handling Tensorflow Events
+### Training
+
+By default the _train()_ function get's called on the component's begin play call. You can optionally untick this option and call _Begin Training_ manually.
+
+![manual train](http://i.imgur.com/YM3KZwy.png)
+
+### Sending Tensor inputs to your model
+
+You control what type of data you forward to your python module and the only limitation for v0.1 api is that it should be JSON formatted.
+
+#### Basic Json String
+In the simplest case you can send e.g. a basic json string ```{"StringData","some string"}``` constructed using SIOJson like so
+
+![send json string](http://i.imgur.com/rVYw7we.png)
+
+#### Any UStruct Example
+
+The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily make a custom struct type (can be completely defined in blueprint!), fill its data and replace the vector in the graph for the desired result.
+
+![send struct](http://i.imgur.com/3WLXgqL.png)
+
+#### Special convenience case: UTexture2D
+
+A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1Darray of pixels>]``` which you can reshape using numpy.
+
+![send texture](http://i.imgur.com/WNLG3Z1.png)
+
+### Handling Tensorflow Events
 
 Select your _Tensorflow Component_ from your actor blueprint and then click + to subscribe to the chosen event in the event graph. 
 
@@ -152,7 +181,7 @@ Select your _Tensorflow Component_ from your actor blueprint and then click + to
 
 v0.1 api supports the following events
 
-### On Results
+#### On Results
 
 Called when _runJsonInput()_ completes on your python module. The returned data is a json string of the return data you pass at the end of the function
 
@@ -160,7 +189,7 @@ Called when _runJsonInput()_ completes on your python module. The returned data 
 
 Typically you'd want to convert this string into _SIOJsonObject_ so you can use your results data in blueprint.
 
-### On Training Complete
+#### On Training Complete
 
 When you _Train()_ call is complete you receive this event with ```{'elapsed':<time taken>}``` json, optionally with additional data passed as return data from your function.
 
