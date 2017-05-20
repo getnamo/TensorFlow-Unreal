@@ -9,7 +9,7 @@ This plugin source contains C++, Blueprint and python scripts that encapsulate T
 
 Releases for this plugin contain compiled versions of all dependency plugins and you should be able to drag and drop it into your project.
 
-Currently early API, if you got the ability consider contributing, see https://github.com/getnamo/tensorflow-ue4/issues for details. 
+Currently early API, if you got ideas and fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for details. 
 
 ## Installation & Setup
 
