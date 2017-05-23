@@ -39,8 +39,7 @@ You can either train directly or use a trained model inside UE4.
 
 To start, add your python script file to _{Project Root Folder}/Content/Scripts_.
 
-wrap your tensorflow python code inside this API:
-
+wrap your tensorflow python code by subclassing TFPluginAPI.
 
 #### MySubClass(TFPluginAPI)
 
@@ -57,16 +56,16 @@ Add the following class functions
 ```python
 class ExampleAPI(TFPluginAPI):
 
-	#expected api: setup your model for training and any member storage info
+	#expected optional api: setup your model for training
 	def setup(self):
 		pass
 		
-	#expected api: using the stored session and class data, evaluate the json inputs
+	#expected optional api: parse input object and return a result object, which will be converted to json for UE4
 	def runJsonInput(self, jsonInput):
 		result = {}
 		return result
 
-	#expected api: start training your network
+	#expected optional api: start training your network
 	def train(self):
 		pass
     
@@ -79,7 +78,7 @@ def getApi():
 
 Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At the moment the plugin supports input/output from UE4 via JSON encoding.
 
-If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input vis ```runJsonInput(jsonArgs)```
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via ```runJsonInput(jsonArgs)```
 
 If you wish to train in UE4, ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_.
 
@@ -96,10 +95,11 @@ class ExampleAPI(TFPluginAPI):
 		self.sess = tf.InteractiveSession()
 		self.graph = tf.get_default_graph()
 
-	#expected optional api: storedModel and session, json inputs
+	#expected optional api: parse input object and return a result object, which will be converted to json for UE4
 	def runJsonInput(self, jsonInput):
-		#e.g. our json input could be a pixel array
+		#e.g. our json input could contain a pixel array which you could set your embedd into a feed_dict
 		#pixelarray = jsonInput['pixels']
+		#feed_dict = {self.model['x']: [pixelarray]}
 
 		#run input on your graph, you may need to use numpy to reshape the input to fit your model format
 		#e.g. sess.run(model['y'], feed_dict)
@@ -119,7 +119,7 @@ class ExampleAPI(TFPluginAPI):
 
 		#...
 
-		#inside your training loop check if we should stop early
+		#inside your training loop check if we should stop early typically per batch
 		#if(this.shouldstop):
 		#	break
 		pass
