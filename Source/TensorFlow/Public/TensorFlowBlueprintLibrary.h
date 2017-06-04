@@ -16,7 +16,7 @@ class TENSORFLOW_API UTensorFlowBlueprintLibrary : public UBlueprintFunctionLibr
 public:
 	
 	/** Convert a UTexture2D to float array, assuming a square texture*/
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToFloatArray", BlueprintAutocast), Category = "Utilities|TensorFlow")
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToFloatArray (Texture2D)", BlueprintAutocast), Category = "Utilities|TensorFlow")
 	static TArray<float> Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture);
 
 	/** Invert values in a given float array (1->0, 0->1) on a 0-1 scale. */
@@ -32,6 +32,6 @@ public:
 	static UTexture2D* Conv_RenderTargetTextureToTexture2D(UTextureRenderTarget2D* InTexture);
 
 	/** Convert a byte array into a float array, normalized by the passed in scale */
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToFloatArray (byte)", BlueprintAutocast), Category = "Utilities|TensorFlow")
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "ToFloatArray (bytes)", BlueprintAutocast), Category = "Utilities|TensorFlow")
 	static TArray<float> Conv_ByteToFloatArray(const TArray<uint8>& InByteArray, float Scale = 1.f);
 };
