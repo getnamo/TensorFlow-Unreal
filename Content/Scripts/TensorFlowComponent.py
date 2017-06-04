@@ -39,8 +39,8 @@ class TensorFlowComponent:
 		self.ValidGameWorld = False
 		self.tfapi.stop()
 
-	#tensor input
-	def tensorinput(self, args):
+	#json input
+	def json_input(self, args):
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
@@ -51,14 +51,14 @@ class TensorFlowComponent:
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
 	#training callback function
-	def trainingComplete(self, summary):
+	def training_complete(self, summary):
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' trained in ' + str(round(summary['elapsed'],2)) + ' seconds.')
 
 		self.uobject.OnTrainingCompleteFunction(json.dumps(summary))		
 
 	#single threaded call
-	def trainBlocking(self):
+	def train_blocking(self):
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' training started on bt thread.')
 
@@ -80,7 +80,7 @@ class TensorFlowComponent:
 
 		#run callbacks only if we're still in a valid game world
 		if(self.ValidGameWorld):
-			ue.run_on_gt(self.trainingComplete, summary)
+			ue.run_on_gt(self.training_complete, summary)
 
 	#multi-threaded call
 	def train(self, args=None):
@@ -89,9 +89,17 @@ class TensorFlowComponent:
 
 		if(self.uobject.ShouldUseMultithreading):
 			try:
-				ut.run_on_bt(self.trainBlocking)
+				ut.run_on_bt(self.train_blocking)
 			except:
 				e = sys.exc_info()[0]
 				ue.log('TensorFlowComponent error: ' + str(e))
 		else:
-			self.trainBlocking()
+			self.train_blocking()
+
+	#allow call custom functions on the tfapi object. Note all of these are synchronous
+	def custom_function(self, args=None):
+		#split our custom function call by first ','
+		stringList = args.split(',', 1)
+
+		#call our custom function with our passed variables and return result
+		return getattr(self.tfapi, stringList[0])(stringList[1])
