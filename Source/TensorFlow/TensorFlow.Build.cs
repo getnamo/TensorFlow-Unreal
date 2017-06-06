@@ -21,7 +21,7 @@ public class TensorFlow : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ThirdPartyPath, "Tensorflow")); }
     }
 
-    public bool LoadLib(TargetInfo Target)
+    public bool LoadLib(ReadOnlyTargetRules Target)
     {
         bool isLibrarySupported = false;
 
@@ -37,8 +37,8 @@ public class TensorFlow : ModuleRules
     }
 
 
-    public TensorFlow(TargetInfo Target)
-	{
+    public TensorFlow(ReadOnlyTargetRules Target) : base(Target)
+    {
 
     PublicIncludePaths.AddRange(
 			new string[] {
