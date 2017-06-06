@@ -2,7 +2,7 @@ using UnrealBuildTool;
 
 public class AudioCapture : ModuleRules
 {
-    public AudioCapture(TargetInfo Target)
+    public AudioCapture(ReadOnlyTargetRules Target) : base(Target)
     {
 
         PublicIncludePaths.AddRange(

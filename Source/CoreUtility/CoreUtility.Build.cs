@@ -2,7 +2,7 @@ using UnrealBuildTool;
 
 public class CoreUtility : ModuleRules
 {
-    public CoreUtility(TargetInfo Target)
+    public CoreUtility(ReadOnlyTargetRules Target) : base(Target)
     {
 
         PublicIncludePaths.AddRange(
