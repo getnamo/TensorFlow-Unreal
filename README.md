@@ -13,10 +13,10 @@ Currently early API, if you got ideas and fixes, consider contributing! See http
 
 ## Installation & Setup
 
- 1.	(GPU only) [Install TensorFlow pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
+ 1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
  2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases)
  3.	Create new or choose project.
- 4.	Browse to your project folder (typically found at Documents/Unreal Project/{Your Project Root})
+ 4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
  5.	Copy *Plugins* folder into your Project root.
  6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
  7.	Plugin is now ready to use.
