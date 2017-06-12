@@ -90,7 +90,7 @@ A slightly more expanded example api:
 ```python
 class ExampleAPI(TFPluginAPI):
 
-	#expected optional api: setup your model for training
+	#expected optional api: initialize variables related to your session and storage
 	def setup(self):
 		#setup or load your model and pass it into stored
 		
@@ -124,6 +124,9 @@ class ExampleAPI(TFPluginAPI):
 		#inside your training loop check if we should stop early typically per batch
 		#if(this.shouldstop):
 		#	break
+		
+		#commonly you'd store your model for evaluation later
+		#e.g. self.model = <your model object>
 		pass
 
 #required function to get our api
@@ -167,11 +170,11 @@ In the simplest case you can send e.g. a basic json string ```{"StringData","som
 
 #### Any UStruct Example
 
-The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily make a custom struct type, fill its data and replace the vector in the graph for the desired result. In this case we send ```{"SomeVector":{"x":1.0,"y":2.3,"z":4.3}}```
+The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily use any custom struct type, fill its data and replace the vector in the graph for the desired result. In this case we send ```{"SomeVector":{"x":1.0,"y":2.3,"z":4.3}}```
 
 ![send struct](http://i.imgur.com/3WLXgqL.png)
 
-Note that the struct can be completely user defined, even in blueprint, so this makes it very convenient to organize your data and easily decode it on the python side.
+SIOJson supports completely user defined structs, even ones only defined in blueprint. It's highly recommended to use such structs for a convenient way to organize your data and to reliably decode it on the python side.
 
 #### Special convenience case: UTexture2D
 
@@ -179,9 +182,11 @@ A convenience function wraps a UTexture2D into a json object with ```{"pixels":[
 
 ![send texture](http://i.imgur.com/WNLG3Z1.png)
 
+Note that this currently will convert an image into full alpha grayscale. If you need color texture inputs, use own custom method or make a pull request.
+
 #### Custom functions
 
-If you need to call more functions from blueprints that the current api doesn't support, you can do so by using the ```CallCustomFunction``` method in blueprint. You specify the function name and pass in a string as arguments. The function runs on the game thread and will return immediately with an expected string value. For both string arguments, JSON encoding is recommended for native data conversion and convenience, but optional.
+If you need to call python functions from blueprint which the current api doesn't support, you can do so by using the ```CallCustomFunction``` method on the _TensorflowComponent_. You specify the function name and pass in a string as arguments. The function runs on the game thread and will return immediately with an expected string value. For both arguments and returning values, JSON encoding is recommended, but optional.
 
 ### Handling Tensorflow Events
 
@@ -189,7 +194,7 @@ Select your _Tensorflow Component_ from your actor blueprint and then click + to
 
 ![events](http://i.imgur.com/FsSUJTj.png)
 
-v0.1 api supports the following events
+current api supports the following events
 
 #### On Input Results
 
