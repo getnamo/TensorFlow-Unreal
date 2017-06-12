@@ -78,9 +78,12 @@ def getApi():
 
 Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At the moment the plugin supports input/output from UE4 via JSON encoding.
 
-If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via ```runJsonInput(jsonArgs)```
+If you wish to train in UE4, implement your logic in ```train()``` and ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_.
 
-If you wish to train in UE4, ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_.
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via ```runJsonInput(jsonArgs)```. 
+
+Note that both ```train()``` and ```runJsonInput(jsonArgs)``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your tf.Session separately and use it as default ```with self.session.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
+
 
 A slightly more expanded example api:
 
@@ -91,9 +94,8 @@ class ExampleAPI(TFPluginAPI):
 	def setup(self):
 		#setup or load your model and pass it into stored
 		
-		#Usually store session, graph, and model if using keras
+		#Usually store session and model if using keras
 		self.sess = tf.InteractiveSession()
-		self.graph = tf.get_default_graph()
 
 	#expected optional api: parse input object and return a result object, which will be converted to json for UE4
 	def runJsonInput(self, jsonInput):
@@ -102,7 +104,7 @@ class ExampleAPI(TFPluginAPI):
 		#feed_dict = {self.model['x']: [pixelarray]}
 
 		#run input on your graph, you may need to use numpy to reshape the input to fit your model format
-		#e.g. sess.run(model['y'], feed_dict)
+		#e.g. self.sess.run(self.model['y'], feed_dict)
 		# where y is your result graph and feed_dict is {x:[input]}
 
 		#...
@@ -113,7 +115,7 @@ class ExampleAPI(TFPluginAPI):
 
 		return result
 
-	#expected optional api: no params forwarded for training? TBC
+	#expected optional api
 	def train(self):
 		#train here
 
@@ -131,7 +133,9 @@ def getApi():
 
 ```
 
-a full example can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
+A full example can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
+
+Another full example using keras api can be found here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistKerasCNN.py. Note the keras callback used for stopping training after current batch completes, this cancels training on early gameplay exit e.g. EndPlay.
 
 ## Blueprint API
 
@@ -152,7 +156,7 @@ By default the _train()_ function get's called on the component's begin play cal
 
 ![manual train](http://i.imgur.com/YM3KZwy.png)
 
-### Sending Tensor inputs to your model
+### Sending Json inputs to your model for e.g. prediction
 
 You control what type of data you forward to your python module and the only limitation for v0.1 api is that it should be JSON formatted.
 
@@ -163,15 +167,21 @@ In the simplest case you can send e.g. a basic json string ```{"StringData","som
 
 #### Any UStruct Example
 
-The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily make a custom struct type (can be completely defined in blueprint!), fill its data and replace the vector in the graph for the desired result.
+The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily make a custom struct type, fill its data and replace the vector in the graph for the desired result. In this case we send ```{"SomeVector":{"x":1.0,"y":2.3,"z":4.3}}```
 
 ![send struct](http://i.imgur.com/3WLXgqL.png)
 
+Note that the struct can be completely user defined, even in blueprint, so this makes it very convenient to organize your data and easily decode it on the python side.
+
 #### Special convenience case: UTexture2D
 
-A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1D array of pixels>]}``` which you can reshape using numpy.
+A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1D array of pixels>], "size":{"x":<image width>,:"y":<image height>}}``` which you can reshape using numpy.
 
 ![send texture](http://i.imgur.com/WNLG3Z1.png)
+
+#### Custom functions
+
+If you need to call more functions from blueprints that the current api doesn't support, you can do so by using the ```CallCustomFunction``` method in blueprint. You specify the function name and pass in a string as arguments. The function runs on the game thread and will return immediately with an expected string value. For both string arguments, JSON encoding is recommended for native data conversion and convenience, but optional.
 
 ### Handling Tensorflow Events
 
@@ -181,7 +191,7 @@ Select your _Tensorflow Component_ from your actor blueprint and then click + to
 
 v0.1 api supports the following events
 
-#### On Results
+#### On Input Results
 
 Called when _runJsonInput()_ completes on your python module. The returned data is a json string of the return data you pass at the end of the function
 
