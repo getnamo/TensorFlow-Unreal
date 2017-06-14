@@ -210,6 +210,85 @@ When you _Train()_ call is complete you receive this event with ```{'elapsed':<t
 
 ![ontraining](http://i.imgur.com/XiZhH04.png)
 
+## Blueprint Utilities
+
+### Conversion
+A large portion of the plugin capability comes from its ability to convert data types. See [TensorflowBlueprintLibrary.h](https://github.com/getnamo/tensorflow-ue4/blob/master/Source/TensorFlow/Public/TensorFlowBlueprintLibrary.h) for full declarations and code comments.
+
+#### UTexture2D to float array (square textures)
+
+Convert a UTexture2D as grayscale to float array, assuming a square texture.
+
+_Blueprint_
+
+```
+ToFloatArray (Texture2D)
+```
+
+_C++_
+```c++
+static TArray<float> Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture);
+```
+
+#### Invert Float Array
+
+Invert values in a given float array (1->0, 0->1) on a 0-1 scale.
+
+_Blueprint_ 
+
+```
+InvertFloatArray
+```
+
+_C++_
+```c++
+static TArray<float> InvertFloatArray(const TArray<float>& InFloatArray);
+```
+
+#### Float array to UTexture2D
+
+Convert a float array to a UTexture2D, assuming square array
+
+_Blueprint_ 
+
+```
+ToTexture2D
+```
+
+_C++_
+```c++
+static UTexture2D* Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray);
+```
+
+#### ToTexture2D (Render Target 2D)
+
+Convert render to target texture2d to a UTexture2D
+
+_Blueprint_ 
+
+```
+ToTexture2D (Render Target 2D)
+```
+
+_C++_
+```c++
+static UTexture2D* Conv_RenderTargetTextureToTexture2D(UTextureRenderTarget2D* InTexture);
+```
+
+#### ToFloatArray (bytes)
+
+Convert a byte array into a float array, normalized by the passed in scale
+
+_Blueprint_ 
+
+```
+ToFloatArray (bytes)
+```
+
+_C++_
+```c++
+static TArray<float> Conv_ByteToFloatArray(const TArray<uint8>& InByteArray, float Scale = 1.f);
+```
 
 ## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
