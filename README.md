@@ -182,7 +182,7 @@ A convenience function wraps a UTexture2D into a json object with ```{"pixels":[
 
 ![send texture](http://i.imgur.com/WNLG3Z1.png)
 
-Note that this currently will convert an image into full alpha grayscale. If you need color texture inputs, use own custom method or make a pull request.
+Note that this currently will convert an image into full alpha greyscale. If you need color texture inputs, use own custom method or make a pull request.
 
 #### Custom functions
 
