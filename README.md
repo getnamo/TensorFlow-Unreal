@@ -217,7 +217,7 @@ A large portion of the plugin capability comes from its ability to convert data 
 
 #### UTexture2D to float array (square textures)
 
-Convert a UTexture2D as grayscale to float array, assuming a square texture.
+Convert a UTexture2D as greyscale to float array, assuming a square texture.
 
 _Blueprint_
 
