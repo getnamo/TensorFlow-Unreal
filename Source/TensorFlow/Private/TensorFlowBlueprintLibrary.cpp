@@ -22,7 +22,28 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_GreyScaleTexture2DToFloatArray(U
 
 	// Unlock the texture
 	InTexture->PlatformData->Mips[0].BulkData.Unlock();
-	//InTexture->UpdateResource();
+
+	return FloatArray;
+}
+
+TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D* InTexture)
+{
+	TArray<float> FloatArray;
+
+	//RGBA texture
+	FloatArray.SetNum(InTexture->GetSizeX()* InTexture->GetSizeY() * 4);
+
+	//Lock the texture so it can be read
+	uint8* MipData = static_cast<uint8*>(InTexture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
+
+	for (int i = 0; i < FloatArray.Num(); i++)
+	{
+		int MipPointer = i * 4;
+		FloatArray[i] = MipData[i] / 255.f; //normalize value to 0-1.0f
+	}
+
+	// Unlock the texture
+	InTexture->PlatformData->Mips[0].BulkData.Unlock();
 
 	return FloatArray;
 }
@@ -40,16 +61,28 @@ TArray<float> UTensorFlowBlueprintLibrary::InvertFloatArray(const TArray<float>&
 	return InvertedArray;
 }
 
-UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray)
+
+UTexture2D* UTensorFlowBlueprintLibrary::Conv_GrayScaleFloatArrayToTexture2D(const TArray<float>& InFloatArray, const FVector2D InSize /*= FVector2D(0,0)*/)
 {
+	FVector2D Size;
+
 	//Create square image and lock for writing
-	int32 Size = FMath::Pow(InFloatArray.Num(), 0.5);
-	if (Size * Size != InFloatArray.Num())
+	if (InSize == FVector2D(0, 0))
 	{
-		UE_LOG(TensorFlowLog, Warning, TEXT("Invalid float array, needs to be square."));
-		return nullptr;
+		int32 Length = FMath::Pow(InFloatArray.Num(), 0.5);
+		if (Length * Length != InFloatArray.Num())
+		{
+			UE_LOG(TensorFlowLog, Warning, TEXT("Invalid float array without specified size, needs to be square."));
+			return nullptr;
+		}
+		Size = FVector2D(Length, Length);
 	}
-	UTexture2D* Pointer = UTexture2D::CreateTransient(Size, Size, PF_R8G8B8A8);
+	else
+	{
+		Size = InSize;
+	}
+
+	UTexture2D* Pointer = UTexture2D::CreateTransient(Size.X, Size.Y, PF_R8G8B8A8);
 	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
 
 	//Copy Data
@@ -61,6 +94,41 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 		MipData[MipPointer + 1] = GreyValue;
 		MipData[MipPointer + 2] = GreyValue;
 		MipData[MipPointer + 3] = 255;	//Alpha
+	}
+
+	//Unlock and Return data
+	Pointer->PlatformData->Mips[0].BulkData.Unlock();
+	Pointer->UpdateResource();
+	return Pointer;
+}
+
+UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray, const FVector2D InSize /*= FVector2D(0, 0)*/)
+{
+	FVector2D Size;
+
+	//Create square image and lock for writing
+	if (InSize == FVector2D(0, 0))
+	{
+		int32 Length = FMath::Pow(InFloatArray.Num(), 0.5);
+		if (Length * Length != InFloatArray.Num())
+		{
+			UE_LOG(TensorFlowLog, Warning, TEXT("Invalid float array without specified size, needs to be square."));
+			return nullptr;
+		}
+		Size = FVector2D(Length, Length);
+	}
+	else
+	{
+		Size = InSize;
+	}
+
+	UTexture2D* Pointer = UTexture2D::CreateTransient(Size.X, Size.Y, PF_R8G8B8A8);
+	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
+
+	//Copy Data
+	for (int i = 0; i < InFloatArray.Num(); i++)
+	{
+		MipData[i] = int(InFloatArray[i] * 255.f);
 	}
 
 	//Unlock and Return data
