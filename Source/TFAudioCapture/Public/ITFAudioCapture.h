@@ -3,9 +3,9 @@
 #include "IAudioCaptureInterface.h"
 #include "ModuleManager.h"
 
-class UAudioCaptureComponent;
+class UTFAudioCaptureComponent;
 
-class AUDIOCAPTURE_API IAudioCapture : public IModuleInterface, public IAudioCaptureInterface
+class TFAUDIOCAPTURE_API ITFAudioCapture : public IModuleInterface, public IAudioCaptureInterface
 {
 public:
 
@@ -15,9 +15,9 @@ public:
 	*
 	* @return Returns singleton instance, loading the module on demand if needed
 	*/
-	static inline IAudioCapture& Get()
+	static inline ITFAudioCapture& Get()
 	{
-		return FModuleManager::LoadModuleChecked< IAudioCapture >("AudioCapture");
+		return FModuleManager::LoadModuleChecked< ITFAudioCapture >("TFAudioCapture");
 	}
 
 	/**
@@ -27,10 +27,10 @@ public:
 	*/
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded("AudioCapture");
+		return FModuleManager::Get().IsModuleLoaded("TFAudioCapture");
 	}
 
-	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) {};
+	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) {};
 
-	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) {};
+	virtual void RemoveAudioComponent(const UTFAudioCaptureComponent* Component) {};
 };

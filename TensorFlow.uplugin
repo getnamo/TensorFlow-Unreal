@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.2.3",
+	"VersionName": "0.2.4",
 	"FriendlyName": "TensorFlow",
 	"Description": "Unofficial TensorFlow plugin for UE4. Enables state of the art machine learning via python and blueprints.",
 	"Category": "Computing",
@@ -13,15 +13,34 @@
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"Installed": false,
-	"Modules": [
-		{
-			"Name": "TensorFlow",
-			"Type": "Developer",
-			"LoadingPhase": "Default",
-			"WhitelistPlatforms": [
-				"Win64",
-				"Win32"
-			]
-		}
-	]
+  "Modules": [
+    {
+      "Name": "TensorFlow",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [
+        "Win64",
+        "Win32"
+      ]
+    },
+    {
+      "Name": "TFAudioCapture",
+      "Type": "Developer",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [
+        "Win64",
+        "Win32"
+      ]
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "UnrealEnginePython",
+      "Enabled": true
+    },
+        {
+			"Name": "SocketIOClient",
+			"Enabled": true
+    }
+  ]
 }

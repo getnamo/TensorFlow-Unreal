@@ -2,7 +2,7 @@
 
 #include "Components/ActorComponent.h"
 #include "AudioCaptureData.h"
-#include "AudioCaptureComponent.generated.h"
+#include "TFAudioCaptureComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAudioDataSignature, const TArray<uint8>&, Bytes);
 
@@ -10,7 +10,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAudioDataSignature, const TArray<ui
 * Component used to capture microphone audio and emit bytes as the data streams in
 */
 UCLASS(ClassGroup = "Sound", meta = (BlueprintSpawnableComponent))
-class AUDIOCAPTURE_API UAudioCaptureComponent : public UActorComponent
+class TFAUDIOCAPTURE_API UTFAudioCaptureComponent : public UActorComponent
 {
 	GENERATED_UCLASS_BODY()
 
