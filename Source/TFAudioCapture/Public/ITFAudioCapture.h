@@ -17,7 +17,7 @@ public:
 	*/
 	static inline ITFAudioCapture& Get()
 	{
-		return FModuleManager::LoadModuleChecked< ITFAudioCapture >("AudioCapture");
+		return FModuleManager::LoadModuleChecked< ITFAudioCapture >("TFAudioCapture");
 	}
 
 	/**
@@ -27,7 +27,7 @@ public:
 	*/
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded("AudioCapture");
+		return FModuleManager::Get().IsModuleLoaded("TFAudioCapture");
 	}
 
 	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) {};
