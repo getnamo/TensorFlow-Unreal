@@ -1,6 +1,6 @@
 #include "AudioCapturePrivatePCH.h"
 #include "ITFAudioCapture.h"
-#include "AudioCaptureComponent.h"
+#include "TFAudioCaptureComponent.h"
 #include "LambdaRunnable.h"
 #include "FWindowsAudioCapture.h"
 
@@ -12,8 +12,8 @@ public:
 	virtual void StopCapture() override;
 	virtual void SetOptions(const FAudioCaptureOptions& Options) override;
 
-	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) override;
-	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) override;
+	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) override;
+	virtual void RemoveAudioComponent(const UTFAudioCaptureComponent* Component) override;
 
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
@@ -21,7 +21,7 @@ public:
 
 private:
 	TSharedPtr<FWindowsAudioCapture> WindowsCapture;
-	TArray<UAudioCaptureComponent*> Components;
+	TArray<UTFAudioCaptureComponent*> Components;
 };
 
 void FTFAudioCapture::StartupModule()
@@ -92,14 +92,14 @@ void FTFAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
 	WindowsCapture->SetOptions(Options);
 }
 
-void FTFAudioCapture::AddAudioComponent(const UAudioCaptureComponent* Component)
+void FTFAudioCapture::AddAudioComponent(const UTFAudioCaptureComponent* Component)
 {
-	Components.Add((UAudioCaptureComponent*)Component);
+	Components.Add((UTFAudioCaptureComponent*)Component);
 }
 
-void FTFAudioCapture::RemoveAudioComponent(const UAudioCaptureComponent* Component)
+void FTFAudioCapture::RemoveAudioComponent(const UTFAudioCaptureComponent* Component)
 {
-	Components.Remove((UAudioCaptureComponent*)Component);
+	Components.Remove((UTFAudioCaptureComponent*)Component);
 }
 
 IMPLEMENT_MODULE(FTFAudioCapture, TFAudioCapture)

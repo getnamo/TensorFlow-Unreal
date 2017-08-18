@@ -3,7 +3,7 @@
 #include "IAudioCaptureInterface.h"
 #include "ModuleManager.h"
 
-class UAudioCaptureComponent;
+class UTFAudioCaptureComponent;
 
 class TFAUDIOCAPTURE_API ITFAudioCapture : public IModuleInterface, public IAudioCaptureInterface
 {
@@ -30,7 +30,7 @@ public:
 		return FModuleManager::Get().IsModuleLoaded("AudioCapture");
 	}
 
-	virtual void AddAudioComponent(const UAudioCaptureComponent* Component) {};
+	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) {};
 
-	virtual void RemoveAudioComponent(const UAudioCaptureComponent* Component) {};
+	virtual void RemoveAudioComponent(const UTFAudioCaptureComponent* Component) {};
 };
