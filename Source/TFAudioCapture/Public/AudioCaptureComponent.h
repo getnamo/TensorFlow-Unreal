@@ -10,7 +10,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAudioDataSignature, const TArray<ui
 * Component used to capture microphone audio and emit bytes as the data streams in
 */
 UCLASS(ClassGroup = "Sound", meta = (BlueprintSpawnableComponent))
-class AUDIOCAPTURE_API UAudioCaptureComponent : public UActorComponent
+class TFAUDIOCAPTURE_API UAudioCaptureComponent : public UActorComponent
 {
 	GENERATED_UCLASS_BODY()
 

@@ -3,7 +3,7 @@
 #include "AudioCaptureData.generated.h"
 
 USTRUCT(BlueprintType)
-struct AUDIOCAPTURE_API FAudioCaptureOptions
+struct TFAUDIOCAPTURE_API FAudioCaptureOptions
 {
 	GENERATED_USTRUCT_BODY()
 	FAudioCaptureOptions();

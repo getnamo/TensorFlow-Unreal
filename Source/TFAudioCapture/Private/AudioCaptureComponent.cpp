@@ -1,5 +1,5 @@
 #include "AudioCapturePrivatePCH.h"
-#include "IAudioCapture.h"
+#include "ITFAudioCapture.h"
 #include "AudioCaptureComponent.h"
 
 UAudioCaptureComponent::UAudioCaptureComponent(const FObjectInitializer &init) : UActorComponent(init)
@@ -11,19 +11,19 @@ UAudioCaptureComponent::UAudioCaptureComponent(const FObjectInitializer &init) :
 
 void UAudioCaptureComponent::StartCapture()
 {
-	if (IAudioCapture::IsAvailable())
+	if (ITFAudioCapture::IsAvailable())
 	{
-		IAudioCapture::Get().SetOptions(Options);
-		IAudioCapture::Get().StartCapture();
+		ITFAudioCapture::Get().SetOptions(Options);
+		ITFAudioCapture::Get().StartCapture();
 		bDidStartCapture = true;
 	}
 }
 
 void UAudioCaptureComponent::StopCapture()
 {
-	if (IAudioCapture::IsAvailable())
+	if (ITFAudioCapture::IsAvailable())
 	{
-		IAudioCapture::Get().StopCapture();
+		ITFAudioCapture::Get().StopCapture();
 	}
 }
 
@@ -40,17 +40,17 @@ void UAudioCaptureComponent::ConvertWavToRaw(const TArray<uint8>& InBytes, TArra
 void UAudioCaptureComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
-	if (IAudioCapture::IsAvailable())
+	if (ITFAudioCapture::IsAvailable())
 	{
-		IAudioCapture::Get().AddAudioComponent(this);
+		ITFAudioCapture::Get().AddAudioComponent(this);
 	}
 }
 
 void UAudioCaptureComponent::UninitializeComponent()
 {
-	if (IAudioCapture::IsAvailable())
+	if (ITFAudioCapture::IsAvailable())
 	{
-		IAudioCapture::Get().RemoveAudioComponent(this);
+		ITFAudioCapture::Get().RemoveAudioComponent(this);
 
 		//auto-stop recordings we started.
 		if (bDidStartCapture)

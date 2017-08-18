@@ -1,20 +1,20 @@
 using UnrealBuildTool;
 
-public class AudioCapture : ModuleRules
+public class TFAudioCapture : ModuleRules
 {
-    public AudioCapture(ReadOnlyTargetRules Target) : base(Target)
+    public TFAudioCapture(ReadOnlyTargetRules Target) : base(Target)
     {
 
         PublicIncludePaths.AddRange(
             new string[] {
-                "AudioCapture/Public"
+                "TFAudioCapture/Public"
             }
             );
 
 
         PrivateIncludePaths.AddRange(
             new string[] {
-                "AudioCapture/Private",
+                "TFAudioCapture/Private",
             }
             );
 

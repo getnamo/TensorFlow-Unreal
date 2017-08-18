@@ -1,10 +1,10 @@
 #include "AudioCapturePrivatePCH.h"
-#include "IAudioCapture.h"
+#include "ITFAudioCapture.h"
 #include "AudioCaptureComponent.h"
 #include "LambdaRunnable.h"
 #include "FWindowsAudioCapture.h"
 
-class FAudioCapture : public IAudioCapture
+class FTFAudioCapture : public ITFAudioCapture
 {
 public:
 
@@ -24,7 +24,7 @@ private:
 	TArray<UAudioCaptureComponent*> Components;
 };
 
-void FAudioCapture::StartupModule()
+void FTFAudioCapture::StartupModule()
 {
 	if (!WindowsCapture.IsValid())
 	{
@@ -32,12 +32,12 @@ void FAudioCapture::StartupModule()
 	}
 }
 
-void FAudioCapture::ShutdownModule()
+void FTFAudioCapture::ShutdownModule()
 {
 
 }
 
-void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
+void FTFAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
 {
 	TFunction<void(const TArray<uint8>&)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData)
 	{
@@ -79,7 +79,7 @@ void FAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioDa
 	WindowsCapture->StartCapture(OnDataDelegate, OnFinishedDelegate);
 }
 
-void FAudioCapture::StopCapture()
+void FTFAudioCapture::StopCapture()
 {
 	if (WindowsCapture.IsValid())
 	{
@@ -87,21 +87,21 @@ void FAudioCapture::StopCapture()
 	}
 }
 
-void FAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
+void FTFAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
 {
 	WindowsCapture->SetOptions(Options);
 }
 
-void FAudioCapture::AddAudioComponent(const UAudioCaptureComponent* Component)
+void FTFAudioCapture::AddAudioComponent(const UAudioCaptureComponent* Component)
 {
 	Components.Add((UAudioCaptureComponent*)Component);
 }
 
-void FAudioCapture::RemoveAudioComponent(const UAudioCaptureComponent* Component)
+void FTFAudioCapture::RemoveAudioComponent(const UAudioCaptureComponent* Component)
 {
 	Components.Remove((UAudioCaptureComponent*)Component);
 }
 
-IMPLEMENT_MODULE(FAudioCapture, AudioCapture)
+IMPLEMENT_MODULE(FTFAudioCapture, TFAudioCapture)
 
 
