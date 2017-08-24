@@ -57,16 +57,16 @@ Add the following class functions
 class ExampleAPI(TFPluginAPI):
 
 	#expected optional api: setup your model for training
-	def setup(self):
+	def onSetup(self):
 		pass
 		
 	#expected optional api: parse input object and return a result object, which will be converted to json for UE4
-	def runJsonInput(self, jsonInput):
+	def onJsonInput(self, jsonInput):
 		result = {}
 		return result
 
 	#expected optional api: start training your network
-	def train(self):
+	def onBeginTraining(self):
 		pass
     
 #NOTE: this is a module function, not a class function. Change your CLASSNAME to reflect your class
@@ -78,11 +78,11 @@ def getApi():
 
 Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At the moment the plugin supports input/output from UE4 via JSON encoding.
 
-If you wish to train in UE4, implement your logic in ```train()``` and ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_.
+If you wish to train in UE4, implement your logic in ```onBeginTraining()``` and ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_. You will also receive an optional ```onStopTraining``` callback when the user stops your training session.
 
-If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via ```runJsonInput(jsonArgs)```. 
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. 
 
-Note that both ```train()``` and ```runJsonInput(jsonArgs)``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your tf.Session separately and use it as default ```with self.session.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
+Note that both ```onTrain()``` and ```onSetup()``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
 
 
 A slightly more expanded example api:
@@ -90,53 +90,60 @@ A slightly more expanded example api:
 ```python
 class ExampleAPI(TFPluginAPI):
 
-	#expected optional api: initialize variables related to your session and storage
-	def setup(self):
+	#expected api: setup your model for your use cases
+	def onSetup(self):
 		#setup or load your model and pass it into stored
 		
-		#Usually store session and model if using keras
+		#Usually store session, graph, and model if using keras
 		self.sess = tf.InteractiveSession()
+		self.graph = tf.get_default_graph()
 
-	#expected optional api: parse input object and return a result object, which will be converted to json for UE4
-	def runJsonInput(self, jsonInput):
-		#e.g. our json input could contain a pixel array which you could set your embedd into a feed_dict
+	#expected api: storedModel and session, json inputs
+	def onJsonInput(self, jsonInput):
+		#e.g. our json input could be a pixel array
 		#pixelarray = jsonInput['pixels']
-		#feed_dict = {self.model['x']: [pixelarray]}
 
-		#run input on your graph, you may need to use numpy to reshape the input to fit your model format
-		#e.g. self.sess.run(self.model['y'], feed_dict)
+		#run input on your graph
+		#e.g. sess.run(model['y'], feed_dict)
 		# where y is your result graph and feed_dict is {x:[input]}
 
 		#...
 
-		#return a json you will parse in blueprint e.g. a prediction
+		#you can also call an event e.g.
+		#callEvent('myEvent', 'myData')
+
+		#return a json you will parse e.g. a prediction
 		result = {}
 		result['prediction'] = -1
 
 		return result
 
-	#expected optional api
-	def train(self):
+	#optional api: no params forwarded for training? TBC
+	def onBeginTraining(self):
 		#train here
 
 		#...
 
-		#inside your training loop check if we should stop early typically per batch
+		#inside your training loop check if we should stop early
 		#if(this.shouldstop):
 		#	break
-		
-		#commonly you'd store your model for evaluation later
-		#e.g. self.model = <your model object>
+		pass
+
+	#optional api: use if you need some things to happen if we get stopped
+	def onStopTraining(self):
+		#you should be listening to this.shouldstop, but you can also receive this call
 		pass
 
 #required function to get our api
 def getApi():
 	#return CLASSNAME.getInstance()
-	return MnistSimple.getInstance()
+	return ExampleAPI.getInstance()
 
 ```
 
-A full example can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
+A full example using mnist can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
+
+A full example using save/load setup can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSaveLoad.py
 
 Another full example using keras api can be found here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistKerasCNN.py. Note the keras callback used for stopping training after current batch completes, this cancels training on early gameplay exit e.g. EndPlay.
 
