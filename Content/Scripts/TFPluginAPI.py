@@ -14,6 +14,9 @@ class TFPluginAPI():
 		self.shouldstop = False
 		self.stored = {}
 
+	def resetTrainingTrigger(self):
+		self.shouldstop = False
+
 	#expected api: setup your model for training
 	def setup(self):
 		#setup or load your model and pass it into stored

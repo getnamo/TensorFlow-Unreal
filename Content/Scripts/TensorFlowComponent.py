@@ -28,12 +28,15 @@ class TensorFlowComponent:
 		#Valid game world toggle for threading guards
 		self.ValidGameWorld = True
 
-		#init
-		self.setup();
+		#call our tfapi setup, typically on another thread
+		self.setup()
 
 	def end_play(self):
 		self.ValidGameWorld = False
 		self.tfapi.stop()
+
+	def stop_training(self):
+		self.tfapi.stop() 
 
 	#multi-threaded call
 	def setup(self, args=None):
@@ -50,6 +53,9 @@ class TensorFlowComponent:
 
 	#multi-threaded call
 	def train(self, args=None):
+		#ensure our training trigger is reset
+		self.tfapi.resetTrainingTrigger()
+
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
 
