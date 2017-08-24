@@ -24,6 +24,7 @@ class TensorFlowComponent:
 		
 		#tfc or the class instance holding the pluginAPI
 		self.tfapi = self.tfModule.getApi()
+		self.tfapi.tf_component = self
 
 		#Valid game world toggle for threading guards
 		self.ValidGameWorld = True
@@ -33,10 +34,10 @@ class TensorFlowComponent:
 
 	def end_play(self):
 		self.ValidGameWorld = False
-		self.tfapi.stop()
+		self.stop_training()
 
 	def stop_training(self):
-		self.tfapi.stop() 
+		self.tfapi._stop() 
 
 	#multi-threaded call
 	def setup(self, args=None):
@@ -54,7 +55,7 @@ class TensorFlowComponent:
 	#multi-threaded call
 	def train(self, args=None):
 		#ensure our training trigger is reset
-		self.tfapi.resetTrainingTrigger()
+		self.tfapi._resetTrainingTrigger()
 
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
@@ -77,13 +78,29 @@ class TensorFlowComponent:
 		#call our custom function with our passed variables and return result
 		return getattr(self.tfapi, stringList[0])(stringList[1])
 
+	def custom_event_gt(self, eventdata):
+		if(eventdata['useJson']):
+			data = json.dumps(eventdata['data'])
+		else:
+			data = eventdata['data']
+		self.uobject.OnEventFunction(eventdata['event'], data)
+
+	#pass back a custom event
+	def custom_event(self, event, data=None, useJson=False):
+		#embedd the data
+		eventdata = {}
+		eventdata['event'] = event
+		eventdata['data'] = data
+		eventdata['useJson'] = useJson
+		ue.run_on_gt(self.custom_event_gt, eventdata)
+
 	#json input
 	def json_input(self, args):
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
 		#pass the raw json to the script to handle
-		resultJson = self.tfapi.runJsonInput(json.loads(args))
+		resultJson = self.tfapi.onJsonInput(json.loads(args))
 
 		#pass prediction json back
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
@@ -92,7 +109,7 @@ class TensorFlowComponent:
 	def setup_blocking(self):
 
 		#call the api setup (may be multi-threaded!)
-		self.tfapi.setup()
+		self.tfapi.onSetup()
 
 		#run callbacks only if we're still in a valid game world
 		if(self.ValidGameWorld):
@@ -114,7 +131,7 @@ class TensorFlowComponent:
 
 		#calculate the time it takes to train your network
 		start = time.time()
-		self.trained = self.tfapi.train()
+		self.trained = self.tfapi.onBeginTraining()
 		stop = time.time()
 
 		if self.trained is None:

@@ -9,16 +9,29 @@ class TFPluginAPI():
 		#This should return an instance of your class even if you subclassed it
 		return cls()
 
+	## Private
 	def __init__(self):
 		#class scoped variable for stopping
 		self.shouldstop = False
 		self.stored = {}
 
-	def resetTrainingTrigger(self):
+	#internal don't need to override this
+	def _resetTrainingTrigger(self):
 		self.shouldstop = False
 
+	#internal don't need to override this: early stopping
+	def _stop(self):
+		self.shouldstop = True
+		self.onStopTraining()
+
+	## Public
+	
+	#call this inside your class to emit a custom event on gt, don't override the function
+	def callEvent(self, event, data = None, useJson = False):
+		self.tf_component.custom_event(event, data, useJson)
+
 	#expected api: setup your model for training
-	def setup(self):
+	def onSetup(self):
 		#setup or load your model and pass it into stored
 		
 		#Usually store session, graph, and model if using keras
@@ -27,7 +40,7 @@ class TFPluginAPI():
 		pass
 
 	#expected api: storedModel and session, json inputs
-	def runJsonInput(self, jsonInput):
+	def onJsonInput(self, jsonInput):
 		#e.g. our json input could be a pixel array
 		#pixelarray = jsonInput['pixels']
 
@@ -43,12 +56,10 @@ class TFPluginAPI():
 
 		return result
 
-	#expected api: early stopping
-	def stop(self):
-		self.shouldstop = True
+
 
 	#expected api: no params forwarded for training? TBC
-	def train(self):
+	def onBeginTraining(self):
 		#train here
 
 		#...
@@ -56,6 +67,10 @@ class TFPluginAPI():
 		#inside your training loop check if we should stop early
 		#if(this.shouldstop):
 		#	break
+		pass
+
+	def onStopTraining(self):
+		#you should be listening to this.shouldstop, but you can also receive this call
 		pass
 
 #required function to get our api
