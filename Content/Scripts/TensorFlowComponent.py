@@ -25,19 +25,51 @@ class TensorFlowComponent:
 		#tfc or the class instance holding the pluginAPI
 		self.tfapi = self.tfModule.getApi()
 
-		#init
-		self.tfapi.setup()
-
-		#train
-		if(self.uobject.ShouldTrainOnBeginPlay):
-			self.train()
-
 		#Valid game world toggle for threading guards
 		self.ValidGameWorld = True
+
+		#init
+		self.setup();
 
 	def end_play(self):
 		self.ValidGameWorld = False
 		self.tfapi.stop()
+
+	#multi-threaded call
+	def setup(self, args=None):
+		if(self.uobject.ShouldUseMultithreading):
+			try:
+				if(self.uobject.VerbosePythonLog):
+					ue.log('running setup on background thread')
+				ut.run_on_bt(self.setup_blocking)
+			except:
+				e = sys.exc_info()[0]
+				ue.log('TensorFlowComponent::setup error: ' + str(e))
+		else:
+			self.setup_blocking()
+
+	#multi-threaded call
+	def train(self, args=None):
+		if(self.uobject.VerbosePythonLog):
+			ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
+
+		if(self.uobject.ShouldUseMultithreading):
+			try:
+				ut.run_on_bt(self.train_blocking)
+			except:
+				e = sys.exc_info()[0]
+				ue.log('TensorFlowComponent::train error: ' + str(e))
+		else:
+			self.train_blocking()
+
+
+	#allow call custom functions on the tfapi object. Note all of these are synchronous
+	def custom_function(self, args=None):
+		#split our custom function call by first ','
+		stringList = args.split(',', 1)
+
+		#call our custom function with our passed variables and return result
+		return getattr(self.tfapi, stringList[0])(stringList[1])
 
 	#json input
 	def json_input(self, args):
@@ -50,12 +82,24 @@ class TensorFlowComponent:
 		#pass prediction json back
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
-	#training callback function
-	def training_complete(self, summary):
-		if(self.uobject.VerbosePythonLog):
-			ue.log(self.uobject.TensorFlowModule + ' trained in ' + str(round(summary['elapsed'],2)) + ' seconds.')
+	#setup blocking
+	def setup_blocking(self):
 
-		self.uobject.OnTrainingCompleteFunction(json.dumps(summary))		
+		#call the api setup (may be multi-threaded!)
+		self.tfapi.setup()
+
+		#run callbacks only if we're still in a valid game world
+		if(self.ValidGameWorld):
+			ue.run_on_gt(self.setup_complete)
+
+	#setup callback function
+	def setup_complete(self):
+		if(self.uobject.VerbosePythonLog):
+			ue.log('Setup complete!');
+
+		#train after setup has completed if toggled
+		if(self.uobject.ShouldTrainOnBeginPlay):
+			self.train()
 
 	#single threaded call
 	def train_blocking(self):
@@ -82,24 +126,9 @@ class TensorFlowComponent:
 		if(self.ValidGameWorld):
 			ue.run_on_gt(self.training_complete, summary)
 
-	#multi-threaded call
-	def train(self, args=None):
+	#training callback function
+	def training_complete(self, summary):
 		if(self.uobject.VerbosePythonLog):
-			ue.log(self.uobject.TensorFlowModule + ' training scheduled.')
+			ue.log(self.uobject.TensorFlowModule + ' trained in ' + str(round(summary['elapsed'],2)) + ' seconds.')
 
-		if(self.uobject.ShouldUseMultithreading):
-			try:
-				ut.run_on_bt(self.train_blocking)
-			except:
-				e = sys.exc_info()[0]
-				ue.log('TensorFlowComponent error: ' + str(e))
-		else:
-			self.train_blocking()
-
-	#allow call custom functions on the tfapi object. Note all of these are synchronous
-	def custom_function(self, args=None):
-		#split our custom function call by first ','
-		stringList = args.split(',', 1)
-
-		#call our custom function with our passed variables and return result
-		return getattr(self.tfapi, stringList[0])(stringList[1])
+		self.uobject.OnTrainingCompleteFunction(json.dumps(summary))
