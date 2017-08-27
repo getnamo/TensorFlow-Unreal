@@ -32,6 +32,9 @@ The UnrealEnginePython plugin fork contains changes to enable multi-threading, p
 SocketIO Client is used for easy conversion between C++ and blueprint types (structs and variables) and JSON. Can also be used optionally to easily connect to a real-time web service via [socket.io](https://socket.io/).
 
 ## Examples
+
+![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)
+
 Project examples found under [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). 
 
 It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
