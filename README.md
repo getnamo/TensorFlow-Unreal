@@ -176,7 +176,7 @@ Optionally disable the verbose python log and change other toggles such as train
 
 ### Training
 
-By default the _train()_ function get's called on the component's begin play call. You can optionally untick this option and call _Begin Training_ manually.
+By default the _onBeginTraining()_ function will get called on the component's begin play call. You can optionally untick this option and call _Begin Training_ manually.
 
 ![manual train](http://i.imgur.com/YM3KZwy.png)
 
@@ -235,6 +235,12 @@ Called when _onJsonInput()_ completes in your python module. The returned data i
 ![onresults](http://i.imgur.com/lLbtmVt.png)
 
 Normally you'd want to convert this string into _SIOJsonObject_ so you can use your results data in blueprint. It is also typical to have a prediction field attached to this object for e.g. classification tasks.
+
+If you have a regular return format, consider making your own custom bp struct and fill its value from the json string like this
+
+![fill struct from json](http://i.imgur.com/IBWYzw9.png)
+
+Note that the function will only fill fields that have matching names and ignore all other struct fields. This means you can safely fill a partial struct from a json string that has more fields than the struct defines.
 
 #### On Training Complete
 
