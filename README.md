@@ -14,7 +14,7 @@ Currently early API, if you got ideas and fixes, consider contributing! See http
 ## Installation & Setup
 
  1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
- 2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases)
+ 2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases) choose CPU or GPU download version if supported.
  3.	Create new or choose project.
  4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
  5.	Copy *Plugins* folder into your Project root.
@@ -22,7 +22,7 @@ Currently early API, if you got ideas and fixes, consider contributing! See http
  7.	Plugin is now ready to use.
 
 ## Note on Dependencies
-Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
+Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include them.
 
 The UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
 
@@ -43,17 +43,13 @@ wrap your tensorflow python code by subclassing TFPluginAPI.
 
 #### MySubClass(TFPluginAPI)
 
-import the following and subclass in your module file
+import ```tensorflow```, ```unreal_engine``` and ```TFPluginAPI``` in your module file and subclass the TFPluginAPI class with the following functions.
 
 ```python
 import tensorflow as tf
 import unreal_engine as ue
 from TFPluginAPI import TFPluginAPI
-```
 
-Add the following class functions
-
-```python
 class ExampleAPI(TFPluginAPI):
 
 	#expected optional api: setup your model for training
@@ -78,9 +74,9 @@ def getApi():
 
 Note the ```getApi()``` module function which needs to return a matching instance of your defined class. The rest of the functionality depends on what API you wish to use for your use case. At the moment the plugin supports input/output from UE4 via JSON encoding.
 
-If you wish to train in UE4, implement your logic in ```onBeginTraining()``` and ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_. You will also receive an optional ```onStopTraining``` callback when the user stops your training session.
+If you wish to train in UE4, implement your logic in ```onBeginTraining()``` and ensure you check for ```self.shouldstop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_ or manually call ```StopTraining``` on the tensorflow component. You will also receive an optional ```onStopTraining``` callback when the user stops your training session.
 
-If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. 
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. See [mnistSaveLoad.py example](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSaveLoad.py) on how to train a network once, and then save the model, reloading it on setup such that you skip retraining it every time.
 
 Note that both ```onTrain()``` and ```onSetup()``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
 
