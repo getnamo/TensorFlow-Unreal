@@ -33,11 +33,11 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 
 ## Examples
 
-![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)
+[![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py)
 
-Project examples found under [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). 
+A project with example content is found at [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository shows off different e.g. mnist classification examples inside UE4, but should expand as more plug and play examples are made. Consider contributing your cool samples!
 
-It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
+It is also the main repository where all development is tracked for the other plugin dependencies for tensorflow.
 
 ## Python API
 
@@ -87,60 +87,59 @@ If you have a trained model, simply setup your model/load it from disk and omit 
 Note that both ```onTrain()``` and ```onSetup()``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
 
 
-A slightly more expanded example api:
+Below is a very basic example of using tensorflow to add or subtract values passed in as ```{"a":<float number or array>, "b":<float number or array>}```.
 
 ```python
+import tensorflow as tf
+import unreal_engine as ue
+from TFPluginAPI import TFPluginAPI
+
 class ExampleAPI(TFPluginAPI):
 
-	#expected api: setup your model for your use cases
+	#expected optional api: setup your model for training
 	def onSetup(self):
-		#setup or load your model and pass it into stored
-		
-		#Usually store session, graph, and model if using keras
 		self.sess = tf.InteractiveSession()
-		self.graph = tf.get_default_graph()
 
-	#expected api: storedModel and session, json inputs
+		self.a = tf.placeholder(tf.float32)
+		self.b = tf.placeholder(tf.float32)
+
+		#operation
+		self.c = self.a + self.b
+		pass
+		
+	#expected optional api: json input as a python object, get a and b values as a feed_dict
 	def onJsonInput(self, jsonInput):
-		#e.g. our json input could be a pixel array
-		#pixelarray = jsonInput['pixels']
+		
+		#show our input in the log
+		print(jsonInput)
 
-		#run input on your graph
-		#e.g. sess.run(model['y'], feed_dict)
-		# where y is your result graph and feed_dict is {x:[input]}
+		#map our passed values to our input placeholders
+		feed_dict = {self.a: jsonInput['a'], self.b: jsonInput['b']}
 
-		#...
+		#run the calculation and obtain a result
+		rawResult = self.sess.run(self.c,feed_dict)
+		
+		#embedd the answer as a string value in a python object
+		return {'answer':str(rawResult)}
 
-		#you can also call an event e.g.
-		#callEvent('myEvent', 'myData')
+	#custom function to change the operation type
+	def changeOperation(self, type):
+		if(type == '+'):
+			self.c = self.a + self.b
 
-		#return a json you will parse e.g. a prediction
-		result = {}
-		result['prediction'] = -1
+		elif(type == '-'):
+			self.c = self.a - self.b
 
-		return result
 
-	#optional api: no params forwarded for training? TBC
+	#expected optional api: We don't do any training in this example
 	def onBeginTraining(self):
-		#train here
-
-		#...
-
-		#inside your training loop check if we should stop early
-		#if(this.shouldstop):
-		#	break
 		pass
-
-	#optional api: use if you need some things to happen if we get stopped
-	def onStopTraining(self):
-		#you should be listening to this.shouldstop, but you can also receive this call
-		pass
-
+    
+#NOTE: this is a module function, not a class function. Change your CLASSNAME to reflect your class
 #required function to get our api
 def getApi():
 	#return CLASSNAME.getInstance()
 	return ExampleAPI.getInstance()
-
 ```
 
 A full example using mnist can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
