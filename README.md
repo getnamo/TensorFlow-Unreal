@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 
-[Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementating state of the art machine learning algorithms for your unreal projects. 
+[Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementating state of the art [machine learning](https://en.wikipedia.org/wiki/Machine_learning) algorithms for your unreal projects. 
 
 This plugin source contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The plugin depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
 
