@@ -367,9 +367,9 @@ _C++_
 static TArray<float> Conv_ByteToFloatArray(const TArray<uint8>& InByteArray, float Scale = 1.f);
 ```
 
-## Audio Capture Component
+## TF Audio Capture Component
 
-A c++ component that uses windows api to capture and stream microphone audio without the need of an online subsystem. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/AudioCapture/Public/AudioCaptureComponent.h for details on API. 
+A c++ component that uses windows api to capture and stream microphone audio without the need of an online subsystem. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/TFAudioCapture/Public/TFAudioCaptureComponent.h for details on API. 
 
 This component is aimed to be used for native speech recognition when Tensorflow examples mature.
 
