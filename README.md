@@ -243,7 +243,7 @@ Note that the function will only fill fields that have matching names and ignore
 
 #### On Training Complete
 
-When you _Train()_ call is complete you receive this event with ```{'elapsed':<time taken>}``` json, optionally with additional data passed as return data from your function.
+When the _onBeginTraining()_ call is complete you receive this event with ```{'elapsed':<time taken>}``` json, optionally with additional return data passed in from your function.
 
 ![ontraining](http://i.imgur.com/XiZhH04.png)
 
