@@ -17,6 +17,9 @@ If you have ideas and fixes, consider contributing! See https://github.com/getna
  2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases) choose CPU or GPU download version if supported.
  3.	Create new or choose project.
  4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
+
+![copy plugins](http://i.imgur.com/Ij028Ua.png)
+ 
  5.	Copy *Plugins* folder into your Project root.
  6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
  7.	Plugin is now ready to use.
@@ -143,6 +146,18 @@ A full example using save/load setup can be seen here: https://github.com/getnam
 
 Another full example using keras api can be found here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistKerasCNN.py. Note the keras callback used for stopping training after current batch completes, this cancels training on early gameplay exit e.g. EndPlay.
 
+#### Asynchronous Events to Tensorflow Component
+
+If you need to stream some data to blueprint e.g. during training you can use the ```self.callEvent()``` api. 
+
+##### String Format
+The format is ```self.callEvent('EventName', 'MyString')```
+
+##### Json Format
+The format is ```self.callEvent('EventName', PythonObject, True)```
+
+Example use case in [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L121) where sample training images are emitted to unreal for preview.
+
 ## Blueprint API
 
 ### Load your python module from your TensorflowComponent
@@ -167,9 +182,9 @@ By default the _train()_ function get's called on the component's begin play cal
 You control what type of data you forward to your python module and the only limitation for v0.1 api is that it should be JSON formatted.
 
 #### Basic Json String
-In the simplest case you can send e.g. a basic json string ```{"StringData","some string"}``` constructed using SIOJson like so
+In the simplest case you can send e.g. a basic json string ```{"MyString","SomeValue"}``` constructed using SIOJson like so
 
-![send json string](http://i.imgur.com/rVYw7we.png)
+![send json string](http://i.imgur.com/xizBrpt.png)
 
 #### Any UStruct Example
 
@@ -183,13 +198,17 @@ SIOJson supports completely user defined structs, even ones only defined in blue
 
 A convenience function wraps a UTexture2D into a json object with ```{"pixels":[<1D array of pixels>], "size":{"x":<image width>,:"y":<image height>}}``` which you can reshape using numpy.
 
-![send texture](http://i.imgur.com/WNLG3Z1.png)
+![send texture](http://i.imgur.com/vSq2xea.png)
 
 Note that this currently will convert an image into full alpha greyscale. If you need color texture inputs, use own custom method or make a pull request.
 
 #### Custom functions
 
 If you need to call python functions from blueprint which the current api doesn't support, you can do so by using the ```CallCustomFunction``` method on the _TensorflowComponent_. You specify the function name and pass in a string as arguments. The function runs on the game thread and will return immediately with an expected string value. For both arguments and returning values, JSON encoding is recommended, but optional.
+
+![custom function call](http://i.imgur.com/ejBs8cI.png)
+
+Example custom function call passing in a string argument to [```changeOperation```](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/addExample.py#L31) in [addExample.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/addExample.py)
 
 ### Handling Tensorflow Events
 
