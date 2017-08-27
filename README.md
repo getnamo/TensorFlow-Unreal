@@ -188,11 +188,18 @@ In the simplest case you can send e.g. a basic json string ```{"MyString","SomeV
 
 #### Any UStruct Example
 
-The most common way of sending input is to interweave a struct in a json object. In this particular example we send a vector, but you can easily use any custom struct type, fill its data and replace the vector in the graph for the desired result. In this case we send ```{"SomeVector":{"x":1.0,"y":2.3,"z":4.3}}```
+SIOJson supports completely user defined structs, even ones only defined in blueprint. It's highly recommended to use such structs for a convenient way to organize your data and to reliably decode it on the python side. Below is an example where we send a custom bp struct and encode it straight to JSON.
 
-![send struct](http://i.imgur.com/3WLXgqL.png)
+![send custom struct](http://i.imgur.com/Ova2xzf.png)
 
-SIOJson supports completely user defined structs, even ones only defined in blueprint. It's highly recommended to use such structs for a convenient way to organize your data and to reliably decode it on the python side.
+with the struct defined in blueprint as
+
+![custom struct definition](http://i.imgur.com/hg3qlSK.png)
+
+You can also interweave structs, even common unreal types so feel free to mix and match both of the above methods. In this particular example we interweave a 3D vector in a json object we defined. The sent input should now be ```{"SomeVector":{"x":1.0,"y":2.3,"z":4.3}}```
+
+![send struct](http://i.imgur.com/NJ48M70.png)
+
 
 #### Special convenience case: UTexture2D
 
