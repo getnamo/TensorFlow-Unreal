@@ -9,7 +9,7 @@ This plugin source contains C++, Blueprint and python scripts that encapsulate T
 
 Releases for this plugin contain compiled versions of all dependency plugins and you should be able to drag and drop it into your project.
 
-If you have ideas and fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for details. 
+If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for details. 
 
 ## Installation & Setup
 
@@ -221,23 +221,31 @@ Example custom function call passing in a string argument to [```changeOperation
 
 Select your _Tensorflow Component_ from your actor blueprint and then click + to subscribe to the chosen event in the event graph. 
 
-![events](http://i.imgur.com/FsSUJTj.png)
+![events](http://i.imgur.com/2q7486k.png)
 
 current api supports the following events
 
 #### On Input Results
 
-Called when _runJsonInput()_ completes on your python module. The returned data is a json string of the return data you pass at the end of the function
+Called when _onJsonInput()_ completes in your python module. The returned data is a json string of the return data you pass at the end of the function.
 
-![onresults](http://i.imgur.com/VYGjTUw.png)
+![onresults](http://i.imgur.com/lLbtmVt.png)
 
-Typically you'd want to convert this string into _SIOJsonObject_ so you can use your results data in blueprint.
+Normally you'd want to convert this string into _SIOJsonObject_ so you can use your results data in blueprint. It is also typical to have a prediction field attached to this object for e.g. classification tasks.
 
 #### On Training Complete
 
 When you _Train()_ call is complete you receive this event with ```{'elapsed':<time taken>}``` json, optionally with additional data passed as return data from your function.
 
 ![ontraining](http://i.imgur.com/XiZhH04.png)
+
+#### On Event
+
+If you use [```self.callEvent()```](https://github.com/getnamo/tensorflow-ue4#asynchronous-events-to-tensorflow-component) you will receive this event dispatch. You can filter your event types by the event name and then do whatever you need to with the data passed in.
+
+![onevent](http://i.imgur.com/ny0aEZv.png)
+
+For example [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L121) uses ```self.callEvent()``` to async stream training images and we'd filter this via checking for ```'PixelEvent'```
 
 ## Blueprint Utilities
 
