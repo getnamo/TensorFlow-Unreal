@@ -18,7 +18,7 @@ If you have ideas and fixes, consider contributing! See https://github.com/getna
  3.	Create new or choose project.
  4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
 
-![copy plugins](http://i.imgur.com/Ij028Ua.png)
+![copy plugins](http://i.imgur.com/Dktr6JK.png)
  
  5.	Copy *Plugins* folder into your Project root.
  6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
@@ -237,9 +237,25 @@ When you _Train()_ call is complete you receive this event with ```{'elapsed':<t
 ### Conversion
 A large portion of the plugin capability comes from its ability to convert data types. See [TensorflowBlueprintLibrary.h](https://github.com/getnamo/tensorflow-ue4/blob/master/Source/TensorFlow/Public/TensorFlowBlueprintLibrary.h) for full declarations and code comments.
 
-#### UTexture2D to float array (square textures)
+#### UTexture2D to float array (grayscale)
 
-Convert a UTexture2D as greyscale to float array, assuming a square texture.
+Convert a UTexture2D as grayscale to a 1D float array; obtains size from texture.
+
+_Blueprint_
+
+```
+ToGrayScaleFloatArray (Texture2D)
+```
+
+_C++_
+```c++
+static TArray<float> Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture);
+```
+
+
+#### UTexture2D to float array
+
+Convert a UTexture2D to a 1D float array; obtains size from texture. Expects 4 1-byte values per pixel e.g. RGBA.
 
 _Blueprint_
 
@@ -249,7 +265,7 @@ ToFloatArray (Texture2D)
 
 _C++_
 ```c++
-static TArray<float> Conv_GreyScaleTexture2DToFloatArray(UTexture2D* InTexture);
+static TArray<float> Conv_Texture2DToFloatArray(UTexture2D* InTexture);
 ```
 
 #### Invert Float Array
@@ -269,22 +285,38 @@ static TArray<float> InvertFloatArray(const TArray<float>& InFloatArray);
 
 #### Float array to UTexture2D
 
-Convert a float array to a UTexture2D, assuming square array
+Convert a 4 value per pixel float array to a UTexture2D with specified size, if size is unknown (0,0), it will assume a square array.
 
 _Blueprint_ 
 
 ```
-ToTexture2D
+ToTexture2D (Float Array)
 ```
 
 _C++_
 ```c++
-static UTexture2D* Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray);
+static UTexture2D* Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray, const FVector2D Size = FVector2D(0,0));
+```
+
+
+#### Float array (Grayscale) to UTexture2D
+
+Convert a 1 value per pixel float array to a UTexture2D with specified size, if size is unknown (0,0), it will assume a square array.
+
+_Blueprint_ 
+
+```
+ToTexture2D (Grayscale Array)
+```
+
+_C++_
+```c++
+static UTexture2D* Conv_FloatArrayToTexture2D(const TArray<float>& InFloatArray, const FVector2D Size = FVector2D(0,0));
 ```
 
 #### ToTexture2D (Render Target 2D)
 
-Convert render to target texture2d to a UTexture2D
+Convert a UTextureRenderTarget2D to a UTexture2D
 
 _Blueprint_ 
 
