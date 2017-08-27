@@ -179,7 +179,7 @@ By default the _train()_ function get's called on the component's begin play cal
 
 ### Sending Json inputs to your model for e.g. prediction
 
-You control what type of data you forward to your python module and the only limitation for v0.1 api is that it should be JSON formatted.
+You control what type of data you forward to your python module and the only limitation for the current api is that it should be JSON formatted.
 
 #### Basic Json String
 In the simplest case you can send e.g. a basic json string ```{"MyString","SomeValue"}``` constructed using SIOJson like so
