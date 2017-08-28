@@ -166,7 +166,7 @@ The format is ```self.callEvent('EventName', 'MyString')```
 ##### Json Format
 The format is ```self.callEvent('EventName', PythonObject, True)```
 
-Example use case in [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L121) where sample training images are emitted to unreal for preview.
+Example use case in [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L87) where sample training images are emitted to unreal for preview.
 
 ## Blueprint API
 
