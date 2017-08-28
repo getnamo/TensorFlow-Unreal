@@ -377,6 +377,24 @@ This component is aimed to be used for native speech recognition when Tensorflow
 
 A simple blueprint wrapper to save and load bytes from file. Allows to easily flush e.g. audio capture for later use. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/CoreUtility/Public/FileUtilityComponent.h for details on API.
 
+## Troubleshooting
+
+### No module named 'tensorflow'
+
+On first run you may see this message in your python console
+
+![no tensorflow](http://i.imgur.com/oed8Hhq.png)
+
+Wait until pip installs your dependencies fully, this may take ~3-5min. When the dependencies have installed, it should look something like this
+
+![installed](http://i.imgur.com/s8WDu7M.png)
+
+After you see this, go ahead and close your editor and re-launch the project. When the project has launched again this error should not show up again.
+
+### 2-3 sec hitch on first begin play
+
+This is due to python importing tensorflow on begin play and loading all the dlls. Currently unavoidable, only happens once per editor launch.
+
 ## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
 
