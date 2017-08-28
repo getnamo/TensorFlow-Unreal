@@ -33,7 +33,7 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 
 ## Examples
 
-[![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py)
+[![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples)
 
 A project with example content is found at [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository shows off different e.g. mnist classification examples inside UE4, but should expand as more plug and play examples are made. Consider contributing your cool samples!
 
