@@ -35,9 +35,9 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 
 [![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples)
 
-A project with example content is found at [tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository shows off different e.g. mnist classification examples inside UE4, but should expand as more plug and play examples are made. Consider contributing your cool samples!
+An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository shows off different basic tensorflow control and mnist classification examples inside UE4, but should expand as more plug and play examples are made. Consider contributing samples via pull requests!
 
-It is also the main repository where all development is tracked for the other plugin dependencies for tensorflow.
+It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
 
 ## Python API
 
