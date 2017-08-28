@@ -35,7 +35,9 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 
 [![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples)
 
-An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository shows off different basic tensorflow control and mnist classification examples inside UE4, but should expand as more plug and play examples are made. Consider contributing samples via pull requests!
+*Basic MNIST softmax classifier trained on begin play with sample training inputs streamed to the editor during training. When fully trained, UTexture2D (1-3) samples are tested for prediction.*
+
+An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository has basic examples for general tensorflow control and different mnist classification examples with UE4 UTexture2D input for prediction. The repository should expand as more plug and play examples are made. Consider contributing samples via pull requests!
 
 It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
 
