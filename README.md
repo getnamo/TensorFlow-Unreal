@@ -25,11 +25,15 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
  7.	Plugin is now ready to use.
 
 ## Note on Dependencies
-Depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include them.
+Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
 
-The UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
 
-SocketIO Client is used for easy conversion between C++ and blueprint types (structs and variables) and JSON. Can also be used optionally to easily connect to a real-time web service via [socket.io](https://socket.io/).
+### Dependencies Purpose
+#### UnrealEnginePython
+Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
+
+#### SocketIO Client
+SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
 
 ## Examples
 
@@ -37,9 +41,11 @@ SocketIO Client is used for easy conversion between C++ and blueprint types (str
 
 *Basic MNIST softmax classifier trained on begin play with sample training inputs streamed to the editor during training. When fully trained, UTexture2D (1-3) samples are tested for prediction.*
 
-An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples). The repository has basic examples for general tensorflow control and different mnist classification examples with UE4 UTexture2D input for prediction. The repository should expand as more plug and play examples are made. Consider contributing samples via pull requests!
+An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples).
 
-It is also the main repository where all development is tracked for all plugin dependencies for tensorflow.
+The repository has basic examples for general tensorflow control and different mnist classification examples with UE4 UTexture2D input for prediction. The repository should expand as more plug and play examples are made. Consider contributing samples via pull requests!
+
+It is also the main repository where all development is tracked for all dependencies for this plugin.
 
 ## Python API
 
