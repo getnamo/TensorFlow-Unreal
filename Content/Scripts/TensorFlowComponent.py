@@ -26,6 +26,9 @@ class TensorFlowComponent:
 		self.tfapi = self.tfModule.getApi()
 		self.tfapi.tf_component = self
 
+		#link default variables
+		self.tfapi.shouldRetrain = self.uobject.ShouldRetrain
+
 		#Valid game world toggle for threading guards
 		self.ValidGameWorld = True
 
@@ -37,7 +40,7 @@ class TensorFlowComponent:
 		self.stop_training()
 
 	def stop_training(self):
-		self.tfapi._stop() 
+		self.tfapi._stopTraining() 
 
 	#multi-threaded call
 	def setup(self, args=None):
@@ -135,7 +138,7 @@ class TensorFlowComponent:
 		stop = time.time()
 
 		if self.trained is None:
-			ue.log('Warning! No model object returned from training, running tensorInput will not work. See your train(): method')
+			ue.log('Training Note: no summary object returned from training. See your onBeginTraining(): method')
 			return
 
 		if 'summary' in self.trained:

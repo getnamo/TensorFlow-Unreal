@@ -12,16 +12,17 @@ class TFPluginAPI():
 	## Private
 	def __init__(self):
 		#class scoped variable for stopping
-		self.shouldstop = False
+		self.shouldStop = False		#check this variable to stop training early
+		self.shouldRetrain = False	#use this variable to force your training
 		self.stored = {}
 
 	#internal don't need to override this
 	def _resetTrainingTrigger(self):
-		self.shouldstop = False
+		self.shouldStop = False
 
 	#internal don't need to override this: early stopping
-	def _stop(self):
-		self.shouldstop = True
+	def _stopTraining(self):
+		self.shouldStop = True
 		self.onStopTraining()
 
 	## Public
@@ -65,12 +66,12 @@ class TFPluginAPI():
 		#...
 
 		#inside your training loop check if we should stop early
-		#if(this.shouldstop):
+		#if(self.shouldStop):
 		#	break
 		pass
 
 	def onStopTraining(self):
-		#you should be listening to this.shouldstop, but you can also receive this call
+		#you should be listening to self.shouldStop, but you can also receive this call
 		pass
 
 #required function to get our api
