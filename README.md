@@ -127,8 +127,8 @@ class ExampleAPI(TFPluginAPI):
 		#run the calculation and obtain a result
 		rawResult = self.sess.run(self.c,feed_dict)
 		
-		#embedd the answer as a string value in a python object
-		return {'answer':str(rawResult)}
+		#convert to array and embed the answer as 'c' field in a python object
+		return {'c':rawResult.tolist()}
 
 	#custom function to change the operation type
 	def changeOperation(self, type):
