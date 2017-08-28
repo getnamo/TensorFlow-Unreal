@@ -27,8 +27,10 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
 ## Note on Dependencies
 Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
 
+### Architecture and Purpose
 
-### Dependencies Purpose
+![architecture](http://i.imgur.com/8bUiCbM.png)
+
 #### UnrealEnginePython
 Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
 
