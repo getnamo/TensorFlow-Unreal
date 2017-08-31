@@ -94,7 +94,7 @@ If you wish to train in UE4, implement your logic in ```onBeginTraining()``` and
 
 If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. See [mnistSaveLoad.py example](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSaveLoad.py) on how to train a network once, and then save the model, reloading it on setup such that you skip retraining it every time.
 
-Note that both ```onTrain()``` and ```onSetup()``` are asynchronous by default with no additional code required by the developer. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since the call will be done a separate thread from the training one.
+Note that both ```onBeginTraining()``` and ```onSetup()``` are called asynchronously by default. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since all calls will be generally done in separate threads.
 
 
 Below is a very basic example of using tensorflow to add or subtract values passed in as ```{"a":<float number or array>, "b":<float number or array>}```.
