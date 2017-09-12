@@ -23,6 +23,12 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
  5.	Copy *Plugins* folder into your Project root.
  6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
  7.	Plugin is now ready to use.
+ 
+### Note on Git Clone
+
+Using full [plugin binary releases](https://github.com/getnamo/tensorflow-ue4/releases) is recommended, this allows you to follow the [installation instructions as written](https://github.com/getnamo/tensorflow-ue4#installation--setup) and get up to speed quickly.
+
+If you instead wish to git clone and sync to master repository manually then it is expected that you [download the latest python binary dependency release](https://github.com/getnamo/UnrealEnginePython/releases) for UnrealEnginePython. This contains an embedded python build; select the *BinariesOnly-.7z* file from Downloads and drag the plugins folder into your project root. With that step complete, your clone repository should work as expected, all other dependencies will be pulled via pip on first launch.
 
 ## Note on Dependencies
 Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
