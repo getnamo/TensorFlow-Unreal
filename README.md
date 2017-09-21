@@ -11,6 +11,8 @@ Releases for this plugin contain compiled versions of all dependency plugins and
 
 If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for details. 
 
+See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
+
 ## Installation & Setup
 
  1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
