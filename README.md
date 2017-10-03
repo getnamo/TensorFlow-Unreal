@@ -5,15 +5,11 @@
 
 [Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementing state of the art [machine learning](https://en.wikipedia.org/wiki/Machine_learning) algorithms for your unreal projects. 
 
-This plugin source contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The plugin depends on [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin.
-
-Releases for this plugin contain compiled versions of all dependency plugins and you should be able to drag and drop it into your project.
-
-If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for details. 
+This plugin source contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. The plugin depends on a [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin, these are always included in binary releases so no external downloading is necessary. See [Note on Dependencies section](https://github.com/getnamo/tensorflow-ue4#note-on-dependencies) for details on implementation.
 
 See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
 
-## Limitations
+## Issues and Limitations
 
 There is currently only a working build for the Windows platform. 
 
@@ -21,7 +17,7 @@ There is currently only a working build for the Windows platform.
 
 [Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11)
 
-Consider contributing!
+If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for current issues.
 
 ## Installation & Setup
 
@@ -33,7 +29,7 @@ Consider contributing!
 ![copy plugins](http://i.imgur.com/Dktr6JK.png)
  
  5.	Copy *Plugins* folder into your Project root.
- 6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again. See [Note on Dependencies](https://github.com/getnamo/tensorflow-ue4#note-on-dependencies) for details on implementation.
+ 6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
  7.	Plugin is now ready to use.
  
 ### Note on Git Cloning
