@@ -15,7 +15,7 @@ See [unreal forum thread](https://forums.unrealengine.com/community/work-in-prog
 
 ## Limitations
 
-Currently only has a working build for Windows platform. 
+There is currently only a working build for the Windows platform. 
 
 [Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10)
 
@@ -33,27 +33,14 @@ Consider contributing!
 ![copy plugins](http://i.imgur.com/Dktr6JK.png)
  
  5.	Copy *Plugins* folder into your Project root.
- 6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
+ 6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again. See [Note on Dependencies](https://github.com/getnamo/tensorflow-ue4#note-on-dependencies) for details on implementation.
  7.	Plugin is now ready to use.
  
-### Note on Git Clone
+### Note on Git Cloning
 
 Using full [plugin binary releases](https://github.com/getnamo/tensorflow-ue4/releases) is recommended, this allows you to follow the [installation instructions as written](https://github.com/getnamo/tensorflow-ue4#installation--setup) and get up to speed quickly.
 
 If you instead wish to git clone and sync to master repository manually then it is expected that you [download the latest python binary dependency release](https://github.com/getnamo/UnrealEnginePython/releases) for UnrealEnginePython. This contains an embedded python build; select the *BinariesOnly-.7z* file from Downloads and drag the plugins folder into your project root. With that step complete, your clone repository should work as expected, all other dependencies will be pulled via pip on first launch.
-
-## Note on Dependencies
-Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
-
-### Architecture and Purpose
-
-![architecture](http://i.imgur.com/8bUiCbM.png)
-
-#### UnrealEnginePython
-Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
-
-#### SocketIO Client
-SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
 
 ## Examples
 
@@ -404,6 +391,19 @@ This component is aimed to be used for native speech recognition when Tensorflow
 ## File Utility Component
 
 A simple blueprint wrapper to save and load bytes from file. Allows to easily flush e.g. audio capture for later use. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/CoreUtility/Public/FileUtilityComponent.h for details on API.
+
+## Note on Dependencies
+Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
+
+### Architecture and Purpose
+
+![architecture](http://i.imgur.com/8bUiCbM.png)
+
+#### UnrealEnginePython
+Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
+
+#### SocketIO Client
+SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
 
 ## Troubleshooting
 
