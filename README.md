@@ -401,7 +401,7 @@ Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePyth
 #### SocketIO Client
 SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
 
-## Troubleshooting
+## Troubleshooting / Help
 
 ### No module named 'tensorflow'
 
@@ -418,6 +418,10 @@ After you see this, go ahead and close your editor and re-launch the project. Wh
 ### 2-3 sec hitch on first begin play
 
 This is due to python importing tensorflow on begin play and loading all the dlls. Currently unavoidable, only happens once per editor launch.
+
+### Issue not listed?
+
+Post your issue to https://github.com/getnamo/tensorflow-ue4/issues
 
 ## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
