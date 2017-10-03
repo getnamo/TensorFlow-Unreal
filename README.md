@@ -13,6 +13,16 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
 
 See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
 
+## Limitations
+
+Currently only has a working build for Windows platform. 
+
+[Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10)
+
+[Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11)
+
+Consider contributing!
+
 ## Installation & Setup
 
  1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
