@@ -13,9 +13,11 @@ See [unreal forum thread](https://forums.unrealengine.com/community/work-in-prog
 
 There is currently only a working build for the Windows platform. 
 
-[Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10)
+[Linux issue#13 tracking](https://github.com/getnamo/tensorflow-ue4/issues/13)
 
 [Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11)
+
+[Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10)
 
 If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for current issues.
 
