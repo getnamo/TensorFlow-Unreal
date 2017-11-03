@@ -9,7 +9,7 @@ UFileUtilityComponent::UFileUtilityComponent(const FObjectInitializer &init) : U
 
 FString UFileUtilityComponent::ProjectContentsDirectory()
 {
-	return FPaths::GameContentDir();
+	return FPaths::ProjectContentDir();
 }
 
 bool UFileUtilityComponent::SaveBytesToFile(const TArray<uint8>& Bytes, const FString& Directory, const FString& FileName)
