@@ -13,34 +13,34 @@
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"Installed": false,
-  "Modules": [
-    {
-      "Name": "TensorFlow",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "WhitelistPlatforms": [
-        "Win64",
-        "Win32"
-      ]
-    },
-    {
-      "Name": "TFAudioCapture",
-      "Type": "Developer",
-      "LoadingPhase": "Default",
-      "WhitelistPlatforms": [
-        "Win64",
-        "Win32"
-      ]
-    }
-  ],
-  "Plugins": [
-    {
-      "Name": "UnrealEnginePython",
-      "Enabled": true
-    },
-        {
-			"Name": "SocketIOClient",
-			"Enabled": true
-    }
-  ]
+	"Modules": [
+	{
+		"Name": "TensorFlow",
+		"Type": "Runtime",
+		"LoadingPhase": "Default",
+		"WhitelistPlatforms": [
+			"Win64",
+			"Win32"
+		]
+	},
+	{
+		"Name": "TFAudioCapture",
+		"Type": "Developer",
+		"LoadingPhase": "Default",
+		"WhitelistPlatforms": [
+			"Win64",
+			"Win32"
+		]
+	}
+	],
+	"Plugins": [
+	{
+		"Name": "UnrealEnginePython",
+		"Enabled": true
+	},
+	{
+		"Name": "SocketIOClient",
+		"Enabled": true
+	}
+	]
 }
