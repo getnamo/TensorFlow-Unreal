@@ -405,6 +405,10 @@ SocketIO Client is used for easy conversion between native engine types (BP or C
 
 ## Troubleshooting / Help
 
+### I see pip bugs from upgrading
+
+Delete ```Plugins\UnrealEnginePython\Binaries\Win64\Lib\site-packages``` and restart project
+
 ### No module named 'tensorflow'
 
 On first run you may see this message in your python console
