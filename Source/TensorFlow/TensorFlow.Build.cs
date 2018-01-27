@@ -31,6 +31,9 @@ public class TensorFlow : ModuleRules
 
             string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32";
             string TensorLibPath = Path.Combine(TensorflowThirdParty, "Lib");
+			string TensorflowLibDLL = Path.GetFullPath(Path.Combine(TensorLibPath, PlatformString, "tensorflow.dll"));
+
+			RuntimeDependencies.Add(new RuntimeDependency(TensorflowLibDLL));
         }
 
         return isLibrarySupported;
