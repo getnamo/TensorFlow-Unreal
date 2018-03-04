@@ -31,8 +31,14 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
 ![copy plugins](http://i.imgur.com/Dktr6JK.png)
  
  5.	Copy *Plugins* folder into your Project root.
- 6.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
- 7.	Plugin is now ready to use.
+ 6.	Launch your project.
+ 7.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
+ 8.	Wait for tensorflow dependencies to be automatically installed. It will auto-resolve any dependencies listed in [Content/Scripts/upymodule.json](https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json)
+ 
+ ![](https://camo.githubusercontent.com/711214ab75ba5ddabb0629e1b24fa9913680a1a1/687474703a2f2f692e696d6775722e636f6d2f7338574475374d2e706e67)
+ 
+ 7. Once you see an output like this in your console window, close and relaunch your project.
+ 8. Plugin is now ready to use.
  
 ### Note on Git Cloning
 
