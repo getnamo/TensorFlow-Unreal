@@ -33,12 +33,11 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
  5.	Copy *Plugins* folder into your Project root.
  6.	Launch your project.
  7.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
- 8.	Wait for tensorflow dependencies to be automatically installed. It will auto-resolve any dependencies listed in [Content/Scripts/upymodule.json](https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json) using pip. Note that this step may take a few minutes and depends on your internet connection speed.
+ 8.	Wait for tensorflow dependencies to be automatically installed. It will auto-resolve any dependencies listed in [Content/Scripts/upymodule.json](https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json) using pip. Note that this step may take a few minutes and depends on your internet connection speed and you will see nothing in the output log window until it has fully completed.
  
- ![](https://camo.githubusercontent.com/711214ab75ba5ddabb0629e1b24fa9913680a1a1/687474703a2f2f692e696d6775722e636f6d2f7338574475374d2e706e67)
+![image](https://user-images.githubusercontent.com/542365/36981363-e88aa2ec-2084-11e8-828c-e5a526cda67b.png)
  
- 7. Once you see an output like this in your console window, close and relaunch your project.
- 8. Plugin is now ready to use.
+ 7. Once you see an output similar to this (specific packages will change with each version of tensorflow), the plugin is ready to use.
  
 ### Note on Git Cloning
 
@@ -395,6 +394,60 @@ This component is aimed to be used for native speech recognition when Tensorflow
 ## File Utility Component
 
 A simple blueprint wrapper to save and load bytes from file. Allows to easily flush e.g. audio capture for later use. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/CoreUtility/Public/FileUtilityComponent.h for details on API.
+
+## Use pip to manage your dependencies in the python console
+
+The plugin uses a pip wrapper script that uses a subproccess to not cause blocking behavior. Simply import it using
+
+```import upypip as pip```
+
+in your script and then type e.g.
+
+```pip.list()```
+which should very shortly list all your installed python modules.
+
+```
+Package        Version  
+-------------- ---------
+absl-py        0.1.10   
+astor          0.6.2    
+bleach         1.5.0    
+gast           0.2.0    
+grpcio         1.10.0   
+html5lib       0.9999999
+Markdown       2.6.11   
+numpy          1.14.1   
+pip            9.0.1    
+protobuf       3.5.1    
+setuptools     38.5.1   
+six            1.11.0   
+tensorboard    1.6.0    
+tensorflow     1.6.0    
+tensorflow-gpu 1.6.0    
+termcolor      1.1.0    
+Werkzeug       0.14.1   
+wheel          0.30.0   
+```
+
+If you'd like to add another module call the install function e.g. if you wanted to upgrade to gpu version you could simply type
+
+```pip.install('tensorflow-gpu')```
+
+or you can go back to a clean slate with 
+
+```pip.uninstallAll()```
+
+which should leave you with just the basics
+
+```
+Package    Version
+---------- -------
+pip        9.0.1  
+setuptools 38.5.1 
+wheel      0.30.0 
+```
+
+See [upypip.py](https://github.com/getnamo/UnrealEnginePython/blob/master/Content/Scripts/upypip.py) for all the available commands.
 
 ## Note on Dependencies
 Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
