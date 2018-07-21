@@ -1,6 +1,6 @@
 {
 	"name" : "tensorflow-ue4",
 	"pythonModules": {
-		"tensorflow-gpu": "1.8.0"
+		"tensorflow-gpu": "1.9.0"
 	}
 }

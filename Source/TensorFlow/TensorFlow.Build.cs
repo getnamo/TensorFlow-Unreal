@@ -33,7 +33,7 @@ public class TensorFlow : ModuleRules
             string TensorLibPath = Path.Combine(TensorflowThirdParty, "Lib");
 			string TensorflowLibDLL = Path.GetFullPath(Path.Combine(TensorLibPath, PlatformString, "tensorflow.dll"));
 
-			RuntimeDependencies.Add(new RuntimeDependency(TensorflowLibDLL));
+			RuntimeDependencies.Add(TensorflowLibDLL);
         }
 
         return isLibrarySupported;
