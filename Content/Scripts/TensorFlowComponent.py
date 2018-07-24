@@ -35,7 +35,7 @@ class TensorFlowComponent:
 		#call our tfapi setup, typically on another thread
 		self.setup()
 
-	def end_play(self):
+	def end_play(self, reason):
 		self.ValidGameWorld = False
 		self.stop_training()
 
