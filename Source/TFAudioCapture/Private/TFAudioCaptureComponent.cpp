@@ -1,4 +1,3 @@
-#include "AudioCapturePrivatePCH.h"
 #include "TFAudioCaptureComponent.h"
 #include "ITFAudioCapture.h"
 
@@ -66,4 +65,13 @@ void UTFAudioCaptureComponent::UninitializeComponent()
 	}
 
 	Super::UninitializeComponent();
+}
+
+void UTFAudioCaptureComponent::OnAudioDataEvent(const TArray<uint8>& Bytes, float MaxLevel)
+{
+	OnAudioData.Broadcast(Bytes, MaxLevel);
+}
+void UTFAudioCaptureComponent::OnCaptureFinishedEvent(const TArray<uint8>& Bytes, float MaxLevel)
+{
+	OnCaptureFinished.Broadcast(Bytes, MaxLevel);
 }

@@ -1,6 +1,6 @@
-#include "AudioCapturePrivatePCH.h"
-#include "LambdaRunnable.h"
 #include "FWindowsAudioCapture.h"
+#include "LambdaRunnable.h"
+#include "CoreMinimal.h"
 
 #include "AllowWindowsPlatformTypes.h"
 #include <iostream>
@@ -15,7 +15,7 @@ FWindowsAudioCapture::FWindowsAudioCapture()
 	bRunLoopActive = false;
 }
 
-void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData /*= nullptr*/, TFunction<void(const TArray<uint8>&)> OnCaptureFinished /*= nullptr*/)
+void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&, float)> OnAudioData /*= nullptr*/, TFunction<void(const TArray<uint8>&, float)> OnCaptureFinished /*= nullptr*/)
 {
 	//Only attempt to start capture once. If it's active return.
 	if (bRunLoopActive)
@@ -58,8 +58,9 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 
 		// Insert a wave input buffer
 		result = waveInAddBuffer(hWaveIn, &hWaveInHdr, sizeof(WAVEHDR));
-
 		result = waveInStart(hWaveIn);
+
+		float MaxLevel = 0.f;
 
 		//The headers will now get filled and we should check them periodically for new data
 		while (*bShouldRunPtr)
@@ -67,12 +68,14 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 			if (hWaveInHdr.dwFlags & WHDR_DONE)
 			{
 				TArray<uint8> OutData;
-				OutData.SetNum(AudioBuffer.Num());
-				FMemory::Memcpy(OutData.GetData(), AudioBuffer.GetData(), AudioBuffer.Num());
+				OutData.SetNum(hWaveInHdr.dwBytesRecorded);
+				FMemory::Memcpy(OutData.GetData(), AudioBuffer.GetData(), hWaveInHdr.dwBytesRecorded);
+
+				MaxLevel = CalculateMaxAudioLevel(OutData, pFormat.wBitsPerSample);
 
 				if (OnAudioData != nullptr)
 				{
-					OnAudioData(OutData);
+					OnAudioData(OutData, MaxLevel);
 				}
 
 				//Clear flags
@@ -85,14 +88,34 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> On
 			}
 		}
 
+		//Stop
 		waveInStop(hWaveIn);
+
+		//Clear flags
+		hWaveInHdr.dwFlags = 0;
+		hWaveInHdr.dwBytesRecorded = 0;
+
+		//Flush last data
+		waveInPrepareHeader(hWaveIn, &hWaveInHdr, sizeof(WAVEHDR));
+		waveInAddBuffer(hWaveIn, &hWaveInHdr, sizeof(WAVEHDR));
+
+		TArray<uint8> OutData;
+		OutData.SetNum(hWaveInHdr.dwBytesRecorded);
+		FMemory::Memcpy(OutData.GetData(), AudioBuffer.GetData(), hWaveInHdr.dwBytesRecorded);
+		MaxLevel = CalculateMaxAudioLevel(OutData, pFormat.wBitsPerSample);
+
 		waveInUnprepareHeader(hWaveIn, &hWaveInHdr, sizeof(WAVEHDR));
 		waveInClose(hWaveIn);
 
+		if (OnAudioData != nullptr)
+		{
+			OnAudioData(OutData, MaxLevel);
+		}
+
+		//flush whatever is left of the buffer, emit both in data and on finished
 		if (OnCaptureFinished != nullptr)
 		{
-			//flush whatever is left of the buffer
-			OnCaptureFinished(AudioBuffer);
+			OnCaptureFinished(OutData, MaxLevel);
 		}
 	});
 }
@@ -105,6 +128,30 @@ void FWindowsAudioCapture::StopCapture()
 void FWindowsAudioCapture::SetOptions(const FAudioCaptureOptions& InOptions)
 {
 	Options = InOptions;
+}
+
+float FWindowsAudioCapture::CalculateMaxAudioLevel(TArray<uint8>& Buffer, int32 BitsPerSample)
+{
+	//Can't handle non-16 sample
+	if(BitsPerSample != 16)
+	{
+		return 0.5f;
+	}
+
+	int32 Num = (Buffer.Num() / BitsPerSample) * 8;
+	int16* Buffer16 = (int16*)Buffer.GetData();
+	int16 MaxValue = 0;
+	for (int i = 0; i < Num; i++)
+	{
+		int16 Value = FMath::Abs(Buffer16[i]);
+		if (Value > MaxValue)
+		{
+			MaxValue = Value;
+		}
+	}
+	//UE_LOG(LogTemp, Log, TEXT("max value: %d"), MaxValue);
+
+	return (float)MaxValue / (float)INT16_MAX;
 }
 
 #include "HideWindowsPlatformTypes.h"

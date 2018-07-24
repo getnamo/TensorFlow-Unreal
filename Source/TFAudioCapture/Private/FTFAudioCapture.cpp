@@ -1,4 +1,3 @@
-#include "AudioCapturePrivatePCH.h"
 #include "ITFAudioCapture.h"
 #include "TFAudioCaptureComponent.h"
 #include "LambdaRunnable.h"
@@ -8,12 +7,14 @@ class FTFAudioCapture : public ITFAudioCapture
 {
 public:
 
-	virtual void StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData = nullptr, TFunction<void(const TArray<uint8>&)> OnCaptureFinished = nullptr) override;
+	virtual void StartCapture(TFunction<void(const TArray<uint8>&, float)> OnAudioData = nullptr, TFunction<void(const TArray<uint8>&, float)> OnCaptureFinished = nullptr) override;
 	virtual void StopCapture() override;
 	virtual void SetOptions(const FAudioCaptureOptions& Options) override;
 
 	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) override;
 	virtual void RemoveAudioComponent(const UTFAudioCaptureComponent* Component) override;
+	virtual void AddAudioDelegate(IAudioDataInterface* Delegate) override;
+	virtual void RemoveAudioDelegate(IAudioDataInterface* Delegate) override;
 
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
@@ -21,7 +22,7 @@ public:
 
 private:
 	TSharedPtr<FWindowsAudioCapture> WindowsCapture;
-	TArray<UTFAudioCaptureComponent*> Components;
+	TArray<IAudioDataInterface*> Delegates;
 };
 
 void FTFAudioCapture::StartupModule()
@@ -37,42 +38,41 @@ void FTFAudioCapture::ShutdownModule()
 
 }
 
-void FTFAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&)> OnAudioData, TFunction<void(const TArray<uint8>&)> OnCaptureFinished)
+void FTFAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&, float)> OnAudioData, TFunction<void(const TArray<uint8>&, float)> OnCaptureFinished)
 {
-	TFunction<void(const TArray<uint8>&)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData)
+	TFunction<void(const TArray<uint8>&, float)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData, float AudioMaxLevel)
 	{
 		//Call each added component function inside game thread
-		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioData]
+		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioData, AudioMaxLevel]
 		{
-			for (auto Component : Components)
+			for (auto Delegate : Delegates)
 			{
-				Component->OnAudioData.Broadcast(AudioData);
+				Delegate->OnAudioDataEvent(AudioData, AudioMaxLevel);
 			}
 
 			//Also if valid pass it to the new delegate
 			if (OnAudioData != nullptr)
 			{
-				OnAudioData(AudioData);
+				OnAudioData(AudioData, AudioMaxLevel);
 			}
 		});
 	};
 
-	TFunction<void(const TArray<uint8>&)> OnFinishedDelegate = [this, OnCaptureFinished](const TArray<uint8>& AudioData)
+	TFunction<void(const TArray<uint8>&, float)> OnFinishedDelegate = [this, OnCaptureFinished](const TArray<uint8>& AudioData, float AudioMaxLevel)
 	{
 		//Call each added component function inside game thread
-		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnCaptureFinished]
+		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnCaptureFinished, AudioMaxLevel]
 		{
-			for (auto Component : Components)
+			for (auto Delegate : Delegates)
 			{
-				Component->OnCaptureFinished.Broadcast(AudioData);
+				Delegate->OnCaptureFinishedEvent(AudioData, AudioMaxLevel);
 			}
 
 			//Also if valid pass it to the new delegate
 			if (OnCaptureFinished != nullptr)
 			{
-				OnCaptureFinished(AudioData);
+				OnCaptureFinished(AudioData, AudioMaxLevel);
 			}
-
 		});
 	};
 
@@ -94,13 +94,24 @@ void FTFAudioCapture::SetOptions(const FAudioCaptureOptions& Options)
 
 void FTFAudioCapture::AddAudioComponent(const UTFAudioCaptureComponent* Component)
 {
-	Components.Add((UTFAudioCaptureComponent*)Component);
+	AddAudioDelegate((IAudioDataInterface*)Component);
 }
 
 void FTFAudioCapture::RemoveAudioComponent(const UTFAudioCaptureComponent* Component)
 {
-	Components.Remove((UTFAudioCaptureComponent*)Component);
+	RemoveAudioDelegate((IAudioDataInterface*)Component);
 }
+
+void FTFAudioCapture::AddAudioDelegate(IAudioDataInterface* Delegate)
+{
+	Delegates.Add(Delegate);
+}
+
+void FTFAudioCapture::RemoveAudioDelegate(IAudioDataInterface* Delegate)
+{
+	Delegates.Remove(Delegate);
+}
+
 
 IMPLEMENT_MODULE(FTFAudioCapture, TFAudioCapture)
 

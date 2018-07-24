@@ -2,15 +2,16 @@
 
 #include "Components/ActorComponent.h"
 #include "AudioCaptureData.h"
+#include "IAudioDataInterface.h"
 #include "TFAudioCaptureComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAudioDataSignature, const TArray<uint8>&, Bytes);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAudioDataSignature, const TArray<uint8>&, Bytes, float, MaxLevel);
 
 /**
 * Component used to capture microphone audio and emit bytes as the data streams in
 */
 UCLASS(ClassGroup = "Sound", meta = (BlueprintSpawnableComponent))
-class TFAUDIOCAPTURE_API UTFAudioCaptureComponent : public UActorComponent
+class TFAUDIOCAPTURE_API UTFAudioCaptureComponent : public UActorComponent, public IAudioDataInterface
 {
 	GENERATED_UCLASS_BODY()
 
@@ -43,6 +44,12 @@ public:
 	/** Convenience function to convert wav into a raw PCM buffer with options containing wav format data */
 	UFUNCTION(BlueprintCallable, Category = "Utilities|Audio Capture")
 	void ConvertWavToRaw(const TArray<uint8>& InBytes, TArray<uint8>& OutBytes, FAudioCaptureOptions& OutOptions);
+
+	//Start IAudioDataInterface
+	virtual void OnAudioDataEvent(const TArray<uint8>& Bytes, float MaxLevel) override;
+	virtual void OnCaptureFinishedEvent(const TArray<uint8>& Bytes, float MaxLevel) override;
+	//End IAudioDataInterface
+
 
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;

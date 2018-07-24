@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IAudioCaptureInterface.h"
+#include "IAudioDataInterface.h"
 #include "ModuleManager.h"
 
 class UTFAudioCaptureComponent;
@@ -30,7 +31,11 @@ public:
 		return FModuleManager::Get().IsModuleLoaded("TFAudioCapture");
 	}
 
+	//For components
 	virtual void AddAudioComponent(const UTFAudioCaptureComponent* Component) {};
-
 	virtual void RemoveAudioComponent(const UTFAudioCaptureComponent* Component) {};
+
+	//for native delegates
+	virtual void AddAudioDelegate(IAudioDataInterface* Delegate) {};
+	virtual void RemoveAudioDelegate(IAudioDataInterface* Delegate) {};
 };

@@ -1,9 +1,9 @@
-#include "AudioCapturePrivatePCH.h"
 #include "AudioCaptureData.h"
 
 FAudioCaptureOptions::FAudioCaptureOptions()
 {
-	SampleRate = 22050;
+	//this is deep-speech default
+	SampleRate = 16000;
 	BitsPerSample = 16;
 	Channels = 1;
 }
@@ -17,8 +17,8 @@ FWavHeader::FWavHeader()
 	memcpy((char*)Subchunk2ID, "data", 4);
 	Subchunk1Size = 16;
 
-	//Default to 44khz 16 bit PCM Mono
-	SetHeaderSampleData(44100, 16);
+	//Default to 16khz 16 bit PCM Mono
+	SetHeaderSampleData(16000, 16);
 	AudioFormat = 1;	//PCM
 }
 
