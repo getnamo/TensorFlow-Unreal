@@ -11,7 +11,7 @@ See [unreal forum thread](https://forums.unrealengine.com/community/work-in-prog
 
 ## Issues and Limitations
 
-There is currently only a working build for the Windows platform. 
+There is currently only a working build for the Windows platform. Be careful where you place your project as you may hit [240 char filepath limit with your python dependencies](https://github.com/getnamo/tensorflow-ue4/issues/36).
 
 [Linux issue#13 tracking](https://github.com/getnamo/tensorflow-ue4/issues/13)
 
