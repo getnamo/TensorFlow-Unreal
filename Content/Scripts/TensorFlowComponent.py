@@ -137,11 +137,7 @@ class TensorFlowComponent:
 		self.trained = self.tfapi.onBeginTraining()
 		stop = time.time()
 
-		if self.trained is None:
-			ue.log('Training Note: no summary object returned from training. See your onBeginTraining(): method')
-			return
-
-		if 'summary' in self.trained:
+		if hasattr(self.trained, 'summary'):
 			summary = self.trained['summary']
 		else:
 			summary = {}
