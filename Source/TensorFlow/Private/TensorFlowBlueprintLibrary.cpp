@@ -2,6 +2,7 @@
 
 #include "TensorFlowPrivatePCH.h"
 #include "RHI.h"
+#include "Runtime/Engine/Classes/Engine/TextureRenderTarget2D.h"
 #include "TensorFlowBlueprintLibrary.h"
 
 
@@ -163,7 +164,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_RenderTargetTextureToTexture2D(UTe
 	//Unlock and Return data
 	Pointer->PlatformData->Mips[0].BulkData.Unlock();
 	Pointer->UpdateResource();
-	PassedTexture->Source.UnlockMip(0);
+	
 	return Pointer;
 }
 
