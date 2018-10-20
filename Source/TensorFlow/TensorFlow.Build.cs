@@ -20,6 +20,10 @@ public class TensorFlow : ModuleRules
     {
         get { return Path.GetFullPath(Path.Combine(ThirdPartyPath, "Tensorflow")); }
     }
+	private string ScriptsPath
+	{
+		get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../Content/Scripts/")); }
+	}
 
     public bool LoadLib(ReadOnlyTargetRules Target)
     {
@@ -39,6 +43,14 @@ public class TensorFlow : ModuleRules
         return isLibrarySupported;
     }
 
+
+	public void AddScriptsAsDependencies(ReadOnlyTargetRules Target)
+	{
+		if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
+		{
+			RuntimeDependencies.Add(Path.Combine(ScriptsPath, "..."));
+		}
+	}
 
     public TensorFlow(ReadOnlyTargetRules Target) : base(Target)
     {
@@ -94,5 +106,7 @@ public class TensorFlow : ModuleRules
 			);
 
         LoadLib(Target);
-    }
+		AddScriptsAsDependencies(Target);
+
+	}
 }
