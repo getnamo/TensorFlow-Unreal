@@ -462,6 +462,11 @@ Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePyth
 #### SocketIO Client
 SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
 
+## Packaging
+Since v0.9.3 the plugin should package correctly, but you may receive an error about filepath being too long in the staging directory during the process. If this happens delete ```{Project Root}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages``` before packaging and copy this folder manually to the packaged folder to ```{Packaged Root}/{Project Name}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages```.
+
+![filepath too long error](https://i.imgur.com/tKBtn93.png)
+
 ## Troubleshooting / Help
 
 ### I see pip errors from upgrading tensorflow version
