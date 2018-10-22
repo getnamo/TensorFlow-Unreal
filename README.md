@@ -467,10 +467,8 @@ SocketIO Client is used for easy conversion between native engine types (BP or C
 #### Note on Blueprint Only projects
 You will need to convert your blueprint only project to mixed (bp and C++) before packaging. Follow these instructions to do that: https://allarsblog.com/2015/11/04/converting-bp-project-to-cpp/
 
-#### Filepath too long
-Since v0.9.3 the plugin should package correctly, but you may receive an error about filepath being too long in the staging directory during the process. If this happens delete ```{Project Root}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages``` before packaging and copy this folder manually to the packaged folder to ```{Packaged Root}/{Project Name}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages```.
-
-![filepath too long error](https://i.imgur.com/tKBtn93.png)
+#### Extra step
+Since v0.10.0 the plugin should package correctly, but will require to run the packaged build once to pull the dependencies. You can optionally manually copy them from  ```{Project Root}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages``` to the packaged folder to ```{Packaged Root}/{Project Name}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages```.
 
 ## Troubleshooting / Help
 
