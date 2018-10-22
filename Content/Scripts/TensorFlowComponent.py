@@ -102,10 +102,25 @@ class TensorFlowComponent:
 		if(self.uobject.VerbosePythonLog):
 			ue.log(self.uobject.TensorFlowModule + ' input passed: ' + args)
 
+		#branch based on threading
+		if(self.uobject.ShouldUseMultithreading):
+			ut.run_on_bt(self.json_input_blocking, args)
+		else:
+			self.json_input_blocking(args)
+
+	#setup blocking
+	def json_input_blocking(self, args):
 		#pass the raw json to the script to handle
 		resultJson = self.tfapi.onJsonInput(json.loads(args))
 
-		#pass prediction json back
+		if(self.uobject.ShouldUseMultithreading):
+			#pass prediction json back
+			if(self.ValidGameWorld):
+				ue.run_on_gt(self.json_input_gt_callback, resultJson)
+		else:
+			self.json_input_gt_callback(resultJson)
+
+	def json_input_gt_callback(self, resultJson):
 		self.uobject.OnResultsFunction(json.dumps(resultJson))
 
 	#setup blocking
