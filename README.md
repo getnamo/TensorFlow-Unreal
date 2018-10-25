@@ -470,6 +470,8 @@ You will need to convert your blueprint only project to mixed (bp and C++) befor
 #### Extra step
 Since v0.10.0 the plugin should package correctly, but will require to run the packaged build once to pull the dependencies. You can optionally manually copy them from  ```{Project Root}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages``` to the packaged folder to ```{Packaged Root}/{Project Name}/Plugins/UnrealEnginePython/Binaries/Win64/Lib/site-packages```.
 
+When you first launch your packaged project there may be a black screen for a while (2min) as it reinstalls pip and _pulls the dependencies_ for the first time. You can then reload the map after a few minutes or just restart (check your packaged log to see when it's ready). Each time after that the project should load quickly. Note that you can zip up and move the packaged project to another computer with all the dependencies, but it will have ~20sec boot up on first run as it re-installs pip to the correct location, but it won't have to pull the pip dependencies saving most of the waiting and then quick bootup each time after that.
+
 ## Troubleshooting / Help
 
 ### I see pip errors from upgrading tensorflow version
