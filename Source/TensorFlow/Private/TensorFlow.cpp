@@ -1,5 +1,6 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
+#include "TensorFlow.h"
 #include "TensorFlowPrivatePCH.h"
 #include "UnrealEnginePython.h"
 #include "IPluginManager.h"

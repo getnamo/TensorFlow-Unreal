@@ -54,8 +54,10 @@ public class TensorFlow : ModuleRules
 
     public TensorFlow(ReadOnlyTargetRules Target) : base(Target)
     {
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		PrivatePCHHeaderFile = "Private/TensorFlowPrivatePCH.h";
 
-    PublicIncludePaths.AddRange(
+		PublicIncludePaths.AddRange(
 			new string[] {
 				"TensorFlow/Public"
 				// ... add public include paths required here ...
