@@ -59,7 +59,7 @@ public class TensorFlow : ModuleRules
 
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"TensorFlow/Public"
+				Path.Combine(ModuleDirectory, "Public"),
 				// ... add public include paths required here ...
 			}
 			);
@@ -67,7 +67,7 @@ public class TensorFlow : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"TensorFlow/Private",
+				Path.Combine(ModuleDirectory, "Private"),
                 Path.Combine(TensorflowThirdParty, "Include"),
 				// ... add other private include paths required here ...
 			}

@@ -1,4 +1,5 @@
 using UnrealBuildTool;
+using System.IO;
 
 public class TFAudioCapture : ModuleRules
 {
@@ -8,14 +9,14 @@ public class TFAudioCapture : ModuleRules
 
 		PublicIncludePaths.AddRange(
             new string[] {
-                "TFAudioCapture/Public"
+				Path.Combine(ModuleDirectory, "Public"),
             }
             );
 
 
         PrivateIncludePaths.AddRange(
             new string[] {
-                "TFAudioCapture/Private",
+				Path.Combine(ModuleDirectory, "Private"),
             }
             );
 
