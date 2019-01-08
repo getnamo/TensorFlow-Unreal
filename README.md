@@ -23,7 +23,7 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
 
 ## Installation & Setup
 
- 1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/install_windows) if you're using compatible GPUs (NVIDIA)
+ 1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/gpu) if you're using compatible GPUs (NVIDIA)
  2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases) choose CPU or GPU download version if supported.
  3.	Create new or choose project.
  4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
