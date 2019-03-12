@@ -25,25 +25,6 @@ public class TensorFlow : ModuleRules
 		get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../Content/Scripts/")); }
 	}
 
-    public bool LoadLib(ReadOnlyTargetRules Target)
-    {
-        bool isLibrarySupported = false;
-
-        if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
-        {
-            isLibrarySupported = true;
-
-            string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32";
-            string TensorLibPath = Path.Combine(TensorflowThirdParty, "Lib");
-			string TensorflowLibDLL = Path.GetFullPath(Path.Combine(TensorLibPath, PlatformString, "tensorflow.dll"));
-
-			RuntimeDependencies.Add(TensorflowLibDLL);
-        }
-
-        return isLibrarySupported;
-    }
-
-
 	public void AddScriptsAsDependencies(ReadOnlyTargetRules Target)
 	{
 		if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
@@ -68,7 +49,6 @@ public class TensorFlow : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[] {
 				Path.Combine(ModuleDirectory, "Private"),
-                Path.Combine(TensorflowThirdParty, "Include"),
 				// ... add other private include paths required here ...
 			}
 			);
@@ -107,7 +87,6 @@ public class TensorFlow : ModuleRules
 			}
 			);
 
-        LoadLib(Target);
 		AddScriptsAsDependencies(Target);
 
 	}

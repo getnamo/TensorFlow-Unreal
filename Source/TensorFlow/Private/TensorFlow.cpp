@@ -4,7 +4,6 @@
 #include "TensorFlowPrivatePCH.h"
 #include "UnrealEnginePython.h"
 #include "IPluginManager.h"
-#include "c_api.h"	//not currently used, but can be used
 
 #define LOCTEXT_NAMESPACE "FTensorFlowModule"
 DEFINE_LOG_CATEGORY(TensorFlowLog);
