@@ -1,6 +1,7 @@
 {
 	"name" : "tensorflow-ue4",
 	"pythonModules": {
-		"tensorflow": "1.10.0"
+		"tensorflow": "1.12.0",
+		"h5py":"2.7.0"
 	}
 }
