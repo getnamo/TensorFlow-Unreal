@@ -1,6 +1,6 @@
 #include "ITFAudioCapture.h"
 #include "TFAudioCaptureComponent.h"
-#include "LambdaRunnable.h"
+#include "CULambdaRunnable.h"
 #include "FWindowsAudioCapture.h"
 
 class FTFAudioCapture : public ITFAudioCapture
@@ -43,7 +43,7 @@ void FTFAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&, float)> 
 	TFunction<void(const TArray<uint8>&, float)> OnDataDelegate = [this, OnAudioData] (const TArray<uint8>& AudioData, float AudioMaxLevel)
 	{
 		//Call each added component function inside game thread
-		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioData, AudioMaxLevel]
+		FCULambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnAudioData, AudioMaxLevel]
 		{
 			for (auto Delegate : Delegates)
 			{
@@ -61,7 +61,7 @@ void FTFAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&, float)> 
 	TFunction<void(const TArray<uint8>&, float)> OnFinishedDelegate = [this, OnCaptureFinished](const TArray<uint8>& AudioData, float AudioMaxLevel)
 	{
 		//Call each added component function inside game thread
-		FLambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnCaptureFinished, AudioMaxLevel]
+		FCULambdaRunnable::RunShortLambdaOnGameThread([this, AudioData, OnCaptureFinished, AudioMaxLevel]
 		{
 			for (auto Delegate : Delegates)
 			{
