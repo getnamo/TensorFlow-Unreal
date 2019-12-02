@@ -13,13 +13,19 @@ See [unreal forum thread](https://forums.unrealengine.com/community/work-in-prog
 
 There is currently only a working build for the Windows platform. Be careful where you place your project as you may hit [240 char filepath limit with your python dependencies](https://github.com/getnamo/tensorflow-ue4/issues/36).
 
-If you want to use c++ or are just interested in inference see https://github.com/getnamo/tensorflow-native-ue4 which is a WIP.
+Near future refactor to open up dev environments and native support (WIP):
+https://github.com/getnamo/tensorflow-ue4/issues/53
 
-[Linux issue#13 tracking](https://github.com/getnamo/tensorflow-ue4/issues/13)
+- Machine Learning Remote (WIP) - https://github.com/getnamo/machine-learning-remote-ue4
+- Tensorflow Native - Inference focused (WIP) https://github.com/getnamo/tensorflow-native-ue4
 
-[Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11)
+Tensorflow UnrealEnginePython Platform Issues
 
-[Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10)
+- [Linux issue#13 tracking](https://github.com/getnamo/tensorflow-ue4/issues/13)
+
+- [Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11) - will likely be superceded by tf native 
+
+- [Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10) - will likely be superceded by ml remote
 
 If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for current issues.
 
