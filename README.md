@@ -16,7 +16,7 @@ There is currently only a working build for the Windows platform. Be careful whe
 Near future refactor to open up dev environments and native support (WIP):
 https://github.com/getnamo/tensorflow-ue4/issues/53
 
-- Machine Learning Remote (WIP) - https://github.com/getnamo/machine-learning-remote-ue4
+- Machine Learning Remote - https://github.com/getnamo/machine-learning-remote-ue4
 - Tensorflow Native - Inference focused (WIP) https://github.com/getnamo/tensorflow-native-ue4
 
 Tensorflow UnrealEnginePython Platform Issues
