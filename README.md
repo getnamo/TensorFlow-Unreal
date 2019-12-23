@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 
-<img src="https://i.imgur.com/qn73w1u.png" alt="badge" width="100"/>
+[<img src="https://i.imgur.com/qn73w1u.png" alt="badge" width="100"/>](https://www.unrealengine.com/en-US/blog/epic-megagrants-reaches-13-million-milestone-in-2019)
 
 [Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementing state of the art [machine learning](https://en.wikipedia.org/wiki/Machine_learning) algorithms for your unreal projects. 
 
