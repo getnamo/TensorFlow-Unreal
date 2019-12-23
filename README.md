@@ -1,13 +1,17 @@
-# tensorflow-ue4
+# tensorflow-ue4 
 
 [![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
+
+<img src="https://i.imgur.com/qn73w1u.png" alt="badge" width="100"/>
 
 [Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementing state of the art [machine learning](https://en.wikipedia.org/wiki/Machine_learning) algorithms for your unreal projects. 
 
 This plugin contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. It depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin; these are always included in [binary releases](https://github.com/getnamo/tensorflow-ue4/releases) so no manual external downloading is necessary. See [Note on Dependencies section](https://github.com/getnamo/tensorflow-ue4#note-on-dependencies) for details on implementation and architecture.
 
 See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
+
+
 
 ## Issues and Limitations
 
