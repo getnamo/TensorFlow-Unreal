@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.14.0",
+	"VersionName": "1.0.0",
 	"FriendlyName": "TensorFlow",
 	"Description": "Unofficial TensorFlow plugin for UE4. Enables state of the art machine learning via python and blueprints.",
 	"Category": "Computing",
@@ -35,11 +35,11 @@
 	],
 	"Plugins": [
 	{
-		"Name": "UnrealEnginePython",
+		"Name": "SocketIOClient",
 		"Enabled": true
 	},
 	{
-		"Name": "SocketIOClient",
+		"Name": "MachineLearningRemote",
 		"Enabled": true
 	}
 	]
