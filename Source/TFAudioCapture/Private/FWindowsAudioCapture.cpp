@@ -1,6 +1,7 @@
 #include "FWindowsAudioCapture.h"
-#include "LambdaRunnable.h"
+#include "CULambdaRunnable.h"
 #include "CoreMinimal.h"
+#include "HAL/ThreadSafeBool.h"
 
 #include "AllowWindowsPlatformTypes.h"
 #include <iostream>
@@ -26,7 +27,7 @@ void FWindowsAudioCapture::StartCapture(TFunction<void(const TArray<uint8>&, flo
 	bRunLoopActive = true;
 	FThreadSafeBool* bShouldRunPtr = &bRunLoopActive;
 
-	FLambdaRunnable::RunLambdaOnBackGroundThread([this, OnAudioData, OnCaptureFinished, bShouldRunPtr]()
+	FCULambdaRunnable::RunLambdaOnBackGroundThread([this, OnAudioData, OnCaptureFinished, bShouldRunPtr]()
 	{
 		HWAVEIN hWaveIn;
 		MMRESULT result;

@@ -61,7 +61,7 @@ public class TensorFlow : ModuleRules
                 "RHI",
                 "RenderCore",
                 "Engine",
-                "UnrealEnginePython"
+				"MachineLearningRemote"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
