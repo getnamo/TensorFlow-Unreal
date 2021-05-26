@@ -27,7 +27,7 @@ public class TensorFlow : ModuleRules
 
 	public void AddScriptsAsDependencies(ReadOnlyTargetRules Target)
 	{
-		if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
+		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			RuntimeDependencies.Add(Path.Combine(ScriptsPath, "..."));
 		}

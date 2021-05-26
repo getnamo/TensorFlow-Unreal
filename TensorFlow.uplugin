@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.1.0alpha",
+	"VersionName": "1.2.0alpha",
 	"FriendlyName": "TensorFlow",
 	"Description": "Unofficial TensorFlow plugin for UE4. Enables state of the art machine learning via python and blueprints.",
 	"Category": "Computing",
@@ -19,8 +19,7 @@
 		"Type": "Runtime",
 		"LoadingPhase": "Default",
 		"WhitelistPlatforms": [
-			"Win64",
-			"Win32"
+			"Win64"
 		]
 	},
 	{
@@ -28,8 +27,7 @@
 		"Type": "Runtime",
 		"LoadingPhase": "Default",
 		"WhitelistPlatforms": [
-			"Win64",
-			"Win32"
+			"Win64"
 		]
 	}
 	],
