@@ -21,7 +21,7 @@ Near future refactor to open up dev environments and native support (WIP):
 https://github.com/getnamo/TensorFlow-Unreal/issues/53
 
 - Machine Learning Remote - https://github.com/getnamo/MachineLearningRemote-Unreal
-- Tensorflow Native - Inference focused (WIP) https://github.com/getnamo/tensorflow-native-ue4
+- Tensorflow Native - Inference focused (WIP) https://github.com/getnamo/TensorFlowNative-Unreal
 
 Tensorflow UnrealEnginePython Platform Issues
 
