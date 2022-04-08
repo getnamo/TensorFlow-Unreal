@@ -1,13 +1,13 @@
-# tensorflow-ue4 
+# TensorFlow Unreal Plugin
 
-[![GitHub release](https://img.shields.io/github/release/getnamo/tensorflow-ue4/all.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
-[![Github All Releases](https://img.shields.io/github/downloads/getnamo/tensorflow-ue4/total.svg)](https://github.com/getnamo/tensorflow-ue4/releases)
+[![GitHub release](https://img.shields.io/github/release/getnamo/TensorFlow-Unreal/all.svg)](https://github.com/getnamo/TensorFlow-Unreal/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/getnamo/TensorFlow-Unreal/total.svg)](https://github.com/getnamo/TensorFlow-Unreal/releases)
 
 [<img src="https://i.imgur.com/qn73w1u.png" alt="badge" width="100"/>](https://www.unrealengine.com/en-US/blog/epic-megagrants-reaches-13-million-milestone-in-2019)
 
 [Unreal Engine](https://www.unrealengine.com) plugin for [TensorFlow](https://www.tensorflow.org/). Enables training and implementing state of the art [machine learning](https://en.wikipedia.org/wiki/Machine_learning) algorithms for your unreal projects. 
 
-This plugin contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. It depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin; these are always included in [binary releases](https://github.com/getnamo/tensorflow-ue4/releases) so no manual external downloading is necessary. See [Note on Dependencies section](https://github.com/getnamo/tensorflow-ue4#note-on-dependencies) for details on implementation and architecture.
+This plugin contains C++, Blueprint and python scripts that encapsulate TensorFlow operations as an _Actor Component_. It depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin; these are always included in [binary releases](https://github.com/getnamo/TensorFlow-Unreal/releases) so no manual external downloading is necessary. See [Note on Dependencies section](https://github.com/getnamo/TensorFlow-Unreal#note-on-dependencies) for details on implementation and architecture.
 
 See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
 
@@ -15,30 +15,30 @@ See [unreal forum thread](https://forums.unrealengine.com/community/work-in-prog
 
 ## Issues and Limitations
 
-There is currently only a working build for the Windows platform. Be careful where you place your project as you may hit [240 char filepath limit with your python dependencies](https://github.com/getnamo/tensorflow-ue4/issues/36).
+There is currently only a working build for the Windows platform. Be careful where you place your project as you may hit [240 char filepath limit with your python dependencies](https://github.com/getnamo/TensorFlow-Unreal/issues/36).
 
 Near future refactor to open up dev environments and native support (WIP):
-https://github.com/getnamo/tensorflow-ue4/issues/53
+https://github.com/getnamo/TensorFlow-Unreal/issues/53
 
-- Machine Learning Remote - https://github.com/getnamo/machine-learning-remote-ue4
+- Machine Learning Remote - https://github.com/getnamo/MachineLearningRemote-Unreal
 - Tensorflow Native - Inference focused (WIP) https://github.com/getnamo/tensorflow-native-ue4
 
 Tensorflow UnrealEnginePython Platform Issues
 
-- [Linux issue#13 tracking](https://github.com/getnamo/tensorflow-ue4/issues/13)
+- [Linux issue#13 tracking](https://github.com/getnamo/TensorFlow-Unreal/issues/13)
 
-- [Android issue#11 tracking](https://github.com/getnamo/tensorflow-ue4/issues/11) - will likely be superceded by tf native 
+- [Android issue#11 tracking](https://github.com/getnamo/TensorFlow-Unreal/issues/11) - will likely be superceded by tf native 
 
-- [Mac OS issue#10 tracking](https://github.com/getnamo/tensorflow-ue4/issues/10) - will likely be superceded by ml remote
+- [Mac OS issue#10 tracking](https://github.com/getnamo/TensorFlow-Unreal/issues/10) - will likely be superceded by ml remote
 
-If you have ideas or fixes, consider contributing! See https://github.com/getnamo/tensorflow-ue4/issues for current issues.
+If you have ideas or fixes, consider contributing! See https://github.com/getnamo/TensorFlow-Unreal/issues for current issues.
 
 
 
 ## Installation & Setup
 
  1.	(GPU only) [Install CUDA and cudNN pre-requisites](https://www.tensorflow.org/install/gpu#windows_setup) if you're using compatible GPUs (NVIDIA)
- 2.	[Download Latest Release](https://github.com/getnamo/tensorflow-ue4/releases) choose CPU or GPU download version if supported.
+ 2.	[Download Latest Release](https://github.com/getnamo/TensorFlow-Unreal/releases) choose CPU or GPU download version if supported.
  3.	Create new or choose project.
  4.	Browse to your project folder (typically found at _Documents/Unreal Project/{Your Project Root}_)
 
@@ -47,7 +47,7 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
  5.	Copy *Plugins* folder into your Project root.
  6.	Launch your project.
  7.	(Optional) All plugins should be enabled by default, you can confirm via Edit->Plugins. Scroll down to Project and you should see three plugins, TensorFlow in Computing, Socket.IO Client in Networking and UnrealEnginePython in Scripting Languages. Click Enabled if any is disabled and restart the Editor and open your project again.
- 8.	Wait for tensorflow dependencies to be automatically installed. It will auto-resolve any dependencies listed in [Content/Scripts/upymodule.json](https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json) using pip. Note that this step may take a few minutes and depends on your internet connection speed and you will see nothing in the output log window until it has fully completed.
+ 8.	Wait for tensorflow dependencies to be automatically installed. It will auto-resolve any dependencies listed in [Content/Scripts/upymodule.json](https://github.com/getnamo/TensorFlow-Unreal/blob/master/Content/Scripts/upymodule.json) using pip. Note that this step may take a few minutes and depends on your internet connection speed and you will see nothing in the output log window until it has fully completed.
  
 ![image](https://user-images.githubusercontent.com/542365/36981363-e88aa2ec-2084-11e8-828c-e5a526cda67b.png)
  
@@ -55,17 +55,17 @@ If you have ideas or fixes, consider contributing! See https://github.com/getnam
  
 ### Note on Git Cloning
 
-Using full [plugin binary releases](https://github.com/getnamo/tensorflow-ue4/releases) is recommended, this allows you to follow the [installation instructions as written](https://github.com/getnamo/tensorflow-ue4#installation--setup) and get up to speed quickly.
+Using full [plugin binary releases](https://github.com/getnamo/TensorFlow-Unreal/releases) is recommended, this allows you to follow the [installation instructions as written](https://github.com/getnamo/TensorFlow-Unreal#installation--setup) and get up to speed quickly.
 
 If you instead wish to git clone and sync to master repository manually then it is expected that you [download the latest python binary dependency release](https://github.com/getnamo/UnrealEnginePython/releases) for UnrealEnginePython. This contains an embedded python build; select the *BinariesOnly-.7z* file from Downloads and drag the plugins folder into your project root. With that step complete, your clone repository should work as expected, all other dependencies will be pulled via pip on first launch.
 
 ## Examples
 
-[![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/tensorflow-ue4-examples)
+[![mnist spawn samples](http://i.imgur.com/kvsLXvF.gif)](https://github.com/getnamo/TensorFlow-Unreal-examples)
 
 *Basic MNIST softmax classifier trained on begin play with sample training inputs streamed to the editor during training. When fully trained, UTexture2D (1-3) samples are tested for prediction.*
 
-An example project is found at [https://github.com/getnamo/tensorflow-ue4-examples](https://github.com/getnamo/tensorflow-ue4-examples).
+An example project is found at [https://github.com/getnamo/TensorFlow-Unreal-examples](https://github.com/getnamo/TensorFlow-Unreal-examples).
 
 The repository has basic examples for general tensorflow control and different mnist classification examples with UE4 UTexture2D input for prediction. The repository should expand as more plug and play examples are made. Consider contributing samples via pull requests!
 
@@ -114,7 +114,7 @@ Note the ```getApi()``` module function which needs to return a matching instanc
 
 If you wish to train in UE4, implement your logic in ```onBeginTraining()``` and ensure you check for ```self.shouldStop``` after each batch/epoch to handle early exit requests from the user e.g. when you _EndPlay_ or manually call ```StopTraining``` on the tensorflow component. You will also receive an optional ```onStopTraining``` callback when the user stops your training session.
 
-If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. See [mnistSaveLoad.py example](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSaveLoad.py) on how to train a network once, and then save the model, reloading it on setup such that you skip retraining it every time.
+If you have a trained model, simply setup your model/load it from disk and omit the training function, and forward your evaluation/input via the ```onJsonInput(jsonArgs)``` callback. See [mnistSaveLoad.py example](https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistSaveLoad.py) on how to train a network once, and then save the model, reloading it on setup such that you skip retraining it every time.
 
 Note that both ```onBeginTraining()``` and ```onSetup()``` are called asynchronously by default. If you use a high level library like e.g. keras, may need to store your *tf.Session* and *tf.Graph* separately and use it as default ```with self.session.as_default():``` and ```with self.graph.as_default():``` to evaluate, since all calls will be generally done in separate threads.
 
@@ -174,11 +174,11 @@ def getApi():
 	return ExampleAPI.getInstance()
 ```
 
-A full example using mnist can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSimple.py
+A full example using mnist can be seen here: https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistSimple.py
 
-A full example using save/load setup can be seen here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSaveLoad.py
+A full example using save/load setup can be seen here: https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistSaveLoad.py
 
-Another full example using keras api can be found here: https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistKerasCNN.py. Note the keras callback used for stopping training after current batch completes, this cancels training on early gameplay exit e.g. EndPlay.
+Another full example using keras api can be found here: https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistKerasCNN.py. Note the keras callback used for stopping training after current batch completes, this cancels training on early gameplay exit e.g. EndPlay.
 
 #### Asynchronous Events to Tensorflow Component
 
@@ -190,12 +190,12 @@ The format is ```self.callEvent('EventName', 'MyString')```
 ##### Json Format
 The format is ```self.callEvent('EventName', PythonObject, True)```
 
-Example use case in [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L87) where sample training images are emitted to unreal for preview.
+Example use case in [mnistSpawnSamples.py](https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L87) where sample training images are emitted to unreal for preview.
 
 ## Blueprint API
 
 ### Load your python module from your TensorflowComponent
-Once you've [written your python module](https://github.com/getnamo/tensorflow-ue4#mysubclasstfpluginapi), Select your TensorflowComponent inside your actor blueprint
+Once you've [written your python module](https://github.com/getnamo/TensorFlow-Unreal#mysubclasstfpluginapi), Select your TensorflowComponent inside your actor blueprint
 
 ![select component](http://i.imgur.com/f9Syql1.png)
 
@@ -249,7 +249,7 @@ If you need to call python functions from blueprint which the current api doesn'
 
 ![custom function call](http://i.imgur.com/ejBs8cI.png)
 
-Example custom function call passing in a string argument to [```changeOperation```](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/addExample.py#L31) in [addExample.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/addExample.py)
+Example custom function call passing in a string argument to [```changeOperation```](https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/addExample.py#L31) in [addExample.py](https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/addExample.py)
 
 ### Handling Tensorflow Events
 
@@ -281,16 +281,16 @@ When the _onBeginTraining()_ call is complete you receive this event with ```{'e
 
 #### On Event
 
-If you use [```self.callEvent()```](https://github.com/getnamo/tensorflow-ue4#asynchronous-events-to-tensorflow-component) you will receive this event dispatch. You can filter your event types by the event name and then do whatever you need to with the data passed in.
+If you use [```self.callEvent()```](https://github.com/getnamo/TensorFlow-Unreal#asynchronous-events-to-tensorflow-component) you will receive this event dispatch. You can filter your event types by the event name and then do whatever you need to with the data passed in.
 
 ![onevent](http://i.imgur.com/ny0aEZv.png)
 
-For example [mnistSpawnSamples.py](https://github.com/getnamo/tensorflow-ue4-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L121) uses ```self.callEvent()``` to async stream training images and we'd filter this via checking for ```'PixelEvent'```
+For example [mnistSpawnSamples.py](https://github.com/getnamo/TensorFlow-Unreal-examples/blob/master/Content/Scripts/mnistSpawnSamples.py#L121) uses ```self.callEvent()``` to async stream training images and we'd filter this via checking for ```'PixelEvent'```
 
 ## Blueprint Utilities
 
 ### Conversion
-A large portion of the plugin capability comes from its ability to convert data types. See [TensorflowBlueprintLibrary.h](https://github.com/getnamo/tensorflow-ue4/blob/master/Source/TensorFlow/Public/TensorFlowBlueprintLibrary.h) for full declarations and code comments.
+A large portion of the plugin capability comes from its ability to convert data types. See [TensorflowBlueprintLibrary.h](https://github.com/getnamo/TensorFlow-Unreal/blob/master/Source/TensorFlow/Public/TensorFlowBlueprintLibrary.h) for full declarations and code comments.
 
 #### UTexture2D to float array (grayscale)
 
@@ -401,13 +401,13 @@ static TArray<float> Conv_ByteToFloatArray(const TArray<uint8>& InByteArray, flo
 
 ## TF Audio Capture Component
 
-A c++ component that uses windows api to capture and stream microphone audio without the need of an online subsystem. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/TFAudioCapture/Public/TFAudioCaptureComponent.h for details on API. 
+A c++ component that uses windows api to capture and stream microphone audio without the need of an online subsystem. See https://github.com/getnamo/TensorFlow-Unreal/blob/master/Source/TFAudioCapture/Public/TFAudioCaptureComponent.h for details on API. 
 
 This component is aimed to be used for native speech recognition when Tensorflow examples mature.
 
 ## File Utility Component
 
-A simple blueprint wrapper to save and load bytes from file. Allows to easily flush e.g. audio capture for later use. See https://github.com/getnamo/tensorflow-ue4/blob/master/Source/CoreUtility/Public/FileUtilityComponent.h for details on API.
+A simple blueprint wrapper to save and load bytes from file. Allows to easily flush e.g. audio capture for later use. See https://github.com/getnamo/TensorFlow-Unreal/blob/master/Source/CoreUtility/Public/FileUtilityComponent.h for details on API.
 
 ## Use pip to manage your dependencies in the python console
 
@@ -464,14 +464,14 @@ wheel      0.30.0
 See [upypip.py](https://github.com/getnamo/UnrealEnginePython/blob/master/Content/Scripts/upypip.py) for all the available commands.
 
 ## Note on Dependencies
-Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/tensorflow-ue4/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
+Depends on an [UnrealEnginePython](https://github.com/getnamo/UnrealEnginePython) plugin fork and the [SocketIO Client](https://github.com/getnamo/socketio-client-ue4) plugin. Both of these and an embedded python build are included in every [release](https://github.com/getnamo/TensorFlow-Unreal/releases) so you don't need to manually include anything, just drag and drop the *Plugins* folder into your project from any release.
 
 ### Architecture and Purpose
 
 ![architecture](http://i.imgur.com/8bUiCbM.png)
 
 #### UnrealEnginePython
-Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/tensorflow-ue4/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
+Based on the wonderful work by [20tab](https://github.com/20tab/UnrealEnginePython), the UnrealEnginePython plugin fork contains changes to enable multi-threading, python script plugin encapsulation and automatic dependency resolution via pip. Simply specifying tensorflow as a _pythonModule_ dependency in https://github.com/getnamo/TensorFlow-Unreal/blob/master/Content/Scripts/upymodule.json makes the editor auto-resolve the dependency on first run. The multi-threading support contains a callback system allowing long duration operations to happen on a background thread (e.g. training) and then receiving callbacks on your game-thread. This enables TensorFlow to work without noticeably impacting the game thread.
 
 #### SocketIO Client
 SocketIO Client is used for easy conversion between native engine types (BP or C++ structs and variables) and python objects via JSON. Can optionally be used to connect to a real-time web service via [socket.io](https://socket.io/).
@@ -510,9 +510,9 @@ This is due to python importing tensorflow on begin play and loading all the dll
 
 ### Issue not listed?
 
-Post your issue to https://github.com/getnamo/tensorflow-ue4/issues
+Post your issue to https://github.com/getnamo/TensorFlow-Unreal/issues
 
-## [License](https://github.com/getnamo/tensorflow-ue4/blob/master/LICENSE)
+## [License](https://github.com/getnamo/TensorFlow-Unreal/blob/master/LICENSE)
 Plugin - [MIT](https://opensource.org/licenses/MIT)
 
 TensorFlow and TensorFlow Icon - [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
