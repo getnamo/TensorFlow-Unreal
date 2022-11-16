@@ -2,7 +2,7 @@
 
 #include "IAudioCaptureInterface.h"
 #include "IAudioDataInterface.h"
-#include "ModuleManager.h"
+#include "Modules/ModuleManager.h"
 
 class UTFAudioCaptureComponent;
 

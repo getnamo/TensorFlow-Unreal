@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "HAL/ThreadSafeBool.h"
 
-#include "AllowWindowsPlatformTypes.h"
+#include "Windows/AllowWindowsPlatformTypes.h"
 #include <iostream>
 #include <MMSystem.h>
 #include <Windows.h>
