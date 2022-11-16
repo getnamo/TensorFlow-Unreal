@@ -1,9 +1,9 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.3.0beta",
+	"VersionName": "1.4.0beta",
 	"FriendlyName": "TensorFlow",
-	"Description": "Unofficial TensorFlow plugin for UE4. Enables state of the art machine learning via python and blueprints.",
+	"Description": "Unofficial TensorFlow plugin for UE4. Enables machine learning via python and blueprints.",
 	"Category": "Computing",
 	"CreatedBy": "Getnamo",
 	"CreatedByURL": "http://www.getnamo.com",

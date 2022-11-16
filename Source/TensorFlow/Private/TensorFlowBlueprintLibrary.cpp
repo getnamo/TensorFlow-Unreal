@@ -12,7 +12,7 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_GreyScaleTexture2DToFloatArray(U
 	FloatArray.SetNum(InTexture->GetSizeX()* InTexture->GetSizeY());
 
 	// Lock the texture so it can be read
-	uint8* MipData = static_cast<uint8*>(InTexture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
+	uint8* MipData = static_cast<uint8*>(InTexture->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
 
 	for (int i = 0; i < FloatArray.Num(); i++)
 	{
@@ -22,7 +22,7 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_GreyScaleTexture2DToFloatArray(U
 	}
 
 	// Unlock the texture
-	InTexture->PlatformData->Mips[0].BulkData.Unlock();
+	InTexture->GetPlatformData()->Mips[0].BulkData.Unlock();
 
 	return FloatArray;
 }
@@ -35,7 +35,7 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D
 	FloatArray.SetNum(InTexture->GetSizeX()* InTexture->GetSizeY() * 4);
 
 	//Lock the texture so it can be read
-	uint8* MipData = static_cast<uint8*>(InTexture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
+	uint8* MipData = static_cast<uint8*>(InTexture->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_ONLY));
 
 	for (int i = 0; i < FloatArray.Num(); i++)
 	{
@@ -44,7 +44,7 @@ TArray<float> UTensorFlowBlueprintLibrary::Conv_Texture2DToFloatArray(UTexture2D
 	}
 
 	// Unlock the texture
-	InTexture->PlatformData->Mips[0].BulkData.Unlock();
+	InTexture->GetPlatformData()->Mips[0].BulkData.Unlock();
 
 	return FloatArray;
 }
@@ -84,7 +84,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_GrayScaleFloatArrayToTexture2D(con
 	}
 
 	UTexture2D* Pointer = UTexture2D::CreateTransient(Size.X, Size.Y, PF_R8G8B8A8);
-	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
+	uint8* MipData = static_cast<uint8*>(Pointer->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
 
 	//Copy Data
 	for (int i = 0; i < InFloatArray.Num(); i++)
@@ -98,7 +98,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_GrayScaleFloatArrayToTexture2D(con
 	}
 
 	//Unlock and Return data
-	Pointer->PlatformData->Mips[0].BulkData.Unlock();
+	Pointer->GetPlatformData()->Mips[0].BulkData.Unlock();
 	Pointer->UpdateResource();
 	return Pointer;
 }
@@ -124,7 +124,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 	}
 
 	UTexture2D* Pointer = UTexture2D::CreateTransient(Size.X, Size.Y, PF_R8G8B8A8);
-	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
+	uint8* MipData = static_cast<uint8*>(Pointer->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
 
 	//Copy Data
 	for (int i = 0; i < InFloatArray.Num(); i++)
@@ -133,7 +133,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_FloatArrayToTexture2D(const TArray
 	}
 
 	//Unlock and Return data
-	Pointer->PlatformData->Mips[0].BulkData.Unlock();
+	Pointer->GetPlatformData()->Mips[0].BulkData.Unlock();
 	Pointer->UpdateResource();
 	return Pointer;
 }
@@ -147,7 +147,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_RenderTargetTextureToTexture2D(UTe
 	FRenderTarget *RenderTarget = PassedTexture->GameThread_GetRenderTargetResource();
 	RenderTarget->ReadPixels(SurfData);
 
-	uint8* MipData = static_cast<uint8*>(Pointer->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
+	uint8* MipData = static_cast<uint8*>(Pointer->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE));
 
 	//Copy Data
 	for (int i = 0; i < TextureLength; i++)
@@ -162,7 +162,7 @@ UTexture2D* UTensorFlowBlueprintLibrary::Conv_RenderTargetTextureToTexture2D(UTe
 	}
 
 	//Unlock and Return data
-	Pointer->PlatformData->Mips[0].BulkData.Unlock();
+	Pointer->GetPlatformData()->Mips[0].BulkData.Unlock();
 	Pointer->UpdateResource();
 	
 	return Pointer;

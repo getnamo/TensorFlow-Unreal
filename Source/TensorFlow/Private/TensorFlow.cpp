@@ -2,7 +2,6 @@
 
 #include "TensorFlow.h"
 #include "TensorFlowPrivatePCH.h"
-#include "IPluginManager.h"
 
 #define LOCTEXT_NAMESPACE "FTensorFlowModule"
 DEFINE_LOG_CATEGORY(TensorFlowLog);
