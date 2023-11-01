@@ -155,4 +155,4 @@ float FWindowsAudioCapture::CalculateMaxAudioLevel(TArray<uint8>& Buffer, int32 
 	return (float)MaxValue / (float)INT16_MAX;
 }
 
-#include "HideWindowsPlatformTypes.h"
+#include "Windows/HideWindowsPlatformTypes.h"
