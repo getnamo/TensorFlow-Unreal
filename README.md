@@ -11,7 +11,7 @@ This plugin contains C++, Blueprint and python scripts that encapsulate TensorFl
 
 See [unreal forum thread](https://forums.unrealengine.com/community/work-in-progress/1357673-tensorflow) for discussions.
 
-
+[Discord Server](https://discord.gg/qfJUyxaW4s)
 
 ## Issues and Limitations
 
