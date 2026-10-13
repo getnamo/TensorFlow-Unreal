@@ -13,7 +13,7 @@
 - MachineLearningRemote, socket.io and UnrealEnginePython are gone.
 - The Python API stays the same: `TFPluginAPI` scripts keep working. See [Migrating from 1.x](#migrating-from-1x).
 
-Status: **2.0.0 (beta)**. Tested on Win64; Linux is next.
+Status: **2.0.0 (beta)**. Tested on Win64 in the editor and in packaged builds, and on Linux x86_64 in packaged builds.
 
 [Discord Server](https://discord.gg/qfJUyxaW4s)
 
@@ -45,6 +45,12 @@ Choose one in **Project Settings > Plugins > TensorFlow > Profile**:
 - **Your own packages:** add them in **Project Settings > Plugins > Python CLI > Requirements**, or in `Content/Scripts/requirements.txt`.
 - **Long paths:** keep the project path short or enable long paths on Windows; TensorFlow's files are deep.
 - **Log level:** TensorFlow's C++ logging uses Profile's TensorFlow Log Level (`TF_CPP_MIN_LOG_LEVEL`).
+
+### Packaging
+
+Packaged games (Win64, Linux) take the interpreter, the scripts and, by default, the installed packages with them. PythonCLI installs the environment's packages for the target platform while packaging, so a Linux build packaged on Windows gets Linux wheels. The tensorflow-cpu profile adds about 1.2 GB to a Linux build and 1.3 GB to a Win64 build.
+
+To keep TensorFlow out of the build, set **Project Settings > Plugins > Python CLI > Packaged Env Mode** to **Install On First Run**: the game then installs it on its first launch. See [PythonCLI's packaging notes](https://github.com/getnamo/PythonCLI-Unreal#packaging).
 
 ## Python API
 
