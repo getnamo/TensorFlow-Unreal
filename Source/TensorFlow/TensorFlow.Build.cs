@@ -25,6 +25,11 @@ public class TensorFlow : ModuleRules
 			"RHI",
 		});
 
+		if (Target.bBuildEditor)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "InputCore" }); // the example-map play test (PIE)
+		}
+
 		// The bundled scripts (examples, environment profiles, TFPluginAPI) go with packaged builds.
 		RuntimeDependencies.Add(Path.Combine(PluginDirectory, "Content", "Scripts", "..."));
 	}

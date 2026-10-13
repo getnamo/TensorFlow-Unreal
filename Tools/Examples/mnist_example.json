@@ -1,0 +1,218 @@
+{
+  "_about": "Generates the MNIST example content (/TensorFlow/Examples) with BlueprintOracle: UnrealEditor-Cmd.exe <Project>.uproject -run=BlueprintOracle -migrate -spec=<this file> [-commit] -unattended -nullrhi -nopause",
+  "assets": [
+    {
+      "package": "/TensorFlow/Examples/RT_MnistCanvas",
+      "create": {
+        "type": "renderTarget",
+        "properties": { "SizeX": 256, "SizeY": 256, "RenderTargetFormat": "RTF_RGBA8", "ClearColor": "(R=0,G=0,B=0,A=1)" }
+      }
+    },
+    {
+      "package": "/TensorFlow/Examples/BP_MnistExample",
+      "create": { "type": "blueprint", "parent": "/Script/Engine.Actor" },
+      "ops": [
+        { "op": "addComponent", "name": "Root", "class": "/Script/Engine.SceneComponent" },
+        { "op": "addComponent", "name": "TensorFlow", "class": "/Script/TensorFlow.TensorFlowComponent",
+          "properties": {
+            "ScriptParams": "(Script=\"examples/mnist_demo\",ScriptRoot=\"Content/Scripts/\",Args=(\"epochs=2\"))",
+            "bTrainOnBeginPlay": true
+          } },
+        { "op": "addComponent", "name": "CameraStream", "class": "/Script/PythonCLI.PythonRenderTargetStreamComponent",
+          "properties": {
+            "StreamName": "camera",
+            "RenderTarget": "/TensorFlow/Examples/RT_MnistCanvas.RT_MnistCanvas",
+            "CapturesPerSecond": 10,
+            "Policy": "Latest"
+          } },
+        { "op": "addComponent", "name": "Display", "class": "/Script/Engine.StaticMeshComponent", "parent": "Root",
+          "properties": {
+            "StaticMesh": "/Engine/BasicShapes/Plane.Plane",
+            "RelativeLocation": "(X=0,Y=-150,Z=170)",
+            "RelativeRotation": "(Pitch=0,Yaw=90,Roll=90)",
+            "RelativeScale3D": "(X=2.5,Y=2.5,Z=1)",
+            "CastShadow": false
+          } },
+        { "op": "addComponent", "name": "Frame", "class": "/Script/Engine.StaticMeshComponent", "parent": "Root",
+          "properties": {
+            "StaticMesh": "/Engine/BasicShapes/Plane.Plane",
+            "OverrideMaterials": "(\"/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial\")",
+            "RelativeLocation": "(X=4,Y=-150,Z=170)",
+            "RelativeRotation": "(Pitch=0,Yaw=90,Roll=90)",
+            "RelativeScale3D": "(X=2.7,Y=2.7,Z=1)",
+            "CastShadow": false
+          } },
+        { "op": "addComponent", "name": "TitleText", "class": "/Script/Engine.TextRenderComponent", "parent": "Root",
+          "properties": {
+            "Text": "INVTEXT(\"TensorFlow-Unreal 2.0: MNIST\")",
+            "WorldSize": 36, "HorizontalAlignment": "EHTA_Center",
+            "TextRenderColor": "(R=255,G=200,B=60,A=255)",
+            "RelativeLocation": "(X=0,Y=0,Z=340)", "RelativeRotation": "(Pitch=0,Yaw=180,Roll=0)"
+          } },
+        { "op": "addComponent", "name": "PredictionText", "class": "/Script/Engine.TextRenderComponent", "parent": "Root",
+          "properties": {
+            "Text": "INVTEXT(\"Camera sees: ...\")",
+            "WorldSize": 34, "HorizontalAlignment": "EHTA_Left",
+            "TextRenderColor": "(R=120,G=255,B=120,A=255)",
+            "RelativeLocation": "(X=0,Y=10,Z=240)", "RelativeRotation": "(Pitch=0,Yaw=180,Roll=0)"
+          } },
+        { "op": "addComponent", "name": "DigitText", "class": "/Script/Engine.TextRenderComponent", "parent": "Root",
+          "properties": {
+            "Text": "INVTEXT(\"\")",
+            "WorldSize": 20, "HorizontalAlignment": "EHTA_Left",
+            "RelativeLocation": "(X=0,Y=10,Z=190)", "RelativeRotation": "(Pitch=0,Yaw=180,Roll=0)"
+          } },
+        { "op": "addComponent", "name": "HelpText", "class": "/Script/Engine.TextRenderComponent", "parent": "Root",
+          "properties": {
+            "Text": "INVTEXT(\"[T] train   [S] stop training   [N] next digit\")",
+            "WorldSize": 20, "HorizontalAlignment": "EHTA_Left",
+            "TextRenderColor": "(R=170,G=170,B=170,A=255)",
+            "RelativeLocation": "(X=0,Y=10,Z=120)", "RelativeRotation": "(Pitch=0,Yaw=180,Roll=0)"
+          } },
+        { "op": "addComponent", "name": "StatusText", "class": "/Script/Engine.TextRenderComponent", "parent": "Root",
+          "properties": {
+            "Text": "INVTEXT(\"Starting Python...\")",
+            "WorldSize": 18, "HorizontalAlignment": "EHTA_Center",
+            "TextRenderColor": "(R=200,G=220,B=255,A=255)",
+            "RelativeLocation": "(X=0,Y=0,Z=0)", "RelativeRotation": "(Pitch=0,Yaw=180,Roll=0)"
+          } },
+        { "op": "setDefaults", "properties": { "AutoReceiveInput": "Player0" } },
+        { "op": "compile" },
+        { "op": "buildBody", "graph": "EventGraph",
+          "nodes": [
+            { "id": "c_begin", "kind": "comment", "pos": [-40, -80], "size": [1460, 300],
+              "text": "Show the canvas render target on the Display plane, and ask Python for a new test digit every 3 seconds" },
+            { "id": "begin", "kind": "event", "member": "ReceiveBeginPlay", "pos": [0, 0] },
+            { "id": "display", "kind": "variableGet", "var": "Display", "pos": [180, 120] },
+            { "id": "mid", "kind": "callFunction", "class": "/Script/Engine.PrimitiveComponent", "member": "CreateDynamicMaterialInstance", "pos": [380, 0],
+              "defaults": [ { "pin": "SourceMaterial", "value": "/Engine/EngineMaterials/Widget3DPassThrough_Opaque.Widget3DPassThrough_Opaque" } ] },
+            { "id": "settex", "kind": "callFunction", "class": "/Script/Engine.MaterialInstanceDynamic", "member": "SetTextureParameterValue", "pos": [760, 0],
+              "defaults": [ { "pin": "ParameterName", "value": "SlateUI" }, { "pin": "Value", "value": "/TensorFlow/Examples/RT_MnistCanvas.RT_MnistCanvas" } ] },
+            { "id": "timer", "kind": "callFunction", "class": "/Script/Engine.KismetSystemLibrary", "member": "K2_SetTimer", "pos": [1080, 0],
+              "defaults": [ { "pin": "FunctionName", "value": "ShowNextDigit" }, { "pin": "Time", "value": "3.0" }, { "pin": "bLooping", "value": "true" } ] },
+
+            { "id": "c_next", "kind": "comment", "pos": [-40, 300], "size": [760, 380],
+              "text": "Next digit: the script's next_digit() answers with a \"Digit\" event (On Custom Event)" },
+            { "id": "next", "kind": "customEvent", "name": "ShowNextDigit", "pos": [0, 380] },
+            { "id": "key_n", "kind": "inputKey", "key": "N", "pos": [0, 500] },
+            { "id": "tf_next", "kind": "variableGet", "var": "TensorFlow", "pos": [200, 600] },
+            { "id": "call_next", "kind": "callFunction", "class": "/Script/PythonCLI.PythonMLComponent", "member": "CallCustomFunction", "pos": [400, 380],
+              "defaults": [ { "pin": "FunctionName", "value": "next_digit" } ] },
+
+            { "id": "c_keys", "kind": "comment", "pos": [800, 300], "size": [620, 380], "text": "Training: T starts it, S stops it" },
+            { "id": "key_t", "kind": "inputKey", "key": "T", "pos": [840, 380] },
+            { "id": "key_s", "kind": "inputKey", "key": "S", "pos": [840, 520] },
+            { "id": "tf_keys", "kind": "variableGet", "var": "TensorFlow", "pos": [1000, 640] },
+            { "id": "train", "kind": "callFunction", "class": "/Script/PythonCLI.PythonMLComponent", "member": "BeginTraining", "pos": [1180, 380] },
+            { "id": "stop", "kind": "callFunction", "class": "/Script/PythonCLI.PythonMLComponent", "member": "StopTraining", "pos": [1180, 520] },
+
+            { "id": "c_events", "kind": "comment", "pos": [-40, 720], "size": [2560, 760],
+              "text": "Events from the Python script (call_event): status lines, digits to draw into the canvas, and what the camera stream sees" },
+            { "id": "custom", "kind": "componentEvent", "component": "TensorFlow", "delegate": "OnCustomEvent", "pos": [0, 800] },
+            { "id": "switch", "kind": "switchString", "cases": [ "Status", "Digit", "Prediction" ], "pos": [300, 800] },
+
+            { "id": "status_text", "kind": "variableGet", "var": "StatusText", "pos": [560, 760] },
+            { "id": "status_conv", "kind": "callFunction", "class": "/Script/Engine.KismetTextLibrary", "member": "Conv_StringToText", "pos": [560, 860] },
+            { "id": "status_set", "kind": "callFunction", "class": "/Script/Engine.TextRenderComponent", "member": "K2_SetText", "pos": [860, 780] },
+
+            { "id": "pixels", "kind": "callFunction", "class": "/Script/PythonCLI.PythonBlueprintLibrary", "member": "GetJsonFloats", "pos": [560, 1040],
+              "defaults": [ { "pin": "Path", "value": "pixels" } ] },
+            { "id": "texture", "kind": "callFunction", "class": "/Script/TensorFlow.TensorFlowBlueprintLibrary", "member": "Conv_GrayScaleFloatArrayToTexture2D", "pos": [860, 1040],
+              "defaults": [ { "pin": "Size", "value": "(X=28,Y=28)" } ] },
+            { "id": "draw_begin", "kind": "callFunction", "class": "/Script/Engine.KismetRenderingLibrary", "member": "BeginDrawCanvasToRenderTarget", "pos": [1160, 960],
+              "defaults": [ { "pin": "TextureRenderTarget", "value": "/TensorFlow/Examples/RT_MnistCanvas.RT_MnistCanvas" } ] },
+            { "id": "draw", "kind": "callFunction", "class": "/Script/Engine.Canvas", "member": "K2_DrawTexture", "pos": [1520, 960],
+              "defaults": [ { "pin": "ScreenPosition", "value": "(X=0,Y=0)" }, { "pin": "CoordinatePosition", "value": "(X=0,Y=0)" },
+                            { "pin": "CoordinateSize", "value": "(X=1,Y=1)" }, { "pin": "BlendMode", "value": "BLEND_Opaque" } ] },
+            { "id": "draw_end", "kind": "callFunction", "class": "/Script/Engine.KismetRenderingLibrary", "member": "EndDrawCanvasToRenderTarget", "pos": [1880, 960] },
+            { "id": "digit_json", "kind": "callFunction", "class": "/Script/PythonCLI.PythonBlueprintLibrary", "member": "GetJsonString", "pos": [1880, 1140],
+              "defaults": [ { "pin": "Path", "value": "text" } ] },
+            { "id": "digit_conv", "kind": "callFunction", "class": "/Script/Engine.KismetTextLibrary", "member": "Conv_StringToText", "pos": [2100, 1140] },
+            { "id": "digit_text", "kind": "variableGet", "var": "DigitText", "pos": [2100, 1060] },
+            { "id": "digit_set", "kind": "callFunction", "class": "/Script/Engine.TextRenderComponent", "member": "K2_SetText", "pos": [2300, 960] },
+
+            { "id": "pred_json", "kind": "callFunction", "class": "/Script/PythonCLI.PythonBlueprintLibrary", "member": "GetJsonString", "pos": [560, 1300],
+              "defaults": [ { "pin": "Path", "value": "text" } ] },
+            { "id": "pred_conv", "kind": "callFunction", "class": "/Script/Engine.KismetTextLibrary", "member": "Conv_StringToText", "pos": [860, 1360] },
+            { "id": "pred_text", "kind": "variableGet", "var": "PredictionText", "pos": [860, 1280] },
+            { "id": "pred_set", "kind": "callFunction", "class": "/Script/Engine.TextRenderComponent", "member": "K2_SetText", "pos": [1160, 1260] },
+
+            { "id": "c_error", "kind": "comment", "pos": [-40, 1520], "size": [1100, 260], "text": "Python errors (load failures, exceptions, crashes) on the status line" },
+            { "id": "error", "kind": "componentEvent", "component": "TensorFlow", "delegate": "OnScriptError", "pos": [0, 1580] },
+            { "id": "error_concat", "kind": "callFunction", "class": "/Script/Engine.KismetStringLibrary", "member": "Concat_StrStr", "pos": [300, 1680],
+              "defaults": [ { "pin": "A", "value": "Python error: " } ] },
+            { "id": "error_conv", "kind": "callFunction", "class": "/Script/Engine.KismetTextLibrary", "member": "Conv_StringToText", "pos": [560, 1680] },
+            { "id": "error_text", "kind": "variableGet", "var": "StatusText", "pos": [560, 1600] },
+            { "id": "error_set", "kind": "callFunction", "class": "/Script/Engine.TextRenderComponent", "member": "K2_SetText", "pos": [820, 1580] }
+          ],
+          "links": [
+            { "from": "begin:then", "to": "mid:execute" },
+            { "from": "display:Display", "to": "mid:self" },
+            { "from": "mid:then", "to": "settex:execute" },
+            { "from": "mid:ReturnValue", "to": "settex:self" },
+            { "from": "settex:then", "to": "timer:execute" },
+
+            { "from": "next:then", "to": "call_next:execute" },
+            { "from": "key_n:Pressed", "to": "call_next:execute" },
+            { "from": "tf_next:TensorFlow", "to": "call_next:self" },
+
+            { "from": "key_t:Pressed", "to": "train:execute" },
+            { "from": "key_s:Pressed", "to": "stop:execute" },
+            { "from": "tf_keys:TensorFlow", "to": "train:self" },
+            { "from": "tf_keys:TensorFlow", "to": "stop:self" },
+
+            { "from": "custom:then", "to": "switch:execute" },
+            { "from": "custom:EventName", "to": "switch:Selection" },
+
+            { "from": "switch:Status", "to": "status_set:execute" },
+            { "from": "status_text:StatusText", "to": "status_set:self" },
+            { "from": "custom:Data", "to": "status_conv:InString" },
+            { "from": "status_conv:ReturnValue", "to": "status_set:Value" },
+
+            { "from": "switch:Digit", "to": "draw_begin:execute" },
+            { "from": "custom:Data", "to": "pixels:Json" },
+            { "from": "pixels:Values", "to": "texture:InFloatArray" },
+            { "from": "draw_begin:then", "to": "draw:execute" },
+            { "from": "draw_begin:Canvas", "to": "draw:self" },
+            { "from": "draw_begin:Size", "to": "draw:ScreenSize" },
+            { "from": "texture:ReturnValue", "to": "draw:RenderTexture" },
+            { "from": "draw:then", "to": "draw_end:execute" },
+            { "from": "draw_begin:Context", "to": "draw_end:Context" },
+            { "from": "draw_end:then", "to": "digit_set:execute" },
+            { "from": "custom:Data", "to": "digit_json:Json" },
+            { "from": "digit_json:Value", "to": "digit_conv:InString" },
+            { "from": "digit_conv:ReturnValue", "to": "digit_set:Value" },
+            { "from": "digit_text:DigitText", "to": "digit_set:self" },
+
+            { "from": "switch:Prediction", "to": "pred_set:execute" },
+            { "from": "custom:Data", "to": "pred_json:Json" },
+            { "from": "pred_json:Value", "to": "pred_conv:InString" },
+            { "from": "pred_conv:ReturnValue", "to": "pred_set:Value" },
+            { "from": "pred_text:PredictionText", "to": "pred_set:self" },
+
+            { "from": "error:then", "to": "error_set:execute" },
+            { "from": "error:Message", "to": "error_concat:B" },
+            { "from": "error_concat:ReturnValue", "to": "error_conv:InString" },
+            { "from": "error_conv:ReturnValue", "to": "error_set:Value" },
+            { "from": "error_text:StatusText", "to": "error_set:self" }
+          ]
+        }
+      ]
+    },
+    {
+      "package": "/TensorFlow/Examples/MnistExample",
+      "create": {
+        "type": "level",
+        "worldSettings": { "DefaultGameMode": "/Script/Engine.GameModeBase" },
+        "actors": [
+          { "class": "/TensorFlow/Examples/BP_MnistExample.BP_MnistExample_C", "label": "MnistExample", "location": [0, 0, 0] },
+          { "class": "/Script/Engine.CameraActor", "label": "ExampleCamera", "location": [-640, -20, 170], "rotation": [0, 0, 0],
+            "properties": { "AutoActivateForPlayer": "Player0", "CameraComponent.FieldOfView": 70 } },
+          { "class": "/Script/Engine.DirectionalLight", "label": "Light", "location": [-200, 0, 600], "rotation": [-40, 10, 0],
+            "properties": { "LightComponent.Mobility": "Movable", "LightComponent.Intensity": 4 } },
+          { "class": "/Script/Engine.PlayerStart", "label": "PlayerStart", "location": [-1000, 0, 100] }
+        ]
+      }
+    }
+  ]
+}
