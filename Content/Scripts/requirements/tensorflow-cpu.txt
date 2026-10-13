@@ -1,0 +1,2 @@
+# TensorFlow on the CPU (Windows: the only TensorFlow build since 2.10; Linux: no CUDA download)
+tensorflow-cpu>=2.21,<2.22

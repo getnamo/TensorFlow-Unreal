@@ -1,22 +1,22 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
-
 #include "TensorFlow.h"
-#include "TensorFlowPrivatePCH.h"
+#include "PythonEnvironment.h"
+#include "TensorFlowSettings.h"
+#include "Interfaces/IPluginManager.h"
+#include "Misc/Paths.h"
 
-#define LOCTEXT_NAMESPACE "FTensorFlowModule"
-DEFINE_LOG_CATEGORY(TensorFlowLog);
+DEFINE_LOG_CATEGORY(LogTensorFlow);
+
+FString FTensorFlowModule::ScriptsDir()
+{
+	const TSharedPtr<IPlugin> Plugin = IPluginManager::Get().FindPlugin(TEXT("TensorFlow"));
+	return Plugin.IsValid() ? FPaths::ConvertRelativePathToFull(Plugin->GetBaseDir() / TEXT("Content/Scripts")) : FString();
+}
 
 void FTensorFlowModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	//Before the Python environment is set up (the engine subsystem initializes after Default-phase modules)
+	FPythonEnvironment::RegisterScriptDirectory(ScriptsDir());
+	GetDefault<UTensorFlowSettings>()->ApplyProfile();
 }
 
-void FTensorFlowModule::ShutdownModule()
-{
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
-}
-
-#undef LOCTEXT_NAMESPACE
-	
 IMPLEMENT_MODULE(FTensorFlowModule, TensorFlow)

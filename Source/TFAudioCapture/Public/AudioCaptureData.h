@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CoreMinimal.h"
+
 #include "AudioCaptureData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -19,7 +21,7 @@ struct TFAUDIOCAPTURE_API FAudioCaptureOptions
 };
 
 /** Wav format Header for wav files embedding raw PCM*/
-typedef struct FWavHeader
+struct FWavHeader
 {
 	/* RIFF Chunk Descriptor */
 	uint8_t			RIFF[4];        // RIFF Header Magic header

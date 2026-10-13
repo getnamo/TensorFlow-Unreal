@@ -1,6 +1,0 @@
-{
-	"name" : "tensorflow-ue4",
-	"pythonModules": {
-		"tensorflow": "1.15.0"
-	}
-}

@@ -1,0 +1,2 @@
+# TensorFlow with CUDA (Linux only: native Windows GPU support ended with TensorFlow 2.10)
+tensorflow[and-cuda]>=2.21,<2.22

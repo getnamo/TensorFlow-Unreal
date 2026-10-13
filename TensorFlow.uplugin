@@ -1,44 +1,42 @@
 {
 	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.6.0beta",
+	"Version": 2,
+	"VersionName": "2.0.0",
 	"FriendlyName": "TensorFlow",
-	"Description": "Unofficial TensorFlow plugin for UE4. Enables machine learning via python and blueprints.",
+	"Description": "TensorFlow and Keras from Blueprints and C++: Python scripts run out of process in an embedded Python with a per-project venv (PythonCLI). Train, predict, stream render targets and audio.",
 	"Category": "Computing",
 	"CreatedBy": "Getnamo",
 	"CreatedByURL": "http://www.getnamo.com",
-	"DocsURL": "https://github.com/getnamo/tensorflow-ue4",
+	"DocsURL": "https://github.com/getnamo/TensorFlow-Unreal",
 	"MarketplaceURL": "",
-	"SupportURL": "https://github.com/getnamo/tensorflow-ue4/issues",
+	"SupportURL": "https://github.com/getnamo/TensorFlow-Unreal/issues",
+	"EngineVersion": "5.8.0",
 	"CanContainContent": true,
-	"IsBetaVersion": false,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [
-	{
-		"Name": "TensorFlow",
-		"Type": "Runtime",
-		"LoadingPhase": "Default",
-		"WhitelistPlatforms": [
-			"Win64"
-		]
-	},
-	{
-		"Name": "TFAudioCapture",
-		"Type": "Runtime",
-		"LoadingPhase": "Default",
-		"WhitelistPlatforms": [
-			"Win64"
-		]
-	}
+		{
+			"Name": "TensorFlow",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [ "Win64", "Linux" ]
+		},
+		{
+			"Name": "TFAudioCapture",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [ "Win64", "Linux" ]
+		}
 	],
 	"Plugins": [
-	{
-		"Name": "SocketIOClient",
-		"Enabled": true
-	},
-	{
-		"Name": "MachineLearningRemote",
-		"Enabled": true
-	}
+		{
+			"Name": "CLISystem",
+			"Enabled": true
+		},
+		{
+			"Name": "PythonCLI",
+			"Enabled": true
+		}
 	]
 }

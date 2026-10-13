@@ -74,6 +74,11 @@ void FWavHeader::WavToRawPCM(const TArray<uint8>& WavBytes, TArray<uint8>& OutRa
 {
 	FWavHeader Header;
 	int HeaderSize = sizeof(FWavHeader);
+	OutRawPCMBytes.Empty();
+	if (WavBytes.Num() < HeaderSize)
+	{
+		return;
+	}
 
 	memcpy(&Header, WavBytes.GetData(), HeaderSize);
 

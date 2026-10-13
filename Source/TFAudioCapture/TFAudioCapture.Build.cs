@@ -1,48 +1,21 @@
 using UnrealBuildTool;
-using System.IO;
 
 public class TFAudioCapture : ModuleRules
 {
-    public TFAudioCapture(ReadOnlyTargetRules Target) : base(Target)
-    {
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+	public TFAudioCapture(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicIncludePaths.AddRange(
-            new string[] {
-				Path.Combine(ModuleDirectory, "Public"),
-            }
-            );
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core",
+			"CoreUObject",
+			"Engine",
+		});
 
-
-        PrivateIncludePaths.AddRange(
-            new string[] {
-				Path.Combine(ModuleDirectory, "Private"),
-            }
-            );
-
-
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core"
-            }
-            );
-
-
-        PrivateDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "CoreUObject",
-                "Engine",
-                "CoreUtility"
-            }
-            );
-
-
-        DynamicallyLoadedModuleNames.AddRange(
-            new string[]
-            {
-            }
-            );
-    }
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"AudioCaptureCore", // the default capture device on every platform (the AudioCapture plugin's backends)
+		});
+	}
 }
