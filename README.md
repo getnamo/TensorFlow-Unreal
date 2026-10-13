@@ -19,7 +19,7 @@ Status: **2.0.0**. Tested on Win64 in the editor and in packaged builds, and on 
 
 ## PyTorch Alternative
 
-If you find TensorFlow GPU support in windows lacking or would like to use a more modern python ML library with unreal, consider using [PyTorch-Unreal](https://github.com/getnamo/pytorch-unreal) plugin instead.
+If you find TensorFlow GPU support on Windows lacking or would like to use a more modern python ML library with unreal, consider using the [PyTorch-Unreal](https://github.com/getnamo/pytorch-unreal) plugin instead.
 
 
 ## Setup
