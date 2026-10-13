@@ -7,7 +7,7 @@
 
 [TensorFlow](https://www.tensorflow.org/) and [Keras](https://keras.io/) for [Unreal Engine](https://www.unrealengine.com) 5.8, from Blueprints and C++. You write the model in Python. The plugin runs it, trains it, feeds it inputs, render targets and audio, and returns results and events to Unreal.
 
-**2.0 is a rewrite.**
+**2.0 is a full rewrite.**
 - Python runs out of process, in an embedded interpreter with a per-project virtual environment, through [PythonCLI](https://github.com/getnamo/PythonCLI-Unreal) on top of [CLISystem](https://github.com/getnamo/CLISystem-Unreal).
 - A crash in TensorFlow never takes the editor down, and the GIL never touches the game thread.
 - MachineLearningRemote, socket.io and UnrealEnginePython are gone.
