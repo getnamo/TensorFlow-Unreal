@@ -13,7 +13,7 @@
 - MachineLearningRemote, socket.io and UnrealEnginePython are gone.
 - The Python API stays the same: `TFPluginAPI` scripts keep working. See [Migrating from 1.x](#migrating-from-1x).
 
-Status: **2.0.0 (beta)**. Tested on Win64 in the editor and in packaged builds, and on Linux x86_64 in packaged builds.
+Status: **2.0.0**. Tested on Win64 in the editor and in packaged builds, and on Linux x86_64 in packaged builds.
 
 [Discord Server](https://discord.gg/qfJUyxaW4s)
 
